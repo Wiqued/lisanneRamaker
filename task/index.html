@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API exercise</title>
+
+    <link rel="icon" href="favicon.png">
+    <link rel="stylesheet" href="libs/css/style.css">
+    
+</head>
+<body>
+    
+    <div id=”preloader”></div>
+    <table cellspacing="0" border="1">
+        <tr>
+            <th>API Name</th>
+            <th>API Description</th>
+            <th></th>
+        </tr>
+
+        <!-- Country Neighbours -->
+        <tr>
+            <td>Country Neighbours</td>
+            <td>Select a country from this list to view its neighbouring countries. 
+                <select id="selectCountry">
+                    <option value="GB">Great Britain</option>
+                    <option value="NL">The Netherlands</option>
+                    <option value="DE">Germany</option>
+                </select>
+            </td>
+            <td><button id="button1">Submit</button></td>
+        </tr>
+
+        <!-- Country Name of certain place in the world -->
+        <tr>
+            <td>Find Country</td>
+            <td>Find the country based on the <strong>latitude</strong> and <strong>longitude</strong>
+                <input type="number" id="lat" name="latitude" min="-90" max="90">
+                <input type="number" id="lng" name="longitude" min="-180" max="180">
+            </td>
+            <td><button id="button2">Submit</button></td>
+        </tr>
+
+        <!-- Wikipedia article on place names -->
+        <tr>
+            <td>Place Wikipedia Article</td>
+            <td>Shows the first Wikipedia article based on a place name.
+                <textarea name="q" id="q" cols="20" rows="1"></textarea>
+            </td>
+            <td><button id="button3">Submit</button></td>
+        </tr>
+
+        <tr>
+            <td>Results:</td>
+            <td id="results"></td>
+        </tr>
+
+    </table>
+
+    <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
+    <script type="application/javascript" src="libs/js/script.js"></script>
+</body>
+</html>
