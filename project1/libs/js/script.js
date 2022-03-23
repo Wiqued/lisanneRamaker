@@ -30,7 +30,7 @@
 
 }); */
 
-var map = L.map('map').setView([51.505, -0.09], 13);
+var map = L.map('map', {doubleClickZoom: true}).locate({setView: true, maxZoom: 6});
 
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
