@@ -30,7 +30,19 @@
 
 }); */
 
-var map = L.map('map', {doubleClickZoom: true}).locate({setView: true, maxZoom: 6});
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(showPosition);
+} else {
+  document.getElementById("demo").innerHTML =
+  "Geolocation is not supported by this browser.";
+}
+
+function showPosition(position) {
+  console.log("Latitude: " + position.coords.latitude +
+  "Longitude: " + position.coords.longitude);
+} 
+
+var map = L.map('map').setView([53.7867, -1.6041], 6);
 
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -40,3 +52,17 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 
 L.tileLayer.provider('Thunderforest.Landscape', {apikey: 'e24c409ff68c47bb974a643883a6842b'}).addTo(map);
 
+var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-104.99404, 39.75621]
+    }
+};
+
+L.geoJSON(geojsonFeature).addTo(map);
