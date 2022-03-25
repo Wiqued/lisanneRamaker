@@ -30,6 +30,8 @@
 
 }); */
 
+var map = L.map('map');
+
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(showPosition);
 } else {
@@ -38,11 +40,10 @@ if (navigator.geolocation) {
 }
 
 function showPosition(position) {
-  console.log("Latitude: " + position.coords.latitude +
-  "Longitude: " + position.coords.longitude);
+    map.setView([position.coords.latitude, position.coords.longitude], 6);
 } 
 
-var map = L.map('map').setView([53.7867, -1.6041], 6);
+
 
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -66,3 +67,10 @@ var geojsonFeature = {
 };
 
 L.geoJSON(geojsonFeature).addTo(map);
+
+function onMapClick(e) {
+    console.log(e.latlng);
+}
+
+map.on('click', onMapClick);
+
