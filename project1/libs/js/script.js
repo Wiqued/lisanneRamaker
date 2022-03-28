@@ -1,36 +1,3 @@
-// Get Country name based on Lat/Lng
-function getCountryName(lat, lng) {
-
-    $.ajax({
-        url: "libs/php/getCountry.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            lat: lat,
-            lng: lng
-        },
-        success: function (result) {
-
-            console.log(JSON.stringify(result));
-
-            if (result.status.name == "ok") {
-
-                if ("countryName" in result.data) {
-
-                    console.log(result['data']['countryName']);
-
-                }
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Find the country isn't working")
-            console.log(textStatus)
-            console.log(errorThrown)
-        }
-    });
-
-};
-
 // Initialise map and current location on load in
 var map = L.map('map');
 
@@ -53,6 +20,46 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 });
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
+
+
+// Get Country name based on Lat/Lng
+function getCountryName(lat, lng) {
+
+    $.ajax({
+        url: "libs/php/getCountry.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            lat: lat,
+            lng: lng
+        },
+        success: function (result) {
+
+            console.log(JSON.stringify(result));
+
+            if (result.status.name == "ok") {
+
+                if ("countryName" in result.data) {
+
+                    document.getElementById('popUp').style.display = 'block';
+                    console.log(result['data']['countryName']);
+                    $('#countryName').html(result['data']['countryName']);
+
+                } else {
+                    document.getElementById('popUp').style.display = 'none';
+
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Find the country isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+
+};
+
 
 // Get Lat/Lng on click
 function onMapClick(e) {
