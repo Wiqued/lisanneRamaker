@@ -23,6 +23,9 @@ L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a6
 
 
 // Get Country name based on Lat/Lng
+
+var currentCountry;
+
 function getCountryName(lat, lng) {
 
     $.ajax({
@@ -42,9 +45,9 @@ function getCountryName(lat, lng) {
                 if ("countryName" in result.data) {
 
                     document.getElementById('popUp').style.display = 'block';
-                    console.log(result['data']['countryName']);
+                    currentCountry = result['data']['countryName'];
+                    console.log(currentCountry);
                     $('#countryName').html(result['data']['countryName']);
-                    // $('#capitalCity').html(result['geonames'][0]['capitalCity']);
 
                 } else {
                     document.getElementById('popUp').style.display = 'none';
@@ -60,13 +63,17 @@ function getCountryName(lat, lng) {
 
 };
 
+
+
+
+// Get the capital city from a country
 function getCapitalCity() {
     $.ajax({
         url: "libs/php/getCapital.php",
         type: 'POST',
         dataType: 'json',
         data: {
-            q: $('#q').val(),
+            country: $('#capitalCity').val(),
         },
         success: function (result) {
 
@@ -74,9 +81,11 @@ function getCapitalCity() {
 
             if (result.status.name == "ok") {
 
-                if ("capitalCity" in result.data.geonames) {
+                if ("currentCountry" in result.data) {
 
-                    $('#capitalCity').html(result['data']['geonames'][0]['capital']);
+                    // $('#capitalCity').html(result['data']['geonames'][0]['capital']);
+                    let capital = result['data']['geonames'][0]['capital'];
+                    document.getElementById('capitalCity').innerHTML = capital;
 
                 } 
             }
@@ -136,32 +145,6 @@ map.on('click', onMapClick);
             console.log(errorThrown)
         }
     }); 
-}; */
-
-// Get Country Flag
-/* function getCountryFlag(countryName) {
-    $.ajax({
-        url: "libs/php/getCountryFlag.php",
-        type: 'GET',
-        dataType: 'image/svg',
-        data: {
-            countryName: countryName,
-        },
-        success: function (result) {
-
-            // console.log(JSON.stringify(result));
-
-            
-            
-        
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Get the country flag isn't working")
-            console.log(textStatus)
-            console.log(errorThrown)
-        }
-    });
-
 }; */
 
 // Capital City
