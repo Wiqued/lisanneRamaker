@@ -22,9 +22,11 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
 
 
+
 // Get Country name based on Lat/Lng
 
 var currentCountry;
+var currentCountryCode;
 
 function getCountryName(lat, lng) {
 
@@ -38,16 +40,24 @@ function getCountryName(lat, lng) {
         },
         success: function (result) {
 
-            console.log(JSON.stringify(result));
+            (JSON.stringify(result));
 
             if (result.status.name == "ok") {
 
                 if ("countryName" in result.data) {
 
-                    document.getElementById('popUp').style.display = 'block';
                     currentCountry = result['data']['countryName'];
+                    currentCountryCode = result['data']['countryCode'];
+
+                    document.getElementById('popUp').style.display = 'block';
+
                     console.log(currentCountry);
+
                     $('#countryName').html(result['data']['countryName']);
+                    getCapitalCity();
+                    getWikiPage();
+
+                    document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
 
                 } else {
                     document.getElementById('popUp').style.display = 'none';
@@ -73,21 +83,19 @@ function getCapitalCity() {
         type: 'POST',
         dataType: 'json',
         data: {
-            country: $('#capitalCity').val(),
+            country: currentCountryCode,
         },
         success: function (result) {
 
-            console.log(JSON.stringify(result));
+            (JSON.stringify(result));
 
             if (result.status.name == "ok") {
 
-                if ("currentCountry" in result.data) {
+                let capital = result['data']['geonames'][0]['capital'];
 
-                    // $('#capitalCity').html(result['data']['geonames'][0]['capital']);
-                    let capital = result['data']['geonames'][0]['capital'];
-                    document.getElementById('capitalCity').innerHTML = capital;
+                // innerHTML
+                document.getElementById('capitalCity').innerHTML = capital;
 
-                } 
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -100,10 +108,11 @@ function getCapitalCity() {
 };
 
 
+
+
 // Get Lat/Lng on click
 function onMapClick(e) {
     getCountryName(e.latlng.lat, e.latlng.lng);
-    getCapitalCity(e.capitalCity);
     console.log(e.latlng);
 }
 
@@ -111,31 +120,28 @@ map.on('click', onMapClick);
 
 
 // Get Wiki link
-/*
+function getWikiPage() {
     $.ajax({
         url: "libs/php/getWikiPage.php",
         type: 'POST',
         dataType: 'json',
         data: {
-            q: q,
+            q: currentCountry,
         },
         success: function(result) {
 
-            console.log(JSON.stringify(result));
+            JSON.stringify(result);
             
             if (result.status.name == "ok") {
 
-                if (result.data.length == 0) {
+                
 
-                    $('#results').html("Place name not recognised, please try again.")
-                    
+                
+                    let wikipediaURL = result['data'][0]['wikipediaUrl'];
 
-                } else {
+                    document.getElementById('countryName').href = 'https://en.wikipedia.org/wiki/${countryName}';
 
-                    $('#results').html(result['data'][0]['wikipediaUrl']);
-
-                }
-
+                      console.log(wikipediaURL);
             }
         
         },
@@ -145,6 +151,9 @@ map.on('click', onMapClick);
             console.log(errorThrown)
         }
     }); 
-}; */
+};
 
-// Capital City
+// Datalist options
+document.getElementById("countryOptions").options
+
+

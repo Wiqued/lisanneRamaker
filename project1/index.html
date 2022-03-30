@@ -32,22 +32,20 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form method="get" class="d-flex">
+
+        <input list="countryOptions" name="countryOptions" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+
+        <datalist id="countryOptions">
+          <option value="Country">
+        </datalist>
+
         <button class="btn btn-outline-success" type="submit">Search</button>
+
       </form>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Suggestion 1</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="#">Suggestion 2</a>
-          </li>
 
         </ul>
 
@@ -62,12 +60,14 @@
 
   <!-- 12 columns, pop-up -->
   <div id="popUp" class="container bg-light">
+
     <div class="row g-2">
       <div id="countryFlag" class="col">
-        <img src="https://countryflagsapi.com/svg/${currentCountry}" alt="Country Flag">
+        <img id="countryFlagImg" src="https://countryflagsapi.com/svg/${currentCountry}" alt="Country Flag">
       </div>
+
       <div id="countryName" class="col-8">
-        
+        <a href="https://en.wikipedia.org/wiki/${currentCountry}"></a>
       </div>
       <div class="col">
         Temp
@@ -76,7 +76,7 @@
 
     <div class="row">
       <div id="capitalCity" class="col">
-        
+        Capital
       </div>
     </div>
 
