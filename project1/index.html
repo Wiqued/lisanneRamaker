@@ -32,15 +32,13 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <form method="get" class="d-flex">
-
-        <input list="countryOptions" name="countryOptions" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-
+      <form id="searchForm" onload="getCountryOptions()" method="get" class="d-flex">
+        <input id="userCountryInput" list="countryOptions" name="countryOptions" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <datalist id="countryOptions">
-          <option value="Country">
+
         </datalist>
 
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button id="searchButton" onclick="onSearchClick()" class="btn btn-outline-success" type="submit">Search</button>
 
       </form>
 
@@ -66,8 +64,10 @@
         <img id="countryFlagImg" src="https://countryflagsapi.com/svg/${currentCountry}" alt="Country Flag">
       </div>
 
-      <div id="countryName" class="col-8">
-        <a href="https://en.wikipedia.org/wiki/${currentCountry}"></a>
+      <div class="col-8">
+      <a id="wikipediaLink" href="" target="_blank">
+        <div id="countryName" class="col"></div>
+      </a>
       </div>
       <div class="col">
         Temp

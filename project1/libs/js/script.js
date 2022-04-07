@@ -21,10 +21,7 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
 
-
-
 // Get Country name based on Lat/Lng
-
 var currentCountry;
 var currentCountryCode;
 
@@ -49,15 +46,9 @@ function getCountryName(lat, lng) {
                     currentCountry = result['data']['countryName'];
                     currentCountryCode = result['data']['countryCode'];
 
-                    document.getElementById('popUp').style.display = 'block';
+                    popUp();
 
                     console.log(currentCountry);
-
-                    $('#countryName').html(result['data']['countryName']);
-                    getCapitalCity();
-                    getWikiPage();
-
-                    document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
 
                 } else {
                     document.getElementById('popUp').style.display = 'none';
@@ -73,6 +64,25 @@ function getCountryName(lat, lng) {
 
 };
 
+
+
+// Shows the pop up and fills it
+function popUp() {
+    document.getElementById('popUp').style.display = 'block';
+
+    $('#countryName').html(currentCountry);
+    getCapitalCity();
+
+    document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
+    document.getElementById('wikipediaLink').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
+}
+
+
+
+// On submit does not refresh page
+$("#searchForm").submit(function(e) {
+    e.preventDefault();
+});
 
 
 
@@ -119,41 +129,43 @@ function onMapClick(e) {
 map.on('click', onMapClick);
 
 
-// Get Wiki link
-function getWikiPage() {
-    $.ajax({
-        url: "libs/php/getWikiPage.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            q: currentCountry,
-        },
-        success: function(result) {
-
-            JSON.stringify(result);
-            
-            if (result.status.name == "ok") {
-
-                
-
-                
-                    let wikipediaURL = result['data'][0]['wikipediaUrl'];
-
-                    document.getElementById('countryName').href = 'https://en.wikipedia.org/wiki/${countryName}';
-
-                      console.log(wikipediaURL);
-            }
-        
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Get the wiki article isn't working")
-            console.log(textStatus)
-            console.log(errorThrown)
-        }
-    }); 
-};
-
 // Datalist options
 document.getElementById("countryOptions").options
 
+function getCountryOptions() {
+    $.ajax({
+        url: "libs/php/getCountrySearchOptions.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {},
+        success: function (result) {
 
+            const countries = result.data;
+            const list = document.getElementById('countryOptions');
+
+            countries.forEach(function(item) {
+                const option = document.createElement('option');
+                option.value = item;
+                list.appendChild(option);
+                
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get Country Options not working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+
+};
+
+$(document).ready(function(){
+    getCountryOptions();
+});
+
+
+
+function onSearchClick() {
+    console.log(document.getElementById("userCountryInput").value);
+    popUp();
+}
