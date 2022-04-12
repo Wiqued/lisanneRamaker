@@ -1,3 +1,9 @@
+/*
+1. Initialise map and current location on load in
+2. Map design
+3. Get Country name based on Lat/Lng
+*/
+
 // Initialise map and current location on load in
 var map = L.map('map');
 
@@ -29,7 +35,7 @@ function getCountryName(lat, lng) {
 
     $.ajax({
         url: "libs/php/getCountry.php",
-        type: 'POST',
+        type: 'GET',
         dataType: 'json',
         data: {
             lat: lat,
@@ -67,11 +73,14 @@ function getCountryName(lat, lng) {
 
 
 // Shows the pop up and fills it
+// Need to know currentCountry and currentCountryCode when we call it
 function popUp() {
     document.getElementById('popUp').style.display = 'block';
 
     $('#countryName').html(currentCountry);
+
     getCapitalCity();
+    getCountryBorders();
 
     document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
     document.getElementById('wikipediaLink').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
@@ -119,7 +128,6 @@ function getCapitalCity() {
 
 
 
-
 // Get Lat/Lng on click
 function onMapClick(e) {
     getCountryName(e.latlng.lat, e.latlng.lng);
@@ -164,8 +172,87 @@ $(document).ready(function(){
 });
 
 
-
+// Runs when you click on the search button
 function onSearchClick() {
     console.log(document.getElementById("userCountryInput").value);
-    popUp();
+    currentCountry = document.getElementById("userCountryInput").value;
+    getCountryCode();
+}
+
+// Get the current country code AND does the pop-up
+function getCountryCode() {
+    $.ajax({
+        url: "libs/php/getCountryCode.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            currentCountry: currentCountry,
+        },
+        success: function (result) {
+
+            (JSON.stringify(result));
+
+            if (result.status.name == "ok") {
+
+                currentCountryCode = result.data;
+                popUp();
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get country code isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+
+};
+
+
+
+// Takes current country and returns that countries borders in an array
+function getCountryBorders() {
+    $.ajax({
+        url: "libs/php/getCountryBorders.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            currentCountryCode: currentCountryCode,
+        },
+        success: function (result) {
+
+            (JSON.stringify(result));
+
+            if (result.status.name == "ok") {
+
+                clearMap();
+
+                const countryBorders = result.data;
+                const polygon = L.polygon(countryBorders, {color: 'pink'}).addTo(map);
+
+                // zoom the map to the polygon
+                map.fitBounds(polygon.getBounds());
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get country borders isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+
+};
+
+// Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
+function clearMap() {
+    for(i in map._layers) {
+        if(map._layers[i]._path != undefined) {
+            try {
+                map.removeLayer(map._layers[i]);
+            }
+            catch(e) {
+                console.log("problem with " + e + map._layers[i]);
+            }
+        }
+    }
 }
