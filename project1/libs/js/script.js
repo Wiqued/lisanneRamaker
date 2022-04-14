@@ -1,7 +1,16 @@
-/*
-1. Initialise map and current location on load in
-2. Map design
-3. Get Country name based on Lat/Lng
+/* INDEX
+- Initialise map and current location on load in
+- Map design
+- Get Country name based on Lat/Lng
+- Shows the pop-up and fills it.
+- On submit does not refresh page
+- Get the capital city from a country
+- Get Lat/Lng on click
+- Datalist options
+- Runs when you click on the search button
+- Get the current country code AND does the pop-up
+- Takes current country and returns that countries borders in an array
+- Clears the polylines from the map when clicking or searching for another country
 */
 
 // Initialise map and current location on load in
@@ -243,6 +252,7 @@ function getCountryBorders() {
 
 };
 
+// Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
 function clearMap() {
     for(i in map._layers) {
