@@ -8,6 +8,7 @@
 - Get Lat/Lng on click
 - Datalist options
 - Runs when you click on the search button
+- When user selects a country from the list, it calls the pop-up with that country
 - Get the current country code AND does the pop-up
 - Takes current country and returns that countries borders in an array
 - Clears the polylines from the map when clicking or searching for another country
@@ -19,7 +20,7 @@ var map = L.map('map');
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
 } else {
-    document.getElementById("demo").innerHTML =
+    document.getElementById("demo").innerText =
         "Geolocation is not supported by this browser.";
 }
 
@@ -60,6 +61,8 @@ function getCountryName(lat, lng) {
 
                     currentCountry = result['data']['countryName'];
                     currentCountryCode = result['data']['countryCode'];
+
+                    document.getElementById("countryOptions").value = currentCountry;
 
                     popUp();
 
@@ -121,8 +124,7 @@ function getCapitalCity() {
 
                 let capital = result['data']['geonames'][0]['capital'];
 
-                // innerHTML
-                document.getElementById('capitalCity').innerHTML = capital;
+                document.getElementById('capitalCity').innerText = capital;
 
             }
         },
@@ -159,12 +161,14 @@ function getCountryOptions() {
 
             const countries = result.data;
             const list = document.getElementById('countryOptions');
+            countries.sort();
 
             countries.forEach(function(item) {
                 const option = document.createElement('option');
                 option.value = item;
+                option.innerText = item;
                 list.appendChild(option);
-                
+
             })
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -180,15 +184,14 @@ $(document).ready(function(){
     getCountryOptions();
 });
 
-
-// Runs when you click on the search button
-function onSearchClick() {
-    console.log(document.getElementById("userCountryInput").value);
-    currentCountry = document.getElementById("userCountryInput").value;
+// When user selects a country from the list, it calls the pop-up with that country
+$("#countryOptions").change(function() {
+    currentCountry = document.getElementById("countryOptions").value;
     getCountryCode();
-}
+});
 
-// Get the current country code AND does the pop-up
+
+// Get the current country code ISO2 AND does the pop-up
 function getCountryCode() {
     $.ajax({
         url: "libs/php/getCountryCode.php",
