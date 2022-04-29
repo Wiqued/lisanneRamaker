@@ -26,18 +26,20 @@
   <div id=”preloader”></div>
   <div id="map"></div>
 
-  <!-- Nav -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <select id="countryOptions" size="1">
+  <!-- Dropdown menu. Found on https://codepen.io/PeterGeller/pen/nYrXKd-->
+  <form action="#">
+ 
+    <div class="select-box">
+      
+      <label for="countryOptions" class="label countryOptions"><span class="label-desc">Choose your country</span> </label>
+      <select id="countryOptions" class="select">
         <option value="" disabled selected hidden>Select a country</option>
       </select>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        </ul>
-      </div>
+      
     </div>
-  </nav>
+     
+  </form>
+
 
 
   <!-- Modal -->
@@ -51,38 +53,67 @@
           </div>
 
           <div class="col-8">
-            <a id="wikipediaLink" href="" target="_blank">
+            <a class ="text-decoration-none" id="wikipediaLink" href="" target="_blank">
               <div id="countryName" class="col"></div>
             </a>
           </div>
+
+          <div class="col">
+            <img src="libs/images/news_icon.svg" alt="News Icon">
+          </div>
+
+         <div class="col">
+            <img src="libs/images/weather_icon.svg" alt="Weather Icon">
+         </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
+
+          <div class="row bg-secondary text-light">
+            <div class="col">
+              Capital City:
+            </div>
+            <div id="capitalCity" class="col"></div>
+          </div>
+      
           <div class="row">
-            <div id="capitalCity" class="col">
-              Capital
-            </div>
-          </div>
-      
-          <div class="row g-2">
-            <div id="population" class="col">
-              Population
-            </div>
-            <div id="languagesSpoken" class="col">
-              Language
-            </div>
-          </div>
-      
-          <div class="row g-2">
             <div class="col">
-              Latest news
+              Population:
             </div>
-            <div class="col">
-              Weather
-            </div>
+            <div id="population" class="col"></div>
           </div>
+          
+          <div class="row bg-secondary text-light">
+            <div class="col">
+              Languages:
+            </div>
+            <div id="languagesSpoken" class="col"></div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              Continent:
+            </div>
+            <div class="col"></div>
+          </div>
+
+          <div class="row bg-secondary text-light">
+            <div class="col">
+              Country surface:
+            </div>
+            <div class="col"></div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              Exchange rate:
+            </div>
+            <div class="col"></div>
+          </div>
+
+
         </div>
 
       </div>
