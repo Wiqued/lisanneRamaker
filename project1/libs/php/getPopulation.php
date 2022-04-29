@@ -5,15 +5,18 @@
 
 	$executionStartTime = microtime(true);
 
-	$url='https://restfulcountries.com/api/v1/countries/' . $_REQUEST[''];
+	$url='https://world-population.p.rapidapi.com/population?country_name=' . $_REQUEST['country'];
+	$url = str_replace(' ', '%20', $url);
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_URL,$url);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization: Bearer 89|o7zrRIDoInT6kHJcS7cZP0ELYcV4gvPXLKVSPq3Q'
-    ));
+
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		"X-RapidAPI-Host: world-population.p.rapidapi.com",
+		"X-RapidAPI-Key: d1f9e689d2mshb30327b41ae892fp1621bfjsn7abde6eeeb2f"
+	));
 
 	$result=curl_exec($ch);
 

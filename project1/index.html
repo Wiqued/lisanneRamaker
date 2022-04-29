@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap-reboot.min.css">
 
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="libs/leaflet/css/leaflet.css"/>
+  <link rel="stylesheet" href="libs/leaflet/css/leaflet.css" />
 
   <!-- My own CSS sheet -->
   <link rel="stylesheet" href="libs/css/style.css">
@@ -24,81 +24,80 @@
 
 <body>
   <div id=”preloader”></div>
+  <div id="map"></div>
+
+  <!-- Nav -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-
       <select id="countryOptions" size="1">
         <option value="" disabled selected hidden>Select a country</option>
       </select>
-      
-
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
         </ul>
-
       </div>
     </div>
   </nav>
 
 
+  <!-- Modal -->
+  <div class="modal fade" id="newPopUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
 
-  <div id="map"></div>
+        <div class="modal-header">
+          <div id="countryFlag" class="col">
+            <img id="countryFlagImg" src="" alt="Country Flag">
+          </div>
 
+          <div class="col-8">
+            <a id="wikipediaLink" href="" target="_blank">
+              <div id="countryName" class="col"></div>
+            </a>
+          </div>
 
-  <!-- 12 columns, pop-up -->
-  <div id="popUp" class="container bg-light">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-    <div class="row g-2">
-      <div id="countryFlag" class="col">
-        <img id="countryFlagImg" src="" alt="Country Flag">
-      </div>
+        <div class="modal-body">
+          <div class="row">
+            <div id="capitalCity" class="col">
+              Capital
+            </div>
+          </div>
+      
+          <div class="row g-2">
+            <div id="population" class="col">
+              Population
+            </div>
+            <div id="languagesSpoken" class="col">
+              Language
+            </div>
+          </div>
+      
+          <div class="row g-2">
+            <div class="col">
+              Latest news
+            </div>
+            <div class="col">
+              Weather
+            </div>
+          </div>
+        </div>
 
-      <div class="col-8">
-      <a id="wikipediaLink" href="" target="_blank">
-        <div id="countryName" class="col"></div>
-      </a>
-      </div>
-      <div class="col">
-        Temp
       </div>
     </div>
-
-    <div class="row">
-      <div id="capitalCity" class="col">
-        Capital
-      </div>
-    </div>
-
-    <div class="row g-2">
-      <div class="col">
-        Current Time
-      </div>
-      <div id="languageSpoken" class="col">
-        Language
-      </div>
-    </div>
-
-    <div class="row g-2">
-      <div class="col">
-        Latest news
-      </div>
-      <div class="col">
-        Weather
-      </div>
-    </div>
-
   </div>
+
 
   <!-- Leaflet JS -->
   <script src="libs/leaflet/js/leaflet.js"></script>
-
-  <script src="http://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
   <script src="libs/js/leaflet-providers.js"></script>
 
-  <!-- Bootstrap JS -->
+  <!-- Bootstrap JS v5.1.3 -->
   <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+
 
   <script type="application/json" src="libs/json/countryBorders.geo.json"></script>
 

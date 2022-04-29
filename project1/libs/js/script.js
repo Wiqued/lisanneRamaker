@@ -37,6 +37,11 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
 
+// Language code to language name
+const languageNames = new Intl.DisplayNames(['en'], {
+    type: 'language'
+  });
+
 // Get Country name based on Lat/Lng
 var currentCountry;
 var currentCountryCode;
@@ -65,6 +70,7 @@ function getCountryName(lat, lng) {
                     document.getElementById("countryOptions").value = currentCountry;
 
                     popUp();
+                    
 
                     console.log(currentCountry);
 
@@ -83,15 +89,17 @@ function getCountryName(lat, lng) {
 };
 
 
+var newPopUp = new bootstrap.Modal(document.getElementById('newPopUp'));
+
 
 // Shows the pop up and fills it
 // Need to know currentCountry and currentCountryCode when we call it
 function popUp() {
-    document.getElementById('popUp').style.display = 'block';
+    newPopUp.show();
 
     $('#countryName').html(currentCountry);
 
-    getCapitalCity();
+    getCountryInfo();
     getCountryBorders();
 
     document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
@@ -107,10 +115,10 @@ $("#searchForm").submit(function(e) {
 
 
 
-// Get the capital city from a country
-function getCapitalCity() {
+// Takes current country code and returns capital city, population and languages
+function getCountryInfo() {
     $.ajax({
-        url: "libs/php/getCapital.php",
+        url: "libs/php/getCountryInfo.php",
         type: 'POST',
         dataType: 'json',
         data: {
@@ -122,14 +130,31 @@ function getCapitalCity() {
 
             if (result.status.name == "ok") {
 
-                let capital = result['data']['geonames'][0]['capital'];
+                const capital = result['data']['geonames'][0]['capital'];
+                const population = result['data']['geonames']['0']['population'];
+                const languages = result['data']['geonames']['0']['languages'];
+
+                const allLanguages = languages.split(',');
+                
+                const languageCombined = [];
+
+                for (language of allLanguages) {
+
+                    const languageName = languageNames.of(language);
+                    languageCombined.push(languageName);
+
+
+                }
 
                 document.getElementById('capitalCity').innerText = capital;
+                document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
+                document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
+
 
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Get Capital city isn't working")
+            console.log("Get country info isn't working")
             console.log(textStatus)
             console.log(errorThrown)
         }
