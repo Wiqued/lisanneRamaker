@@ -45,6 +45,7 @@ const languageNames = new Intl.DisplayNames(['en'], {
 // Get Country name based on Lat/Lng
 var currentCountry;
 var currentCountryCode;
+var currency;
 
 function getCountryName(lat, lng) {
 
@@ -75,7 +76,7 @@ function getCountryName(lat, lng) {
                     console.log(currentCountry);
 
                 } else {
-                    document.getElementById('popUp').style.display = 'none';
+                    document.getElementById('newPopUp').style.display = 'none';
                 }
             }
         },
@@ -98,12 +99,19 @@ function popUp() {
     newPopUp.show();
 
     $('#countryName').html(currentCountry);
+    $('#countryName2').html(currentCountry);
+    $('#countryName3').html(currentCountry);
 
     getCountryInfo();
     getCountryBorders();
 
     document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
+    document.getElementById('countryFlagImg2').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
+    document.getElementById('countryFlagImg3').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
+
     document.getElementById('wikipediaLink').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
+    document.getElementById('wikipediaLink2').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
+    document.getElementById('wikipediaLink3').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
 }
 
 
@@ -115,7 +123,7 @@ $("#searchForm").submit(function(e) {
 
 
 
-// Takes current country code and returns capital city, population and languages
+// Takes current country code and returns capital city, population, languages
 function getCountryInfo() {
     $.ajax({
         url: "libs/php/getCountryInfo.php",
@@ -133,6 +141,9 @@ function getCountryInfo() {
                 const capital = result['data']['geonames'][0]['capital'];
                 const population = result['data']['geonames']['0']['population'];
                 const languages = result['data']['geonames']['0']['languages'];
+                const continent = result['data']['geonames']['0']['continentName'];
+                const surface = result['data']['geonames']['0']['areaInSqKm'];
+                currency = result['data']['geonames']['0']['currencyCode'];
 
                 const allLanguages = languages.split(',');
                 
@@ -149,6 +160,9 @@ function getCountryInfo() {
                 document.getElementById('capitalCity').innerText = capital;
                 document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
                 document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
+                document.getElementById('continentName').innerText = continent;
+                document.getElementById('countrySurface').innerText = `${surface} km2`;
+                document.getElementById('currency').innerText = currency;
 
 
             }
@@ -243,6 +257,23 @@ function getCountryCode() {
     });
 
 };
+
+// Takes the currency and returns the exchange rate based on USD
+function getExchangeRate() {
+    $.ajax({
+        url: "libs/php/getExchangeRate.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            currency: currency,
+        },
+        success: function(result) {
+
+            // If the current currency is in the result.rates list, return that value
+
+        }
+    });
+}
 
 
 

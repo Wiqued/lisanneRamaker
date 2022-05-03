@@ -60,7 +60,9 @@
     display: none;
 }
 
-img#countryFlagImg {
+img#countryFlagImg,
+img#countryFlagImg2,
+img#countryFlagImg3 {
     max-width: 50px;
     max-height: 25px;
 }
@@ -70,13 +72,19 @@ img#countryFlagImg {
 }
 
 
-#wikipediaLink:visited {
+#wikipediaLink:visited,
+#wikipediaLink2:visited,
+#wikipediaLink3:visited {
     color: black;
 }
 
-#wikipediaLink:hover {
+#wikipediaLink:hover,
+#wikipedia2Link:hover,
+#wikipedia3Link:hover {
     color: grey;
 }
+
+
 
 /* #countryOptions {
     display: block;
