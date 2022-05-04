@@ -45,7 +45,7 @@ const languageNames = new Intl.DisplayNames(['en'], {
 // Get Country name based on Lat/Lng
 var currentCountry;
 var currentCountryCode;
-var currency;
+var currentCurrency;
 
 function getCountryName(lat, lng) {
 
@@ -143,7 +143,7 @@ function getCountryInfo() {
                 const languages = result['data']['geonames']['0']['languages'];
                 const continent = result['data']['geonames']['0']['continentName'];
                 const surface = result['data']['geonames']['0']['areaInSqKm'];
-                currency = result['data']['geonames']['0']['currencyCode'];
+                currentCurrency = result['data']['geonames']['0']['currencyCode'];
 
                 const allLanguages = languages.split(',');
                 
@@ -157,12 +157,14 @@ function getCountryInfo() {
 
                 }
 
+                getExchangeRate();
+
                 document.getElementById('capitalCity').innerText = capital;
                 document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
                 document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
                 document.getElementById('continentName').innerText = continent;
                 document.getElementById('countrySurface').innerText = `${surface} km2`;
-                document.getElementById('currency').innerText = currency;
+                document.getElementById('currency').innerText = currentCurrency;
 
 
             }
@@ -265,12 +267,20 @@ function getExchangeRate() {
         type: 'GET',
         dataType: 'json',
         data: {
-            currency: currency,
+            currentCurrency: currentCurrency,
         },
         success: function(result) {
 
-            // If the current currency is in the result.rates list, return that value
+            const resultData = result.data
+            const currencyValue = `1 USD equals ${resultData} ${currentCurrency}.`;
 
+            document.getElementById("exchangeRate").innerText = currencyValue;
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get exchange rate isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
         }
     });
 }

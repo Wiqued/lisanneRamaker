@@ -13,7 +13,6 @@
 	$ch = curl_init($oxr_url);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_URL,$url);
 
     $json = curl_exec($ch);
 
@@ -23,18 +22,21 @@
 
 	$decode = json_decode($result,true);
     $rates = $decode['rates'];
+	$oxr_latest = json_decode($json);
 
-    $currency = $_REQUEST['currency'];
+    $currentCurrency = $_REQUEST['currentCurrency'];
     $currencyValue = "";
 
     // If the current currency is in the result.rates list, return that value
 
-    foreach ($rates as $currentCurrency) {
-        if ($currentCurrency == $currency['rates'] {
-            
-            $currencyValue =+ $currentCurrency['currency'];
-        }
-    }
+	$currencyValue = $rates[$currentCurrency];
+
+	/* printf(
+		"1 %s equals %s GBP at %s",
+		$oxr_latest->base,
+		$oxr_latest->rates->GBP,
+		date('H:i jS F, Y', $oxr_latest->timestamp)
+	); */
 
     
 
@@ -42,7 +44,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-	$output['data'] = $decode;
+	$output['data'] = $currencyValue;
 	
 	header('Content-Type: application/json; charset=UTF-8');
 
