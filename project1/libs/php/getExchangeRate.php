@@ -31,13 +31,6 @@
 
 	$currencyValue = $rates[$currentCurrency];
 
-	/* printf(
-		"1 %s equals %s GBP at %s",
-		$oxr_latest->base,
-		$oxr_latest->rates->GBP,
-		date('H:i jS F, Y', $oxr_latest->timestamp)
-	); */
-
     
 
 	$output['status']['code'] = "200";

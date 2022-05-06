@@ -150,3 +150,12 @@ body {
   padding: 5px 15px;
   border-left: 5px solid rgb(233, 233, 233);
 }
+
+#openNewsToggle.modal-body {
+    height: 70%;
+    overflow-y: auto;
+}
+
+#newsArticle img {
+    width: 100%;
+}

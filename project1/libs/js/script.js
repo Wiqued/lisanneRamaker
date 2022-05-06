@@ -40,7 +40,7 @@ L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a6
 // Language code to language name
 const languageNames = new Intl.DisplayNames(['en'], {
     type: 'language'
-  });
+});
 
 // Get Country name based on Lat/Lng
 var currentCountry;
@@ -71,7 +71,7 @@ function getCountryName(lat, lng) {
                     document.getElementById("countryOptions").value = currentCountry;
 
                     popUp();
-                    
+
 
                     console.log(currentCountry);
 
@@ -104,6 +104,7 @@ function popUp() {
 
     getCountryInfo();
     getCountryBorders();
+    getCurrentNews();
 
     document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
     document.getElementById('countryFlagImg2').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
@@ -117,7 +118,7 @@ function popUp() {
 
 
 // On submit does not refresh page
-$("#searchForm").submit(function(e) {
+$("#searchForm").submit(function (e) {
     e.preventDefault();
 });
 
@@ -146,7 +147,7 @@ function getCountryInfo() {
                 currentCurrency = result['data']['geonames']['0']['currencyCode'];
 
                 const allLanguages = languages.split(',');
-                
+
                 const languageCombined = [];
 
                 for (language of allLanguages) {
@@ -204,7 +205,7 @@ function getCountryOptions() {
             const list = document.getElementById('countryOptions');
             countries.sort();
 
-            countries.forEach(function(item) {
+            countries.forEach(function (item) {
                 const option = document.createElement('option');
                 option.value = item;
                 option.innerText = item;
@@ -221,12 +222,12 @@ function getCountryOptions() {
 
 };
 
-$(document).ready(function(){
+$(document).ready(function () {
     getCountryOptions();
 });
 
 // When user selects a country from the list, it calls the pop-up with that country
-$("#countryOptions").change(function() {
+$("#countryOptions").change(function () {
     currentCountry = document.getElementById("countryOptions").value;
     getCountryCode();
 });
@@ -269,7 +270,7 @@ function getExchangeRate() {
         data: {
             currentCurrency: currentCurrency,
         },
-        success: function(result) {
+        success: function (result) {
 
             const resultData = result.data
             const currencyValue = `1 USD equals ${resultData} ${currentCurrency}.`;
@@ -283,6 +284,46 @@ function getExchangeRate() {
             console.log(errorThrown)
         }
     });
+}
+
+// Takes the current country code and returns the news headlines
+function getCurrentNews() {
+    $.ajax({
+        url: "libs/php/getCurrentNews.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            country: currentCountryCode,
+        },
+        success: function (result) {
+
+            let newsHTML = "";
+
+            for (article in result.data.articles) {
+
+                const articleImage = result.data.articles[article]['urlToImage'];
+                const articleTitle = result.data.articles[article]['title'];
+                const articleDescription = result.data.articles[article]['description'];
+                const articleLink = result.data.articles[article]['url']
+
+                if (articleImage != null && articleTitle != null && articleDescription != null) {
+
+                const newsArticle = 
+                `
+                    <div>
+                    <section><a class ="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
+                    <section><h3>${articleTitle}</h3></section>
+                    <section><p>${articleDescription}</p></section>
+                    </div>
+                `
+                newsHTML += newsArticle;
+
+                }
+            }
+            
+            document.getElementById("newsArticle").innerHTML = newsHTML;
+        }
+    })
 }
 
 
@@ -305,7 +346,7 @@ function getCountryBorders() {
                 clearMap();
 
                 const countryBorders = result.data;
-                const polygon = L.polygon(countryBorders, {color: 'pink'}).addTo(map);
+                const polygon = L.polygon(countryBorders, { color: 'pink' }).addTo(map);
 
                 // zoom the map to the polygon
                 map.fitBounds(polygon.getBounds());
@@ -324,41 +365,39 @@ function getCountryBorders() {
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
 function clearMap() {
-    for(i in map._layers) {
-        if(map._layers[i]._path != undefined) {
+    for (i in map._layers) {
+        if (map._layers[i]._path != undefined) {
             try {
                 map.removeLayer(map._layers[i]);
             }
-            catch(e) {
+            catch (e) {
                 console.log("problem with " + e + map._layers[i]);
             }
         }
     }
 }
 
-$("select").on("click" , function() {
-  
+$("select").on("click", function () {
+
     $(this).parent(".select-box").toggleClass("open");
-    
-  });
-  
-  $(document).mouseup(function (e)
-  {
-      var container = $(".select-box");
-  
-      if (container.has(e.target).length === 0)
-      {
-          container.removeClass("open");
-      }
-  });
-  
-  
-  $("select").on("change" , function() {
-    
+
+});
+
+$(document).mouseup(function (e) {
+    var container = $(".select-box");
+
+    if (container.has(e.target).length === 0) {
+        container.removeClass("open");
+    }
+});
+
+
+$("select").on("change", function () {
+
     var selection = $(this).find("option:selected").text(),
         labelFor = $(this).attr("id"),
         label = $("[for='" + labelFor + "']");
-      
+
     label.find(".label-desc").html(selection);
-      
-  });
+
+});
