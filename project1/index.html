@@ -28,16 +28,17 @@
 
   <!-- Dropdown menu. Copied and modified from https://codepen.io/PeterGeller/pen/nYrXKd-->
   <form action="#">
- 
+
     <div class="select-box">
-      
-      <label for="countryOptions" class="label countryOptions"><span class="label-desc">Choose your country</span> </label>
+
+      <label for="countryOptions" class="label countryOptions"><span class="label-desc">Choose your country</span>
+      </label>
       <select id="countryOptions" class="select">
         <option value="" disabled selected hidden>Select a country</option>
       </select>
-      
+
     </div>
-     
+
   </form>
 
   <!-- Modal -->
@@ -57,16 +58,18 @@
           </div>
 
           <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg" alt="News Icon">
+            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
+              alt="News Icon">
           </div>
 
-         <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg" alt="Weather Icon">
-         </div>
+          <div class="col">
+            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
+              alt="Weather Icon">
+          </div>
 
-         <div class="col">
-          <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-        </div>
+          <div class="col">
+            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
+          </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -79,14 +82,14 @@
             </div>
             <div id="capitalCity" class="col"></div>
           </div>
-      
+
           <div class="row">
             <div class="col">
               Population:
             </div>
             <div id="population" class="col"></div>
           </div>
-          
+
           <div class="row bg-secondary text-light">
             <div class="col">
               Languages:
@@ -127,7 +130,7 @@
     </div>
   </div>
 
- <!-- News -->
+  <!-- News -->
   <div class="modal fade" id="openNewsToggle" aria-hidden="true" aria-labelledby="openNewsToggle" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
@@ -138,28 +141,30 @@
           </div>
 
           <div class="col-6">
-            <a class ="text-decoration-none" id="wikipediaLink2" href="" target="_blank">
+            <a class="text-decoration-none" id="wikipediaLink2" href="" target="_blank">
               <div id="countryName2" class="col"></div>
             </a>
           </div>
 
           <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg" alt="News Icon">
+            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
+              alt="News Icon">
           </div>
 
-         <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg" alt="Weather Icon">
-         </div>
+          <div class="col">
+            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
+              alt="Weather Icon">
+          </div>
 
-         <div class="col">
-          <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-        </div>
+          <div class="col">
+            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
+          </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div id="newsArticle" class="modal-body"></div>
-          
+
       </div>
     </div>
   </div>
@@ -176,33 +181,40 @@
           </div>
 
           <div class="col-6">
-            <a class ="text-decoration-none" id="wikipediaLink3" href="" target="_blank">
+            <a class="text-decoration-none" id="wikipediaLink3" href="" target="_blank">
               <div id="countryName3" class="col"></div>
             </a>
           </div>
 
           <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg" alt="News Icon">
+            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
+              alt="News Icon">
           </div>
 
-         <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg" alt="Weather Icon">
-         </div>
+          <div class="col">
+            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
+              alt="Weather Icon">
+          </div>
 
-         <div class="col">
-          <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-        </div>
+          <div class="col">
+            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
+          </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        
+
         <div class="modal-body">
-          Test 2
+
+          <div id="ww_e68c615527159" v='1.20' loc='auto' a='{"t":"responsive","lang":"en","ids":[],"cl_bkg":"#FFFFFF","cl_font":"#000000","cl_cloud":"#d4d4d4","cl_persp":"#2196F3","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","sl_tof":"7","sl_sot":"celsius","sl_ics":"one","font":"Arial","cl_odd":"#0000000a"}'>Weather Data Source: <a href="https://wetterlabs.de/" id="ww_e68c615527159_u" target="_blank">wetterlabs.de</a></div>
+
         </div>
+
       </div>
     </div>
   </div>
+  </div>
 
+<script async src="https://srv2.weatherwidget.org/js/?id=ww_e68c615527159"></script>
 
   <!-- Leaflet JS -->
   <script src="libs/leaflet/js/leaflet.js"></script>
@@ -217,6 +229,7 @@
 
   <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
   <script type="application/javascript" src="libs/js/script.js"></script>
+
 </body>
 
 </html>

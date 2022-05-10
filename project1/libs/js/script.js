@@ -42,11 +42,14 @@ const languageNames = new Intl.DisplayNames(['en'], {
     type: 'language'
 });
 
-// Get Country name based on Lat/Lng
+
 var currentCountry;
 var currentCountryCode;
 var currentCurrency;
+var currentCapital;
 
+
+// Get current country based on lat/lng
 function getCountryName(lat, lng) {
 
     $.ajax({
@@ -139,7 +142,7 @@ function getCountryInfo() {
 
             if (result.status.name == "ok") {
 
-                const capital = result['data']['geonames'][0]['capital'];
+                currentCapital = result['data']['geonames'][0]['capital'];
                 const population = result['data']['geonames']['0']['population'];
                 const languages = result['data']['geonames']['0']['languages'];
                 const continent = result['data']['geonames']['0']['continentName'];
@@ -159,8 +162,10 @@ function getCountryInfo() {
                 }
 
                 getExchangeRate();
+                getCurrentWeather();
+                console.log(currentCapital);
 
-                document.getElementById('capitalCity').innerText = capital;
+                document.getElementById('capitalCity').innerText = currentCapital;
                 document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
                 document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
                 document.getElementById('continentName').innerText = continent;
@@ -308,19 +313,19 @@ function getCurrentNews() {
 
                 if (articleImage != null && articleTitle != null && articleDescription != null) {
 
-                const newsArticle = 
-                `
+                    const newsArticle =
+                    `
                     <div>
                     <section><a class ="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
                     <section><h3>${articleTitle}</h3></section>
                     <section><p>${articleDescription}</p></section>
                     </div>
-                `
-                newsHTML += newsArticle;
+                    `
+                    newsHTML += newsArticle;
 
                 }
             }
-            
+
             document.getElementById("newsArticle").innerHTML = newsHTML;
         }
     })
@@ -362,6 +367,30 @@ function getCountryBorders() {
 
 };
 
+// Takes current capital city and returns the weather
+function getCurrentWeather() {
+    $.ajax({
+        url: "libs/php/getCurrentWeather.php",
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            capital: currentCapital,
+        },
+        success: function (result) {
+
+            (JSON.stringify(result));
+        
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get current weather isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    })
+}
+
+
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
 function clearMap() {
@@ -401,3 +430,4 @@ $("select").on("change", function () {
     label.find(".label-desc").html(selection);
 
 });
+
