@@ -1,6 +1,6 @@
 <?php
 
-    // We have a country name, send it here and ask what the county code is, send that back
+    // Takes country name and returns country code
 
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);

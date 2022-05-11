@@ -47,6 +47,8 @@ var currentCountry;
 var currentCountryCode;
 var currentCurrency;
 var currentCapital;
+var lon;
+var lat;
 
 
 // Get current country based on lat/lng
@@ -166,6 +168,7 @@ function getCountryInfo() {
                 console.log(currentCapital);
 
                 document.getElementById('capitalCity').innerText = currentCapital;
+                document.getElementById('capitalCity2').innerText = currentCapital;
                 document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
                 document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
                 document.getElementById('continentName').innerText = continent;
@@ -189,7 +192,6 @@ function getCountryInfo() {
 // Get Lat/Lng on click
 function onMapClick(e) {
     getCountryName(e.latlng.lat, e.latlng.lng);
-    console.log(e.latlng);
 }
 
 map.on('click', onMapClick);
@@ -378,7 +380,25 @@ function getCurrentWeather() {
         },
         success: function (result) {
 
-            (JSON.stringify(result));
+            if (result.status.name == "ok") {
+
+                let currentTemp = result.data.main['temp'];
+                lon = result.data.coord['lon'];
+                lat = result.data.coord['lat'];
+
+                document.getElementById('currentTemp').innerText = Math.round(currentTemp);
+                
+                console.log(`Current temp: ${currentTemp}`);
+
+                let icon1 = result.data.weather[0]['icon'];
+                document.getElementById('weatherIcon1').src = `http://openweathermap.org/img/wn/${icon1}@2x.png`;
+
+                getWeatherForecast();
+
+            }
+
+            // From this function, I get the coordinates. 
+            // We pass the coordinates back into another function getWeatherForecast() and get the rest of the information
         
 
         },
@@ -390,6 +410,73 @@ function getCurrentWeather() {
     })
 }
 
+// Takes the current capital cities' coordinates and returns the weather for the next couple of hours
+function getWeatherForecast() {
+    $.ajax({
+        url: 'libs/php/getWeatherForecast.php',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            lat: lat,
+            lon: lon,
+        },
+        success: function(result) {
+
+            if (result.status.name == "ok" ) {
+
+                // First time stamp
+                let time1 = result.data.list[0]['dt'];
+                let tempForecast1 = result.data.list[0].main['temp'];
+
+                let date1 = new Date(time1 * 1000);
+                let fullHour1 = date1.getHours();
+                let hour1 = `${fullHour1}:00`;
+
+                console.log(`Forecast at ${hour1}:00 = ${tempForecast1}`);
+
+                document.getElementById('time1').innerText = hour1;
+                document.getElementById('temp1').innerText = Math.round(tempForecast1);
+
+                // Second time stamp, 3 hours later
+                let time2 = result.data.list[1]['dt'];
+                let tempForecast2 = result.data.list[1].main['temp'];
+
+                let date2 = new Date(time2 * 1000);
+                let fullHour2 = date2.getHours();
+                let hour2 = `${fullHour2}:00`;
+
+                console.log(`Forecast at ${hour2}:00 = ${tempForecast2}`);
+
+                document.getElementById('time2').innerText = hour2;
+                document.getElementById('temp2').innerText = Math.round(tempForecast2);
+
+                // Third time stamp, 3 hours later
+                let time3 = result.data.list[2]['dt'];
+                let tempForecast3 = result.data.list[2].main['temp'];
+
+                let date3 = new Date(time3 * 1000);
+                let fullHour3 = date3.getHours();
+                let hour3 = `${fullHour3}:00`;
+
+                console.log(`Forecast at ${hour3}:00 = ${tempForecast3}`);
+
+                document.getElementById('time3').innerText = hour3;
+                document.getElementById('temp3').innerText = Math.round(tempForecast3);
+
+                // Icons
+                let icon2 = result.data.list[0].weather[0]['icon'];
+                document.getElementById('weatherIcon2').src = `http://openweathermap.org/img/wn/${icon2}@2x.png`;
+
+                let icon3 = result.data.list[1].weather[0]['icon'];
+                document.getElementById('weatherIcon3').src = `http://openweathermap.org/img/wn/${icon3}@2x.png`;
+
+                let icon4 = result.data.list[2].weather[0]['icon'];
+                document.getElementById('weatherIcon4').src = `http://openweathermap.org/img/wn/${icon4}@2x.png`;
+
+            }
+        }
+    })
+}
 
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
