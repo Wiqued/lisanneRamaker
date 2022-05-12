@@ -28,6 +28,15 @@ function showPosition(position) {
     map.setView([position.coords.latitude, position.coords.longitude], 6);
 }
 
+// Preloader
+$(window).on('load', function () { 
+    if ($('#preloader').length) { 
+        $('#preloader').delay(1000).fadeOut('slow', function () { 
+            $(this).remove(); 
+        }); 
+    } 
+});
+
 // Map design
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -172,7 +181,7 @@ function getCountryInfo() {
                 document.getElementById('population').innerText = parseInt(population).toLocaleString('en-GB');
                 document.getElementById('languagesSpoken').innerText = languageCombined.join(', ');
                 document.getElementById('continentName').innerText = continent;
-                document.getElementById('countrySurface').innerText = `${surface} km2`;
+                document.getElementById('countrySurface').innerText = `${surface} km²`;
                 document.getElementById('currency').innerText = currentCurrency;
 
 
@@ -316,7 +325,7 @@ function getCurrentNews() {
                 if (articleImage != null && articleTitle != null && articleDescription != null) {
 
                     const newsArticle =
-                    `
+                        `
                     <div>
                     <section><a class ="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
                     <section><h3>${articleTitle}</h3></section>
@@ -386,8 +395,8 @@ function getCurrentWeather() {
                 lon = result.data.coord['lon'];
                 lat = result.data.coord['lat'];
 
-                document.getElementById('currentTemp').innerText = Math.round(currentTemp);
-                
+                document.getElementById('currentTemp').innerText = `${Math.round(currentTemp)}°C`;
+
                 console.log(`Current temp: ${currentTemp}`);
 
                 let icon1 = result.data.weather[0]['icon'];
@@ -399,7 +408,7 @@ function getCurrentWeather() {
 
             // From this function, I get the coordinates. 
             // We pass the coordinates back into another function getWeatherForecast() and get the rest of the information
-        
+
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -420,9 +429,9 @@ function getWeatherForecast() {
             lat: lat,
             lon: lon,
         },
-        success: function(result) {
+        success: function (result) {
 
-            if (result.status.name == "ok" ) {
+            if (result.status.name == "ok") {
 
                 // First time stamp
                 let time1 = result.data.list[0]['dt'];
@@ -434,8 +443,8 @@ function getWeatherForecast() {
 
                 console.log(`Forecast at ${hour1}:00 = ${tempForecast1}`);
 
-                document.getElementById('time1').innerText = hour1;
-                document.getElementById('temp1').innerText = Math.round(tempForecast1);
+                document.getElementById('time1').innerText = `${hour1} UTC`;
+                document.getElementById('temp1').innerText = `${Math.round(tempForecast1)}°C`;
 
                 // Second time stamp, 3 hours later
                 let time2 = result.data.list[1]['dt'];
@@ -447,8 +456,8 @@ function getWeatherForecast() {
 
                 console.log(`Forecast at ${hour2}:00 = ${tempForecast2}`);
 
-                document.getElementById('time2').innerText = hour2;
-                document.getElementById('temp2').innerText = Math.round(tempForecast2);
+                document.getElementById('time2').innerText = `${hour2} UTC`;
+                document.getElementById('temp2').innerText = `${Math.round(tempForecast2)}°C`;
 
                 // Third time stamp, 3 hours later
                 let time3 = result.data.list[2]['dt'];
@@ -460,8 +469,8 @@ function getWeatherForecast() {
 
                 console.log(`Forecast at ${hour3}:00 = ${tempForecast3}`);
 
-                document.getElementById('time3').innerText = hour3;
-                document.getElementById('temp3').innerText = Math.round(tempForecast3);
+                document.getElementById('time3').innerText = `${hour3} UTC`;
+                document.getElementById('temp3').innerText = `${Math.round(tempForecast3)}°C`;
 
                 // Icons
                 let icon2 = result.data.list[0].weather[0]['icon'];

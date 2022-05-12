@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <div id=”preloader”></div>
+  <div id="preloader"></div>
   <div id="map"></div>
 
   <!-- Dropdown menu. Copied and modified from https://codepen.io/PeterGeller/pen/nYrXKd-->
@@ -53,9 +53,11 @@
 
           <div class="col-6">
             <a class="text-decoration-none" id="wikipediaLink" href="" target="_blank">
-              <div id="countryName" class="col"></div>
+              <h2 id="countryName" class="col"></h2>
             </a>
           </div>
+          
+          <div class="col"></div>
 
           <div class="col">
             <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
@@ -65,10 +67,6 @@
           <div class="col">
             <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
               alt="Weather Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
           </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -142,22 +140,19 @@
 
           <div class="col-6">
             <a class="text-decoration-none" id="wikipediaLink2" href="" target="_blank">
-              <div id="countryName2" class="col"></div>
+              <h2 id="countryName2" class="col"></h2>
             </a>
           </div>
 
+          <div class="col"></div>
+
           <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
-              alt="News Icon">
+            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
           </div>
 
           <div class="col">
             <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
               alt="Weather Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
           </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -182,8 +177,14 @@
 
           <div class="col-6">
             <a class="text-decoration-none" id="wikipediaLink3" href="" target="_blank">
-              <div id="countryName3" class="col"></div>
+              <h2 id="countryName3" class="col"></h2>
             </a>
+          </div>
+
+          <div class="col"></div>
+          
+          <div class="col">
+            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
           </div>
 
           <div class="col">
@@ -191,63 +192,54 @@
               alt="News Icon">
           </div>
 
-          <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
-              alt="Weather Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-          </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
+          <div id="modalBG1">
 
-          <div id="capitalCity2" class="row">
-            Capital City
-          </div>
+          <h1 id="capitalCity2" class=" text-center"></h1>
 
           <div class="row">
+
             <div class="col">
               <img id="weatherIcon1" src="" alt="Weather icon">
             </div>
-
-            <div id="currentTemp" class="col">
-              CT
-            </div>
+            <h2 id="currentTemp" class="col text-center" ></h2>
 
           </div>
 
+        </div>
+
+          <hr>
           <div class="row">
 
-            <div class="col">
-              <div id="time1" class="row"></div>
+            <div id="modalBG2" class="col">
+              <h3 id="time1" class="text-center"></h3>
               <div class="row">
                 <img id="weatherIcon2" src="" alt="Weather icon">
               </div>
-              <div id="temp1" class="row"></div>
+              <h3 id="temp1" class="text-center"></h3>
             </div>
 
             <div class="col">
-              <div id="time2" class="row"></div>
+              <h3 id="time2" class="text-center"></h3>
               <div class="row">
                 <img id="weatherIcon3" src="" alt="Weather icon">
               </div>
-              <div id="temp2" class="row"></div>
+              <h3 id="temp2" class="text-center"></h3>
             </div>
 
-            <div class="col">
-              <div id="time3" class="row"></div>
+            <div id="modalBG3" class="col">
+              <h3 id="time3" class="text-center"></h3>
               <div class="row">
                 <img id="weatherIcon4" src="" alt="Weather icon">
               </div>
-              <div id="temp3" class="row"></div>
+              <h3 id="temp3" class="text-center"></h3>
             </div>
 
           </div>
-
         </div>
 
       </div>
