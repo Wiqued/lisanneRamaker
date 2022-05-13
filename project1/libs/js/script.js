@@ -86,9 +86,6 @@ function getCountryName(lat, lng) {
 
                     popUp();
 
-
-                    console.log(currentCountry);
-
                 } else {
                     document.getElementById('newPopUp').style.display = 'none';
                 }
@@ -174,7 +171,6 @@ function getCountryInfo() {
 
                 getExchangeRate();
                 getCurrentWeather();
-                console.log(currentCapital);
 
                 document.getElementById('capitalCity').innerText = currentCapital;
                 document.getElementById('capitalCity2').innerText = currentCapital;
@@ -397,8 +393,6 @@ function getCurrentWeather() {
 
                 document.getElementById('currentTemp').innerText = `${Math.round(currentTemp)}°C`;
 
-                console.log(`Current temp: ${currentTemp}`);
-
                 let icon1 = result.data.weather[0]['icon'];
                 document.getElementById('weatherIcon1').src = `http://openweathermap.org/img/wn/${icon1}@2x.png`;
 
@@ -441,9 +435,7 @@ function getWeatherForecast() {
                 let fullHour1 = date1.getHours();
                 let hour1 = `${fullHour1}:00`;
 
-                console.log(`Forecast at ${hour1}:00 = ${tempForecast1}`);
-
-                document.getElementById('time1').innerText = `${hour1} UTC`;
+                document.getElementById('time1').innerText = hour1;
                 document.getElementById('temp1').innerText = `${Math.round(tempForecast1)}°C`;
 
                 // Second time stamp, 3 hours later
@@ -454,9 +446,7 @@ function getWeatherForecast() {
                 let fullHour2 = date2.getHours();
                 let hour2 = `${fullHour2}:00`;
 
-                console.log(`Forecast at ${hour2}:00 = ${tempForecast2}`);
-
-                document.getElementById('time2').innerText = `${hour2} UTC`;
+                document.getElementById('time2').innerText = hour2;
                 document.getElementById('temp2').innerText = `${Math.round(tempForecast2)}°C`;
 
                 // Third time stamp, 3 hours later
@@ -467,9 +457,7 @@ function getWeatherForecast() {
                 let fullHour3 = date3.getHours();
                 let hour3 = `${fullHour3}:00`;
 
-                console.log(`Forecast at ${hour3}:00 = ${tempForecast3}`);
-
-                document.getElementById('time3').innerText = `${hour3} UTC`;
+                document.getElementById('time3').innerText = hour3;
                 document.getElementById('temp3').innerText = `${Math.round(tempForecast3)}°C`;
 
                 // Icons

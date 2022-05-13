@@ -65,6 +65,7 @@ img#countryFlagImg2,
 img#countryFlagImg3 {
     max-width: 50px;
     max-height: 25px;
+    border: 1px solid black;
 }
 
 #searchForm {
