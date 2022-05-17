@@ -1,6 +1,8 @@
 // Initialise map and current location on load in
 var map = L.map('map');
 
+map.setView([52.132, 5.291], 6);
+
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
 } else {
@@ -110,9 +112,8 @@ function getPopUp(lat, lng) {
                     currentCountry = result['data']['countryName'];
                     currentCountryCode = result['data']['countryCode'];
 
-                    document.getElementById("countryOptions").value = currentCountry;
-
-                    popUp();
+                    // Displays current country in select on click, and calls popup
+                    $("#countryOptions").val(currentCountry).trigger('change');
 
                 } else {
                     document.getElementById('newPopUp').style.display = 'none';
@@ -127,6 +128,9 @@ function getPopUp(lat, lng) {
     });
 
 };
+
+
+
 
 
 var newPopUp = new bootstrap.Modal(document.getElementById('newPopUp'));
@@ -231,6 +235,7 @@ $("#countryOptions").change(function () {
     currentCountry = document.getElementById("countryOptions").value;
     getCountryCode();
 });
+
 
 
 // Get the current country code ISO2 AND does the pop-up
