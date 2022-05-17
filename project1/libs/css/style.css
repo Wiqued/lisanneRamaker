@@ -113,6 +113,10 @@ h2#countryName3 {
     border-radius: 10px;
 }
 
+#drivingSide {
+    text-transform: capitalize;
+}
+
 
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 

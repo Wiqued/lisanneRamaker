@@ -1,19 +1,3 @@
-/* INDEX
-- Initialise map and current location on load in
-- Map design
-- Get Country name based on Lat/Lng
-- Shows the pop-up and fills it.
-- On submit does not refresh page
-- Get the capital city from a country
-- Get Lat/Lng on click
-- Datalist options
-- Runs when you click on the search button
-- When user selects a country from the list, it calls the pop-up with that country
-- Get the current country code AND does the pop-up
-- Takes current country and returns that countries borders in an array
-- Clears the polylines from the map when clicking or searching for another country
-*/
-
 // Initialise map and current location on load in
 var map = L.map('map');
 
@@ -25,7 +9,7 @@ if (navigator.geolocation) {
 }
 
 function showPosition(position) {
-    map.setView([position.coords.latitude, position.coords.longitude], 6);
+    getPopUp(position.coords.latitude, position.coords.longitude);
 }
 
 // Preloader
@@ -37,6 +21,7 @@ $(window).on('load', function () {
     } 
 });
 
+
 // Map design
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -46,9 +31,16 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
 
+
 // Language code to language name
 const languageNames = new Intl.DisplayNames(['en'], {
     type: 'language'
+});
+
+
+// On submit does not refresh page
+$("#searchForm").submit(function (e) {
+    e.preventDefault();
 });
 
 
@@ -60,8 +52,44 @@ var lon;
 var lat;
 
 
-// Get current country based on lat/lng
-function getCountryName(lat, lng) {
+// Datalist options
+document.getElementById("countryOptions").options
+
+function getCountryOptions() {
+    $.ajax({
+        url: "libs/php/getCountrySearchOptions.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {},
+        success: function (result) {
+
+            const countries = result.data;
+            const list = document.getElementById('countryOptions');
+            countries.sort();
+
+            countries.forEach(function (item) {
+                const option = document.createElement('option');
+                option.value = item;
+                option.innerText = item;
+                list.appendChild(option);
+
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get Country Options not working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+
+};
+
+$(document).ready(function () {
+    getCountryOptions();
+});
+
+// Get current country based on lat/lng and shows pop-up
+function getPopUp(lat, lng) {
 
     $.ajax({
         url: "libs/php/getCountry.php",
@@ -116,6 +144,8 @@ function popUp() {
     getCountryInfo();
     getCountryBorders();
     getCurrentNews();
+    getNeighbours();
+    getRestInfo();
 
     document.getElementById('countryFlagImg').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
     document.getElementById('countryFlagImg2').src = `https://countryflagsapi.com/svg/${currentCountryCode}`;
@@ -125,13 +155,6 @@ function popUp() {
     document.getElementById('wikipediaLink2').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
     document.getElementById('wikipediaLink3').href = `https://en.wikipedia.org/wiki/${currentCountry}`;
 }
-
-
-
-// On submit does not refresh page
-$("#searchForm").submit(function (e) {
-    e.preventDefault();
-});
 
 
 
@@ -154,7 +177,7 @@ function getCountryInfo() {
                 const population = result['data']['geonames']['0']['population'];
                 const languages = result['data']['geonames']['0']['languages'];
                 const continent = result['data']['geonames']['0']['continentName'];
-                const surface = result['data']['geonames']['0']['areaInSqKm'];
+                let surface = result['data']['geonames']['0']['areaInSqKm'];
                 currentCurrency = result['data']['geonames']['0']['currencyCode'];
 
                 const allLanguages = languages.split(',');
@@ -171,6 +194,8 @@ function getCountryInfo() {
 
                 getExchangeRate();
                 getCurrentWeather();
+
+                surface = parseInt(surface).toLocaleString('en-GB');
 
                 document.getElementById('capitalCity').innerText = currentCapital;
                 document.getElementById('capitalCity2').innerText = currentCapital;
@@ -196,47 +221,10 @@ function getCountryInfo() {
 
 // Get Lat/Lng on click
 function onMapClick(e) {
-    getCountryName(e.latlng.lat, e.latlng.lng);
+    getPopUp(e.latlng.lat, e.latlng.lng);
 }
 
 map.on('click', onMapClick);
-
-
-// Datalist options
-document.getElementById("countryOptions").options
-
-function getCountryOptions() {
-    $.ajax({
-        url: "libs/php/getCountrySearchOptions.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {},
-        success: function (result) {
-
-            const countries = result.data;
-            const list = document.getElementById('countryOptions');
-            countries.sort();
-
-            countries.forEach(function (item) {
-                const option = document.createElement('option');
-                option.value = item;
-                option.innerText = item;
-                list.appendChild(option);
-
-            })
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Get Country Options not working")
-            console.log(textStatus)
-            console.log(errorThrown)
-        }
-    });
-
-};
-
-$(document).ready(function () {
-    getCountryOptions();
-});
 
 // When user selects a country from the list, it calls the pop-up with that country
 $("#countryOptions").change(function () {
@@ -471,6 +459,82 @@ function getWeatherForecast() {
                 document.getElementById('weatherIcon4').src = `http://openweathermap.org/img/wn/${icon4}@2x.png`;
 
             }
+        }
+    })
+}
+
+function getNeighbours() {
+    $.ajax({
+        url: "libs/php/getNeighbours.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            country: currentCountryCode,
+        },
+        success: function (result) {
+
+            if (result.status.name == "ok") {
+                let countryList = [];
+
+                result['data'].forEach(country => {
+                    const countryName = country["countryName"];
+
+                    countryList.push(countryName);
+
+                });
+                
+                document.getElementById('countryNeighbours').innerText = countryList.join(', ');
+
+                
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get neighbours isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    });
+}
+
+function getRestInfo() {
+    $.ajax({
+        url: 'libs/php/getRestInfo.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            currentCountryCode: currentCountryCode,
+        },
+        success: function(result) {
+
+            if (result.status.name == "ok") {
+
+                let nativeName = Object.values(result.data[0].name.nativeName)[0]['common'];
+                let currencySymbol = Object.values(result.data[0].currencies)[0]['symbol'];
+                let drivingSide = result.data[0].car['side'];
+
+                if (result.data[0].postalCode) {
+                    let postalCode = result.data[0].postalCode['format'];
+                    document.getElementById('postalCode').innerText = postalCode.split('|').join(', ');
+                } else {
+                    document.getElementById('postalCode').innerText = `Info not available`;
+
+                }
+
+                let domainFormat = result.data[0].tld['0'];
+
+                document.getElementById('nativeName').innerText = nativeName;
+                document.getElementById('currencySymbol').innerText = currencySymbol;
+                document.getElementById('drivingSide').innerText = drivingSide;
+                document.getElementById('domainFormat').innerText = domainFormat;
+
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get rest info isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
         }
     })
 }
