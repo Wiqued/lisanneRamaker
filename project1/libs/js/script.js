@@ -24,6 +24,7 @@ $(window).on('load', function () {
 });
 
 
+
 // Map design
 var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=e24c409ff68c47bb974a643883a6842b', {
     attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -32,6 +33,9 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 });
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
+
+// Easy Buttons sidebar
+
 
 
 // Language code to language name
@@ -115,6 +119,8 @@ function getPopUp(lat, lng) {
                     // Displays current country in select on click, and calls popup
                     $("#countryOptions").val(currentCountry).trigger('change');
 
+                    $('#newPopUp.modal-backdrop').remove();
+
                 } else {
                     document.getElementById('newPopUp').style.display = 'none';
                 }
@@ -128,9 +134,6 @@ function getPopUp(lat, lng) {
     });
 
 };
-
-
-
 
 
 var newPopUp = new bootstrap.Modal(document.getElementById('newPopUp'));
@@ -317,8 +320,8 @@ function getCurrentNews() {
                         `
                     <div>
                     <section><a class ="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
-                    <section><h3>${articleTitle}</h3></section>
-                    <section><p>${articleDescription}</p></section>
+                    <section><h3><a href="${articleLink}" target="_blank">${articleTitle}</a></h3></section>
+                    <section><p><a href="${articleLink}" target="_blank">${articleDescription}</a></p></section>
                     </div>
                     `
                     newsHTML += newsArticle;
@@ -455,13 +458,13 @@ function getWeatherForecast() {
 
                 // Icons
                 let icon2 = result.data.list[0].weather[0]['icon'];
-                document.getElementById('weatherIcon2').src = `http://openweathermap.org/img/wn/${icon2}@2x.png`;
+                document.getElementById('weatherIcon2').src = `https://openweathermap.org/img/wn/${icon2}@2x.png`;
 
                 let icon3 = result.data.list[1].weather[0]['icon'];
-                document.getElementById('weatherIcon3').src = `http://openweathermap.org/img/wn/${icon3}@2x.png`;
+                document.getElementById('weatherIcon3').src = `https://openweathermap.org/img/wn/${icon3}@2x.png`;
 
                 let icon4 = result.data.list[2].weather[0]['icon'];
-                document.getElementById('weatherIcon4').src = `http://openweathermap.org/img/wn/${icon4}@2x.png`;
+                document.getElementById('weatherIcon4').src = `https://openweathermap.org/img/wn/${icon4}@2x.png`;
 
             }
         }
@@ -583,4 +586,3 @@ $("select").on("change", function () {
     label.find(".label-desc").html(selection);
 
 });
-

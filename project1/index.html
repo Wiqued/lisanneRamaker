@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>World Map Info</title>
+  <title>Gadgeteer</title>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
@@ -16,9 +16,12 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="libs/leaflet/css/leaflet.css" />
 
+  <!-- EasyButton CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+
   <!-- My own CSS sheet -->
-  <link rel="stylesheet" href="libs/css/style.min.css">
-  <link rel="icon" href="favicon.png">
+  <link rel="stylesheet" href="libs/css/style.css">
+  <link rel="icon" href="worldfavicon.png">
 
 </head>
 
@@ -56,6 +59,7 @@
               <h2 id="countryName" class="col"></h2>
             </a>
           </div>
+
           
           <div class="col"></div>
 
@@ -170,6 +174,7 @@
     </div>
   </div>
 
+
   <!-- News -->
   <div class="modal fade" id="openNewsToggle" aria-hidden="true" aria-labelledby="openNewsToggle" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -202,8 +207,13 @@
 
         <div id="newsArticle" class="modal-body"></div>
 
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+
       </div>
     </div>
+
   </div>
 
 
@@ -297,11 +307,12 @@
   <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
 
-  <!-- Country borders json file -->
-  <script type="application/json" src="libs/json/countryBorders.geo.json"></script>
+  <!-- EasyButton JS -->
+  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
 
+  <!-- JS files -->
   <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
-  <script type="application/javascript" src="libs/js/script.min.js"></script>
+  <script type="application/javascript" src="libs/js/script.js"></script>
 
 </body>
 
