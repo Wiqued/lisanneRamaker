@@ -574,6 +574,7 @@ function getCapitalCoords() {
 
                 function onCapitalClick(e) {
                     let capitalModal = new bootstrap.Modal(document.getElementById('openCapitalToggle'));
+
                     const callingCode = result.data.results[0].annotations['callingcode'];
                     const timezone = result.data.results[0].annotations.timezone['short_name'];
                     const state = result.data.results[0].components['state'];
@@ -619,10 +620,42 @@ function getWebcam() {
         },
         success: function(result) {
 
-            if (result.status == "OK") {
+            if (result.status.name == "ok") {
+            
+                for (const webcam of result.data.result.webcams) {
 
-                // Go through ALL results and place them on the map with marker?
+                const lat = webcam.location['latitude'];
+                const lng = webcam.location['longitude'];
+                const name = webcam['title'];
+                const webcamLink = webcam.player.day.embed;
+                const webcamLinkLive = webcam.player.live.embed;
 
+                
+                function onWebcamClick() {
+                    let webcamModal = new bootstrap.Modal(document.getElementById('openWebcamToggle'));
+
+                    if (webcam.player.live == "available") {
+                        document.getElementById("webcamEmbed").src = webcamLinkLive;
+                    } else {
+                        document.getElementById("webcamEmbed").src = webcamLink;
+                    }
+
+                    
+                    document.getElementById("webcamName").innerText = name;
+                    webcamModal.show();
+                }
+
+                var redMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-video',
+                    markerColor: 'green',
+                    shape: 'square',
+                    prefix: 'fa'
+                });
+
+                let layerGroup = L.markerClusterGroup().addTo(map);
+
+                L.marker([lat, lng], {icon: redMarker}).addTo(layerGroup).on('click', onWebcamClick);
+            }
             }
 
         }

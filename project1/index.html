@@ -22,6 +22,10 @@
   <!-- Leaflet.Extra-markets CSS -->
   <link rel="stylesheet" href="libs/css/leaflet.extra-markers.min.css">
 
+  <!-- Leaflet.markercluster CSS -->
+  <link rel="stylesheet" href="libs/css/MarkerCluster.css">
+  <link rel="stylesheet" href="libs/css/MarkerCluster.Default.css">
+
   <!-- My own CSS sheet -->
   <link rel="stylesheet" href="libs/css/style.css">
   <link rel="icon" href="worldfavicon.png">
@@ -309,8 +313,8 @@
     </div>
 
     <!-- Webcams -->
-    <div class="modal fade" id="openCapitalToggle" aria-hidden="true" aria-labelledby="openCapitalToggle" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal fade" id="openWebcamToggle" aria-hidden="true" aria-labelledby="openWebcamToggle" tabindex="-1">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
   
           <div class="modal-header">
@@ -325,7 +329,7 @@
           <div class="modal-body">
   
           <div class="row">
-            <iframe id="webcamEmbed" src="" frameborder="0"></iframe>
+            <iframe id="webcamEmbed" src="" frameborder="0" title="Live webcam footage of location"></iframe>
           </div>
   
         </div>
@@ -349,8 +353,12 @@
   <!-- Leaflet.Extra-markets JS -->
   <script src="libs/js/leaflet.extra-markers.min.js"></script>
 
+  <!-- Leaflet.markercluster JS -->
+  <script src="libs/js/leaflet.markercluster.js"></script>
+
   <!-- Fontawesome JS -->
   <script src="https://kit.fontawesome.com/7a7804f9b6.js" crossorigin="anonymous"></script>
+
 
   <!-- JS files -->
   <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>
