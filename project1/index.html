@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gadgeteer</title>
+  <title>Gazetteer</title>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
@@ -17,7 +17,10 @@
   <link rel="stylesheet" href="libs/leaflet/css/leaflet.css" />
 
   <!-- EasyButton CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+  <link rel="stylesheet" href="libs/css/easy-button.css">
+
+  <!-- Leaflet.Extra-markets CSS -->
+  <link rel="stylesheet" href="libs/css/leaflet.extra-markers.min.css">
 
   <!-- My own CSS sheet -->
   <link rel="stylesheet" href="libs/css/style.css">
@@ -50,27 +53,14 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <div id="countryFlag" class="col">
+          <div id="countryFlag" class="col-1">
             <img id="countryFlagImg" src="" alt="Country Flag">
           </div>
 
-          <div class="col-6">
+          <div class="col-10">
             <a class="text-decoration-none" id="wikipediaLink" href="" target="_blank">
               <h2 id="countryName" class="col"></h2>
             </a>
-          </div>
-
-          
-          <div class="col"></div>
-
-          <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
-              alt="News Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
-              alt="Weather Icon">
           </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -175,75 +165,21 @@
   </div>
 
 
-  <!-- News -->
-  <div class="modal fade" id="openNewsToggle" aria-hidden="true" aria-labelledby="openNewsToggle" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <div id="countryFlag2" class="col">
-            <img id="countryFlagImg2" src="" alt="Country Flag">
-          </div>
-
-          <div class="col-6">
-            <a class="text-decoration-none" id="wikipediaLink2" href="" target="_blank">
-              <h2 id="countryName2" class="col"></h2>
-            </a>
-          </div>
-
-          <div class="col"></div>
-
-          <div class="col">
-            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#openWeatherToggle" data-bs-toggle="modal" src="libs/images/weather_icon.svg"
-              alt="Weather Icon">
-          </div>
-
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div id="newsArticle" class="modal-body"></div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-
-
   <!-- Weather -->
   <div class="modal fade" id="openWeatherToggle" aria-hidden="true" aria-labelledby="openWeatherToggle" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
 
         <div class="modal-header">
-          <div id="countryFlag3" class="col">
+          <div id="countryFlag3" class="col-1">
             <img id="countryFlagImg3" src="" alt="Country Flag">
           </div>
 
-          <div class="col-6">
+          <div class="col-10">
             <a class="text-decoration-none" id="wikipediaLink3" href="" target="_blank">
               <h2 id="countryName3" class="col"></h2>
             </a>
           </div>
-
-          <div class="col"></div>
-          
-          <div class="col">
-            <img data-bs-target="#newPopUp" data-bs-toggle="modal" src="libs/images/home_icon.svg" alt="Home Icon">
-          </div>
-
-          <div class="col">
-            <img data-bs-target="#openNewsToggle" data-bs-toggle="modal" src="libs/images/news_icon.svg"
-              alt="News Icon">
-          </div>
-
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -297,7 +233,107 @@
       </div>
     </div>
   </div>
-  </div>
+
+
+    <!-- News -->
+    <div class="modal fade" id="openNewsToggle" aria-hidden="true" aria-labelledby="openNewsToggle" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+  
+          <div class="modal-header">
+            <div id="countryFlag2" class="col-1">
+              <img id="countryFlagImg2" src="" alt="Country Flag">
+            </div>
+  
+            <div class="col-10">
+              <a class="text-decoration-none" id="wikipediaLink2" href="" target="_blank">
+                <h2 id="countryName2" class="col"></h2>
+              </a>
+            </div>
+  
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+  
+          <div id="newsArticle" class="modal-body"></div>
+  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+
+    <!-- Capital Cities -->
+    <div class="modal fade" id="openCapitalToggle" aria-hidden="true" aria-labelledby="openCapitalToggle" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+  
+          <div class="modal-header">
+
+            <div class="col">
+                <h2 id="cityCapital" class="col"></h2>
+            </div>
+  
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+  
+          <div class="row bg-secondary text-light">
+            <div class="col">
+              Calling code:
+            </div>
+            <div id="callingCode" class="col"></div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              Timezone:
+            </div>
+            <div id="timezone" class="col"></div>
+          </div>
+
+          <div class="row bg-secondary text-light">
+            <div class="col">
+              State:
+            </div>
+            <div id="capitalState" class="col"></div>
+          </div>
+  
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+
+    <!-- Webcams -->
+    <div class="modal fade" id="openCapitalToggle" aria-hidden="true" aria-labelledby="openCapitalToggle" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+  
+          <div class="modal-header">
+
+            <div class="col">
+                <h2 id="webcamName" class="col"></h2>
+            </div>
+  
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+  
+          <div class="row">
+            <iframe id="webcamEmbed" src="" frameborder="0"></iframe>
+          </div>
+  
+        </div>
+
+      </div>
+
+    </div>
+    </div>
 
   <!-- Leaflet JS -->
   <script src="libs/leaflet/js/leaflet.js"></script>
@@ -308,7 +344,13 @@
   <script src="libs/bootstrap/js/bootstrap.min.js"></script>
 
   <!-- EasyButton JS -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+  <script src="libs/js/easy-button.js"></script>
+
+  <!-- Leaflet.Extra-markets JS -->
+  <script src="libs/js/leaflet.extra-markers.min.js"></script>
+
+  <!-- Fontawesome JS -->
+  <script src="https://kit.fontawesome.com/7a7804f9b6.js" crossorigin="anonymous"></script>
 
   <!-- JS files -->
   <script type="application/javascript" src="libs/js/jquery-2.2.3.min.js"></script>

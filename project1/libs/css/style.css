@@ -100,8 +100,9 @@ h2#currentTemp {
 
 h2#countryName,
 h2#countryName2,
-h2#countryName3 {
-    margin-left: 10px;
+h2#countryName3,
+h2#cityCapital {
+    text-align: center;
     margin-top: auto;
     margin-bottom: auto;
 }

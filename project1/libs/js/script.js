@@ -34,10 +34,6 @@ var Thunderforest_Neighbourhood = L.tileLayer('https://{s}.tile.thunderforest.co
 
 L.tileLayer.provider('Thunderforest.Landscape', { apikey: 'e24c409ff68c47bb974a643883a6842b' }).addTo(map);
 
-// Easy Buttons sidebar
-
-
-
 // Language code to language name
 const languageNames = new Intl.DisplayNames(['en'], {
     type: 'language'
@@ -136,6 +132,17 @@ function getPopUp(lat, lng) {
 };
 
 
+// Buttons side bar modal
+L.easyButton( 'fa-regular fa-sun', function(){
+    let weatherModal = new bootstrap.Modal(document.getElementById('openWeatherToggle'));
+    weatherModal.show();
+}).addTo(map);
+
+L.easyButton( 'fa-regular fa-newspaper', function(){
+    let newsModal = new bootstrap.Modal(document.getElementById('openNewsToggle'));
+    newsModal.show();
+}).addTo(map);
+
 var newPopUp = new bootstrap.Modal(document.getElementById('newPopUp'));
 
 
@@ -201,6 +208,8 @@ function getCountryInfo() {
 
                 getExchangeRate();
                 getCurrentWeather();
+                getCapitalCoords();
+                getWebcam();
 
                 surface = parseInt(surface).toLocaleString('en-GB');
 
@@ -319,7 +328,7 @@ function getCurrentNews() {
                     const newsArticle =
                         `
                     <div>
-                    <section><a class ="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
+                    <section><a class="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
                     <section><h3><a href="${articleLink}" target="_blank">${articleTitle}</a></h3></section>
                     <section><p><a href="${articleLink}" target="_blank">${articleDescription}</a></p></section>
                     </div>
@@ -354,10 +363,10 @@ function getCountryBorders() {
                 clearMap();
 
                 const countryBorders = result.data;
-                const polygon = L.polygon(countryBorders, { color: 'pink' }).addTo(map);
+                const geojson = L.geoJSON(countryBorders, { color: 'pink' }).addTo(map);
 
-                // zoom the map to the polygon
-                map.fitBounds(polygon.getBounds());
+                // zoom the map to the geoJSON
+                map.fitBounds(geojson.getBounds());
 
             }
         },
@@ -546,6 +555,81 @@ function getRestInfo() {
         }
     })
 }
+
+// Takes the currentCapital and returns its coordinates, using it with leaflet.extra-markers
+function getCapitalCoords() {
+    $.ajax({
+        url: 'libs/php/getCapitalCoords.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            currentCapital: currentCapital,
+        },
+        success: function(result) {
+
+            if (result.status.name == "ok" ) {
+
+                const lat = result.data.results[0].geometry['lat'];
+                const lng = result.data.results[0].geometry['lng'];
+
+                function onCapitalClick(e) {
+                    let capitalModal = new bootstrap.Modal(document.getElementById('openCapitalToggle'));
+                    const callingCode = result.data.results[0].annotations['callingcode'];
+                    const timezone = result.data.results[0].annotations.timezone['short_name'];
+                    const state = result.data.results[0].components['state'];
+                    capitalModal.show();
+                
+                    document.getElementById('cityCapital').innerText = currentCapital;
+                    document.getElementById('callingCode').innerText = `+${callingCode}`;
+                    document.getElementById('timezone').innerText = timezone;
+                    document.getElementById('capitalState').innerText = state;
+                }
+
+                var redMarker = L.ExtraMarkers.icon({
+                    icon: 'fa-thumbtack',
+                    markerColor: 'cyan',
+                    shape: 'circle',
+                    prefix: 'fa'
+                });
+
+                let layerGroup = L.layerGroup().addTo(map);
+
+                L.marker([lat, lng], {icon: redMarker}).addTo(layerGroup).on('click', onCapitalClick);
+
+                // How to delete layers after clicking on another country?
+                // layerGroup.clearLayers();
+
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Get capital coords isn't working")
+            console.log(textStatus)
+            console.log(errorThrown)
+        }
+    })
+}
+
+function getWebcam() {
+    $.ajax({
+        url: 'libs/php/getWebcam.php',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            currentCountryCode: currentCountryCode,
+        },
+        success: function(result) {
+
+            if (result.status == "OK") {
+
+                // Go through ALL results and place them on the map with marker?
+
+            }
+
+        }
+    })
+}
+
+   
 
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
