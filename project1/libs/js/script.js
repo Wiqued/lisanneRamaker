@@ -15,12 +15,12 @@ function showPosition(position) {
 }
 
 // Preloader
-$(window).on('load', function () { 
-    if ($('#preloader').length) { 
-        $('#preloader').delay(1000).fadeOut('slow', function () { 
-            $(this).remove(); 
-        }); 
-    } 
+$(window).on('load', function () {
+    if ($('#preloader').length) {
+        $('#preloader').delay(1000).fadeOut('slow', function () {
+            $(this).remove();
+        });
+    }
 });
 
 
@@ -54,26 +54,28 @@ let lon;
 let lat;
 const webcamMarkers = L.markerClusterGroup({
     showCoverageOnHover: false,
-    iconCreateFunction: function(cluster) {
+    iconCreateFunction: function (cluster) {
         var childCount = cluster.getChildCount();
 
-		var c = ' webcamCluster';
+        var c = ' webcamCluster';
 
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });	}
-    }).addTo(map);
+        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+    }
+}).addTo(map);
 
 const airportMarkers = L.markerClusterGroup({
     showCoverageOnHover: false,
-    iconCreateFunction: function(cluster) {
+    iconCreateFunction: function (cluster) {
         var childCount = cluster.getChildCount();
 
-		var c = ' airportCluster';
+        var c = ' airportCluster';
 
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });	}
-    }).addTo(map);
+        return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+    }
+}).addTo(map);
 
 const capitalLayerGroup = L.layerGroup().addTo(map);
-    
+
 
 // Datalist options
 document.getElementById("countryOptions").options
@@ -154,12 +156,17 @@ function getPopUp(lat, lng) {
 
 
 // Buttons side bar modal
-L.easyButton( 'fa-regular fa-sun', function(){
+L.easyButton('fa-solid fa-circle-info', function () {
+    let infoModal = new bootstrap.Modal(document.getElementById('newPopUp'));
+    infoModal.show();
+}).addTo(map);
+
+L.easyButton('fa-regular fa-sun', function () {
     let weatherModal = new bootstrap.Modal(document.getElementById('openWeatherToggle'));
     weatherModal.show();
 }).addTo(map);
 
-L.easyButton( 'fa-regular fa-newspaper', function(){
+L.easyButton('fa-regular fa-newspaper', function () {
     let newsModal = new bootstrap.Modal(document.getElementById('openNewsToggle'));
     newsModal.show();
 }).addTo(map);
@@ -521,10 +528,10 @@ function getNeighbours() {
                     countryList.push(countryName);
 
                 });
-                
+
                 document.getElementById('countryNeighbours').innerText = countryList.join(', ');
 
-                
+
             }
 
         },
@@ -544,7 +551,7 @@ function getRestInfo() {
         data: {
             currentCountryCode: currentCountryCode,
         },
-        success: function(result) {
+        success: function (result) {
 
             if (result.status.name == "ok") {
 
@@ -587,9 +594,9 @@ function getCapitalCoords() {
         data: {
             currentCapital: currentCapital,
         },
-        success: function(result) {
+        success: function (result) {
 
-            if (result.status.name == "ok" ) {
+            if (result.status.name == "ok") {
 
                 const lat = result.data.results[0].geometry['lat'];
                 const lng = result.data.results[0].geometry['lng'];
@@ -617,9 +624,9 @@ function getCapitalCoords() {
                     const whatwords = result.data.results[0].annotations.what3words['words'];
 
 
-                    
+
                     capitalModal.show();
-                
+
                     document.getElementById('cityCapital').innerText = currentCapital;
                     document.getElementById('callingCode').innerText = `+${callingCode}`;
                     document.getElementById('timezone').innerText = timezone;
@@ -637,7 +644,7 @@ function getCapitalCoords() {
                     svg: true
                 });
 
-                L.marker([lat, lng], {icon: redMarker}).addTo(capitalLayerGroup).on('click', onCapitalClick);
+                L.marker([lat, lng], { icon: redMarker }).addTo(capitalLayerGroup).on('click', onCapitalClick);
 
                 // How to delete layers after clicking on another country?
                 // layerGroup.clearLayers();
@@ -660,8 +667,8 @@ function getWebcam() {
         data: {
             currentCountryCode: currentCountryCode,
         },
-        success: function(result) {
-            
+        success: function (result) {
+
 
             if (result.status.name == "ok") {
 
@@ -673,7 +680,7 @@ function getWebcam() {
                     const name = webcam['title'];
                     const webcamLink = webcam.player.day.embed;
                     const webcamLinkLive = webcam.player.live.embed;
-                    
+
                     function onWebcamClick() {
                         let webcamModal = new bootstrap.Modal(document.getElementById('openWebcamToggle'));
 
@@ -683,10 +690,10 @@ function getWebcam() {
                             document.getElementById("webcamEmbed").src = webcamLink;
                         }
 
-                        
+
                         document.getElementById("webcamName").innerText = name;
                         webcamModal.show();
-                        
+
                     }
 
                     var redMarker = L.ExtraMarkers.icon({
@@ -697,7 +704,7 @@ function getWebcam() {
                         svg: true
                     });
 
-                    L.marker([lat, lng], {icon: redMarker}).addTo(webcamMarkers).on('click', onWebcamClick);
+                    L.marker([lat, lng], { icon: redMarker }).addTo(webcamMarkers).on('click', onWebcamClick);
 
                 }
             }
@@ -715,9 +722,9 @@ function getAirports() {
         data: {
             currentCountryCode: currentCountryCode,
         },
-        success: function(result) {
+        success: function (result) {
 
-            if (result.status.name == 'ok' ) {
+            if (result.status.name == 'ok') {
 
 
                 for (const airport of result.data.response) {
@@ -727,7 +734,7 @@ function getAirports() {
                     const name = airport['name'];
                     const icaoCode = airport['icao_code'];
                     const iataCode = airport['iata_code'];
-                
+
 
                     var redMarker = L.ExtraMarkers.icon({
                         icon: 'fa-plane',
@@ -737,21 +744,21 @@ function getAirports() {
                         svg: true
                     });
 
-                    if (iataCode == undefined ) {
-                        L.marker([lat, lng], {icon: redMarker}).addTo(airportMarkers).bindPopup(`${name}. ICAO Code: ${icaoCode}`);       
+                    if (iataCode == undefined) {
+                        L.marker([lat, lng], { icon: redMarker }).addTo(airportMarkers).bindPopup(`${name}. <br> ICAO Code: ${icaoCode}`);
                     } else {
-                        L.marker([lat, lng], {icon: redMarker}).addTo(airportMarkers).bindPopup(`${iataCode} | ${name}. <br> ICAO Code: ${icaoCode}`);       
+                        L.marker([lat, lng], { icon: redMarker }).addTo(airportMarkers).bindPopup(`${iataCode} | ${name}. <br> ICAO Code: ${icaoCode}`);
                     }
 
-                   
-              }
+
+                }
             }
 
         }
     })
 }
 
-   
+
 
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
