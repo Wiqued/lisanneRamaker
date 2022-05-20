@@ -1,5 +1,5 @@
 // Initialise map and current location on load in
-var map = L.map('map');
+var map = L.map('map', doubleClickZoom = false);
 
 map.setView([52.132, 5.291], 6);
 
@@ -45,14 +45,35 @@ $("#searchForm").submit(function (e) {
     e.preventDefault();
 });
 
+// Some global variables
+let currentCountry;
+let currentCountryCode;
+let currentCurrency;
+let currentCapital;
+let lon;
+let lat;
+const webcamMarkers = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    iconCreateFunction: function(cluster) {
+        var childCount = cluster.getChildCount();
 
-var currentCountry;
-var currentCountryCode;
-var currentCurrency;
-var currentCapital;
-var lon;
-var lat;
+		var c = ' webcamCluster';
 
+		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });	}
+    }).addTo(map);
+
+const airportMarkers = L.markerClusterGroup({
+    showCoverageOnHover: false,
+    iconCreateFunction: function(cluster) {
+        var childCount = cluster.getChildCount();
+
+		var c = ' airportCluster';
+
+		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });	}
+    }).addTo(map);
+
+const capitalLayerGroup = L.layerGroup().addTo(map);
+    
 
 // Datalist options
 document.getElementById("countryOptions").options
@@ -210,6 +231,7 @@ function getCountryInfo() {
                 getCurrentWeather();
                 getCapitalCoords();
                 getWebcam();
+                getAirports();
 
                 surface = parseInt(surface).toLocaleString('en-GB');
 
@@ -328,9 +350,9 @@ function getCurrentNews() {
                     const newsArticle =
                         `
                     <div>
-                    <section><a class="text-decoration-none" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
-                    <section><h3><a href="${articleLink}" target="_blank">${articleTitle}</a></h3></section>
-                    <section><p><a href="${articleLink}" target="_blank">${articleDescription}</a></p></section>
+                    <section><a class="article" href="${articleLink}" target="_blank"><img src="${articleImage}" alt=""></a></section>
+                    <section><h3><a class="article" href="${articleLink}" target="_blank">${articleTitle}</a></h3></section>
+                    <section><p><a class="article" href="${articleLink}" target="_blank">${articleDescription}</a></p></section>
                     </div>
                     `
                     newsHTML += newsArticle;
@@ -363,7 +385,7 @@ function getCountryBorders() {
                 clearMap();
 
                 const countryBorders = result.data;
-                const geojson = L.geoJSON(countryBorders, { color: 'pink' }).addTo(map);
+                const geojson = L.geoJSON(countryBorders, { color: '#588157' }).addTo(map);
 
                 // zoom the map to the geoJSON
                 map.fitBounds(geojson.getBounds());
@@ -399,7 +421,7 @@ function getCurrentWeather() {
                 document.getElementById('currentTemp').innerText = `${Math.round(currentTemp)}°C`;
 
                 let icon1 = result.data.weather[0]['icon'];
-                document.getElementById('weatherIcon1').src = `http://openweathermap.org/img/wn/${icon1}@2x.png`;
+                document.getElementById('weatherIcon1').src = `https://openweathermap.org/img/wn/${icon1}@2x.png`;
 
                 getWeatherForecast();
 
@@ -578,24 +600,44 @@ function getCapitalCoords() {
                     const callingCode = result.data.results[0].annotations['callingcode'];
                     const timezone = result.data.results[0].annotations.timezone['short_name'];
                     const state = result.data.results[0].components['state'];
+
+                    let sunUpTime = result.data.results[0].annotations.sun.rise['civil'];
+                    let sunDownTime = result.data.results[0].annotations.sun.set['civil'];
+
+                    // Sunrise time
+                    let sunUp = new Date(sunUpTime * 1000);
+                    let sunUpHour = sunUp.getHours();
+                    let sunrise = `${sunUpHour}:00`;
+
+                    // Sunset time
+                    let sunDown = new Date(sunDownTime * 1000);
+                    let sunDownHour = sunDown.getHours();
+                    let sunset = `${sunDownHour}:00`;
+
+                    const whatwords = result.data.results[0].annotations.what3words['words'];
+
+
+                    
                     capitalModal.show();
                 
                     document.getElementById('cityCapital').innerText = currentCapital;
                     document.getElementById('callingCode').innerText = `+${callingCode}`;
                     document.getElementById('timezone').innerText = timezone;
                     document.getElementById('capitalState').innerText = state;
+                    document.getElementById('sunrise').innerText = sunrise;
+                    document.getElementById('sunset').innerText = sunset;
+                    document.getElementById('whatwords').innerText = whatwords;
                 }
 
                 var redMarker = L.ExtraMarkers.icon({
                     icon: 'fa-thumbtack',
-                    markerColor: 'cyan',
+                    markerColor: '#e76f51',
                     shape: 'circle',
-                    prefix: 'fa'
+                    prefix: 'fa',
+                    svg: true
                 });
 
-                let layerGroup = L.layerGroup().addTo(map);
-
-                L.marker([lat, lng], {icon: redMarker}).addTo(layerGroup).on('click', onCapitalClick);
+                L.marker([lat, lng], {icon: redMarker}).addTo(capitalLayerGroup).on('click', onCapitalClick);
 
                 // How to delete layers after clicking on another country?
                 // layerGroup.clearLayers();
@@ -619,43 +661,90 @@ function getWebcam() {
             currentCountryCode: currentCountryCode,
         },
         success: function(result) {
+            
 
             if (result.status.name == "ok") {
-            
+
+
                 for (const webcam of result.data.result.webcams) {
 
-                const lat = webcam.location['latitude'];
-                const lng = webcam.location['longitude'];
-                const name = webcam['title'];
-                const webcamLink = webcam.player.day.embed;
-                const webcamLinkLive = webcam.player.live.embed;
+                    const lat = webcam.location['latitude'];
+                    const lng = webcam.location['longitude'];
+                    const name = webcam['title'];
+                    const webcamLink = webcam.player.day.embed;
+                    const webcamLinkLive = webcam.player.live.embed;
+                    
+                    function onWebcamClick() {
+                        let webcamModal = new bootstrap.Modal(document.getElementById('openWebcamToggle'));
 
-                
-                function onWebcamClick() {
-                    let webcamModal = new bootstrap.Modal(document.getElementById('openWebcamToggle'));
+                        if (webcam.player.live == "available") {
+                            document.getElementById("webcamEmbed").src = webcamLinkLive;
+                        } else {
+                            document.getElementById("webcamEmbed").src = webcamLink;
+                        }
 
-                    if (webcam.player.live == "available") {
-                        document.getElementById("webcamEmbed").src = webcamLinkLive;
-                    } else {
-                        document.getElementById("webcamEmbed").src = webcamLink;
+                        
+                        document.getElementById("webcamName").innerText = name;
+                        webcamModal.show();
+                        
                     }
 
-                    
-                    document.getElementById("webcamName").innerText = name;
-                    webcamModal.show();
+                    var redMarker = L.ExtraMarkers.icon({
+                        icon: 'fa-video',
+                        markerColor: '#2a9d8f',
+                        shape: 'square',
+                        prefix: 'fa',
+                        svg: true
+                    });
+
+                    L.marker([lat, lng], {icon: redMarker}).addTo(webcamMarkers).on('click', onWebcamClick);
+
                 }
-
-                var redMarker = L.ExtraMarkers.icon({
-                    icon: 'fa-video',
-                    markerColor: 'green',
-                    shape: 'square',
-                    prefix: 'fa'
-                });
-
-                let layerGroup = L.markerClusterGroup().addTo(map);
-
-                L.marker([lat, lng], {icon: redMarker}).addTo(layerGroup).on('click', onWebcamClick);
             }
+
+        }
+    })
+}
+
+
+function getAirports() {
+    $.ajax({
+        url: 'libs/php/getAirports.php',
+        type: 'GET',
+        dataType: 'json',
+        data: {
+            currentCountryCode: currentCountryCode,
+        },
+        success: function(result) {
+
+            if (result.status.name == 'ok' ) {
+
+
+                for (const airport of result.data.response) {
+
+                    const lat = airport['lat'];
+                    const lng = airport['lng'];
+                    const name = airport['name'];
+                    const icaoCode = airport['icao_code'];
+                    const iataCode = airport['iata_code'];
+                
+
+                    var redMarker = L.ExtraMarkers.icon({
+                        icon: 'fa-plane',
+                        markerColor: '#e9c46a',
+                        shape: 'circle',
+                        prefix: 'fa',
+                        svg: true
+                    });
+
+                    if (iataCode == undefined ) {
+                        L.marker([lat, lng], {icon: redMarker}).addTo(airportMarkers).bindPopup(`${name}. ICAO Code: ${icaoCode}`);       
+                    } else {
+                        L.marker([lat, lng], {icon: redMarker}).addTo(airportMarkers).bindPopup(`${iataCode} | ${name}. <br> ICAO Code: ${icaoCode}`);       
+                    }
+
+                   
+              }
             }
 
         }
@@ -667,6 +756,9 @@ function getWebcam() {
 // Clears the polylines from the map when clicking or searching for another country
 // Copied and modified from https://stackoverflow.com/questions/14585688/clear-all-polylines-from-leaflet-map
 function clearMap() {
+    airportMarkers.clearLayers();
+    webcamMarkers.clearLayers();
+    capitalLayerGroup.clearLayers();
     for (i in map._layers) {
         if (map._layers[i]._path != undefined) {
             try {

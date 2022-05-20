@@ -118,6 +118,31 @@ h2#cityCapital {
     text-transform: capitalize;
 }
 
+a.article {
+    text-decoration: none;
+    color: black;
+}
+
+iframe#webcamEmbed {
+    height: 200px;
+}
+
+@media only screen and (min-width: 768px) {
+    iframe#webcamEmbed {
+        height: 400px;
+    }
+}
+
+.airportCluster {
+    background-color: #e9c46a;
+    color: black;
+}
+
+.webcamCluster {
+    background-color: #2a9d8f;
+    color: white;
+}
+
 .modal-backdrop {
     background-color: transparent;
  }
