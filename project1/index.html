@@ -37,19 +37,21 @@
   <div id="map"></div>
 
   <!-- Dropdown menu. Copied and modified from https://codepen.io/PeterGeller/pen/nYrXKd-->
-  <form action="#">
+  <div id="selectForm">
+    <form action="#">
 
-    <div class="select-box">
+      <div class="select-box">
 
-      <label for="countryOptions" class="label countryOptions"><span class="label-desc">Choose your country</span>
-      </label>
-      <select id="countryOptions" class="select">
-        <option value="" disabled selected hidden>Select a country</option>
-      </select>
+        <label for="countryOptions" class="label countryOptions"><span class="label-desc">Choose your country</span>
+        </label>
+        <select id="countryOptions" class="select">
+          <option value="" disabled selected hidden>Select a country</option>
+        </select>
 
-    </div>
+      </div>
 
-  </form>
+    </form>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="newPopUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

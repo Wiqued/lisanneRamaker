@@ -147,12 +147,27 @@ iframe#webcamEmbed {
     background-color: transparent;
  }
 
+
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+div#selectForm {
+    width: 100%;
+    align-items: center;
+}
+
+form {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 body {
   background: #ffffff; 
   color: #414141;
   font: 400 17px/2em 'Source Sans Pro', sans-serif;
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .select-box {
@@ -160,8 +175,7 @@ body {
   position : relative;
   max-width:  15em;
   margin: 1em auto;
-
-  width: 100%;
+  width: 90%;
 }
 
 .select,
@@ -172,7 +186,7 @@ body {
 }
 
 .select {
-  width: 100%;
+  width: 90%;
   position: absolute;
   top: 0;
   padding: 5px 0;
