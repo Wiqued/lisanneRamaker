@@ -323,11 +323,6 @@ function getExchangeRate() {
 
             document.getElementById("exchangeRate").innerText = currencyValue;
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Get exchange rate isn't working")
-            console.log(textStatus)
-            console.log(errorThrown)
         }
     });
 }
