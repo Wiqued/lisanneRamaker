@@ -1,0 +1,23 @@
+img#profilePicture,
+img#editButton {
+    width: 25px;
+    height: 25px;
+}
+
+img#profilePicture2 {
+    width: 150px;
+    height: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a:hover {
+    color: orange;
+}
