@@ -21,3 +21,15 @@ ul {
 a:hover {
     color: orange;
 }
+
+div#employeeProfile {
+    display: none;
+}
+
+div#departments {
+    display: none;
+}
+
+div#locations {
+    display: none;
+}
