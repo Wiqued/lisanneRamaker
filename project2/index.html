@@ -19,7 +19,7 @@
 <body>
 
     <!-- Nav bar -->
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-sm bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Directory</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,47 +53,49 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
-        <a href="#employeeProfile">
-        <ul class="list-group list-group-horizontal">
-            <li class="list-group-item"><img id="profilePicture" src="libs/images/smiley.png" alt="Profile picture"></li>
-            <li class="list-group-item">Persons name</li>
-            <li class="list-group-item">Department</li>
-            <li class="list-group-item">Location</li>
-        </ul>
-        </a>
+        <div class="template">
+          <div id="listProfile">
+            <a href="#employeeProfile">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item listProfilePic"><img id="profilePicture" src="libs/images/smiley.png" alt="Profile picture"></li>
+                <li class="list-group-item listName"></li>
+                <li class="list-group-item listDepartment"></li>
+                <li class="list-group-item listLocation"></li>
+            </ul>
+            </a>
+          </div>
+        </div>
       </div>
 
       <!-- Individual person page for editing -->
       <div id="employeeProfile">
         <img id="profilePicture2" src="libs/images/smiley.png" alt="">
-        <h2 class="text-center">Persons name</h2>
+        <h2 id="employeeName" class="text-center"></h2>
 
         <div class="row">
             <div class="col text-center">Department</div>
-            <div class="col text-center">Marketing</div>
+            <div id=employeeDepartment class="col text-center"></div>
         </div>
 
         <div class="row">
             <div class="col text-center">Location</div>
-            <div class="col text-center">London</div>
+            <div id="employeeLocation" class="col text-center"></div>
         </div>
 
         <div class="row">
             <div class="col text-center">Email</div>
-            <div class="col text-center">rheffron0@ibm.com</div>
+            <div id="employeeEmail" class="col text-center"></div>
         </div>
+        <button type="button" class="btn btn-outline-primary">Edit</button>
     </div>
 
     <!-- Departments page -->
     <div id="departments">
         <h2 class="text-center">Departments</h2>
         <ul class="list-group">
-            <li class="list-group-item">Human Resources</li>
-            <li class="list-group-item">2</li>
-            <li class="list-group-item">3</li>
-            <li class="list-group-item">4</li>
-            <li class="list-group-item">etc</li>
-          </ul>
+            <li class="list-group-item"></li>
+        </ul>
+        <button type="button" class="btn btn-outline-primary">Edit</button>
     </div>
 
     <!-- Locations page -->
@@ -106,6 +108,7 @@
             <li class="list-group-item">4</li>
             <li class="list-group-item">etc</li>
           </ul>
+          <button type="button" class="btn btn-outline-primary">Edit</button>
     </div>
 
 

@@ -33,3 +33,7 @@ div#departments {
 div#locations {
     display: none;
 }
+
+div.template {
+    display: none;
+}
