@@ -1,10 +1,10 @@
 <?php
 
 	// example use from browser
-	// http://localhost/project2/libs/php/getDepartmentByID.php?id=<id>
+	// http://localhost/project2/libs/php/getAllLocations.php
 
 	// remove next two lines for production	
-
+	
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
@@ -23,40 +23,36 @@
 		$output['status']['description'] = "database unavailable";
 		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 		$output['data'] = [];
-		
+
 		mysqli_close($conn);
 
 		echo json_encode($output);
-		
+
 		exit;
 
 	}	
 
-	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
-	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
+	// SQL does not accept parameters and so is not prepared
 
-	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE id =  ?');
+	$query = 'SELECT id, name FROM location';
 
-	$query->bind_param("i", $_REQUEST['id']);
-
-	$query->execute();
+	$result = $conn->query($query);
 	
-	if (false === $query) {
+	if (!$result) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
 		$output['data'] = [];
 
-		echo json_encode($output); 
-	
 		mysqli_close($conn);
+
+		echo json_encode($output); 
+
 		exit;
 
 	}
-
-	$result = $query->get_result();
-
+   
    	$data = [];
 
 	while ($row = mysqli_fetch_assoc($result)) {
@@ -70,9 +66,9 @@
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 	$output['data'] = $data;
+	
+	mysqli_close($conn);
 
 	echo json_encode($output); 
-
-	mysqli_close($conn);
 
 ?>

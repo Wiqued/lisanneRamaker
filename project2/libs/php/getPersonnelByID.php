@@ -1,7 +1,7 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/getPersonnelByID.php?id=<id>
+	// http://localhost/project2/libs/php/getPersonnelByID.php?id=<id>
 
 	// remove next two lines for production
 	
@@ -35,7 +35,7 @@
 	// first query - SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = $conn->prepare('SELECT * from personnel WHERE id = ?');
+	$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE p.id = ? ORDER BY p.lastName, p.firstName, d.name, l.name');
 
 	$query->bind_param("i", $_REQUEST['id']);
 
@@ -68,7 +68,7 @@
 
 	// second query - does not accept parameters and so is not prepared
 
-	$query = 'SELECT id, name from department ORDER BY name';
+	$query = 'SELECT id, name, locationID from department ORDER BY name';
 
 	$result = $conn->query($query);
 	
@@ -105,5 +105,5 @@
 	mysqli_close($conn);
 
 	echo json_encode($output); 
-
+	
 ?>
