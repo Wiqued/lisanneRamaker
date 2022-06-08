@@ -12,9 +12,12 @@ function showAll() {
     document.getElementById("locationsPage").style.display = "none";
     document.getElementById("createEmployee").style.display = "none";
     document.getElementById("createDepartment").style.display = "none";
+    document.getElementById("createLocation").style.display = "none";
 
 }
 
+
+// Show all sorts of pages
 $("#employeeEntry").click(function() {
     showEmployeeProfile();
 });
@@ -23,6 +26,7 @@ $("#navAll").click(function() {
     showAll();
     document.getElementById("createEmployeeButton").innerHTML = "Add employee";
     document.getElementById("createDepartmentButton").innerHTML = "Add department";
+    document.getElementById("createLocationButton").innerHTML = "Add location";
 
 });
 
@@ -30,14 +34,18 @@ $("#navDepartments").click(function() {
     showDepartments();
     document.getElementById("createEmployeeButton").innerHTML = "Add employee";
     document.getElementById("createDepartmentButton").innerHTML = "Add department";
+    document.getElementById("createLocationButton").innerHTML = "Add location";
 });
 
 $("#navLocations").click(function() {
     showLocations();
     document.getElementById("createEmployeeButton").innerHTML = "Add employee";
     document.getElementById("createDepartmentButton").innerHTML = "Add department";
+    document.getElementById("createLocationButton").innerHTML = "Add location";
 });
 
+
+// Delete and create new employees
 $("#deleteEmployee").click(function() {
     if (confirm('Are you sure you want to delete this person?')) {
         deleteEmployee(currentEmployeeID);
@@ -54,15 +62,26 @@ $("#createEmployeeButton").click(function() {
 
     let form = document.getElementById("createEmployee")
     let button = document.getElementById("createEmployeeButton");
+    getDepartmentList();
 
-    if (form.style.display == "none") {
-        button.innerHTML = "Hide";
-        form.style.display = "block";
-    } else {
+    if (form.style.display == "block") {
         button.innerHTML = "Add employee";
         form.style.display = "none";
+    } else {
+        button.innerHTML = "Hide";
+        form.style.display = "block";
     }
-})
+
+});
+
+
+// Delete and create new departments
+$("#deleteDepartment").click(function() {
+    if (confirm('Are you sure you want to delete this department?')) {
+        // Add dependencies 
+        deleteDepartment();
+    }
+});
 
 $("#formDepartment").submit(function (e) {
     e.preventDefault();
@@ -74,17 +93,48 @@ $("#createDepartmentButton").click(function() {
 
     let form = document.getElementById("createDepartment")
     let button = document.getElementById("createDepartmentButton");
+    getLocationsList();
 
-    if (form.style.display == "none") {
-        button.innerHTML = "Hide";
-        form.style.display = "block";
-    } else {
+    if (form.style.display == "block") {
         button.innerHTML = "Add department";
         form.style.display = "none";
+    } else {
+        button.innerHTML = "Hide";
+        form.style.display = "block";
     }
 })
 
 
+// Delete and create new locations
+$("#deleteLocation").click(function() {
+    if (confirm('Are you sure you want to delete this location?')) {
+        // Add dependencies 
+        deleteLocation();
+    }
+});
+
+$("#formLocation").submit(function (e) {
+    e.preventDefault();
+    createLocation();
+    document.getElementById("formLocation").reset(); 
+});
+
+$("#createLocationButton").click(function() {
+
+    let form = document.getElementById("createLocation")
+    let button = document.getElementById("createLocationButton");
+
+    if (form.style.display == "block") {
+        button.innerHTML = "Add location";
+        form.style.display = "none";
+    } else {
+        button.innerHTML = "Hide";
+        form.style.display = "block";
+    }
+})
+
+
+// Show all employees on load in
 getAllEmployees();
 
 let currentEmployeeID;
@@ -140,6 +190,14 @@ function showDepartments() {
                 document.getElementById('departmentsList').appendChild(clonedDiv);
 
                 clonedDiv.getElementsByClassName('departmentsName')[0].innerText = department.name;
+                clonedDiv.getElementsByClassName('locationName')[0].innerText = department.location;
+
+                $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function() {
+                    if (confirm('Are you sure you want to delete this department?')) {
+                        // Add dependencies 
+                        deleteDepartment(department.id);
+                    }
+                })
 
             }
             
@@ -148,6 +206,7 @@ function showDepartments() {
             document.getElementById("departmentsPage").style.display = "block";
             document.getElementById("locationsPage").style.display = "none";
             document.getElementById("createEmployee").style.display = "none";
+            document.getElementById("createLocation").style.display = "none";
         }
     })
 }
@@ -173,6 +232,13 @@ function showLocations() {
 
                 clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
 
+                $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function() {
+                    if (confirm('Are you sure you want to delete this location?')) {
+                        // Add dependencies 
+                        deleteLocation(location.id);
+                    }
+                })
+
             }
             
             document.getElementById("employeePage").style.display = "none";
@@ -181,6 +247,7 @@ function showLocations() {
             document.getElementById("locationsPage").style.display = "block";
             document.getElementById("createEmployee").style.display = "none";
             document.getElementById("createDepartment").style.display = "none";
+            document.getElementById("createLocation").style.display = "none";
         }
     })
 }
@@ -211,6 +278,7 @@ function showEmployeeProfile(employeeId) {
             document.getElementById("locationsPage").style.display = "none";
             document.getElementById("createEmployee").style.display = "none";
             document.getElementById("createDepartment").style.display = "none";
+            document.getElementById("createLocation").style.display = "none";
         }
     })
 }
@@ -239,11 +307,11 @@ function createEmployee() {
         type: 'POST',
         dataType: 'json',
         data: {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            jobTitle: document.getElementById('jobTitle').value,
-            email: document.getElementById('email').value,
-            departmentID: 1,
+            firstName: document.getElementById('formFirstName').value,
+            lastName: document.getElementById('formLastName').value,
+            jobTitle: document.getElementById('formJobTitle').value,
+            email: document.getElementById('formEmail').value,
+            departmentID: document.getElementById('formDepartmentDropdown').value,
         },
         success: function (result) {
 
@@ -264,6 +332,8 @@ function deleteDepartment(departmentID) {
         },
         success: function (result) {
 
+            showDepartments();
+
         }
     })
 }
@@ -275,12 +345,101 @@ function createDepartment() {
         type: 'POST',
         datatype: 'json',
         data: {
-            name: document.getElementById('departmentName').value,
-            locationID: 1,
+            name: document.getElementById('formDepartmentName').value,
+            locationID: document.getElementById('formLocationDropdown').value,
         },
         success: function (result) {
 
             showDepartments();
+
+        }
+    })
+}
+
+// Deletes location, but only possible when there are no departments in a location
+function deleteLocation(locationID) {
+    $.ajax({
+        url: 'libs/php/deleteLocationByID.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            id: locationID,
+        },
+        success: function (result) {
+
+            if (result.status.name == "ok") {
+                showLocations();
+            } else {
+                alert("There are still departments in that location; you can not delete it.");
+            }
+
+        }
+    })
+}
+
+function createLocation() {
+    $.ajax({
+        url: 'libs/php/insertLocation.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {
+            name: document.getElementById('formLocationName').value,
+        },
+        success: function (result) {
+
+            showLocations();
+
+        }
+    })
+}
+
+function getLocationsList() {
+    $.ajax({
+        url: 'libs/php/getAllLocations.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {},
+        success: function (result) {
+
+            document.getElementById("formLocationDropdown").innerHTML = "";
+
+            const locations = result.data;
+
+            const list = document.getElementById('formLocationDropdown');
+            locations.sort();
+
+            locations.forEach(function (item) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.innerText = item.name;
+                list.appendChild(option);
+            })
+
+        }
+    })
+}
+
+function getDepartmentList() {
+    $.ajax({
+        url: 'libs/php/getAllDepartments.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {},
+        success: function (result) {
+
+            document.getElementById("formDepartmentDropdown").innerHTML = "";
+
+            const departments = result.data;
+
+            const list = document.getElementById('formDepartmentDropdown');
+            departments.sort();
+
+            departments.forEach(function (item) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.innerText = item.name;
+                list.appendChild(option);
+            })
 
         }
     })

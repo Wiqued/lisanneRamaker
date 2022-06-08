@@ -2,182 +2,226 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Company Directory</title>
-    <link rel="icon" type="image/x-icon" href="bookfavicon.png">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Directory</title>
+  <link rel="icon" type="image/x-icon" href="bookfavicon.png">
 
 
-    <!-- Bootstrap CSS v5.2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
+  <!-- Bootstrap CSS v5.2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
 
-    <!-- Style sheet -->
-    <link rel="stylesheet" href="libs/css/style.css">
+  <!-- Style sheet -->
+  <link rel="stylesheet" href="libs/css/style.css">
 </head>
 
 <body>
 
-    <!-- Nav bar -->
-    <nav class="navbar navbar-expand-sm bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Directory</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a id="navAll" class="nav-link" href="#listOfAll">All</a>
-              </li>
-              <li class="nav-item">
-                <a id="navDepartments" class="nav-link" href="#departments">Departments</a>
-              </li>
-              <li class="nav-item">
-                <a id="navLocations" class="nav-link" href="#locations">Locations</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Button to add new employee -->
-      <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary">Add employee</button>
-
-      <!-- Button to add new department -->
-      <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary">Add department</button>
-
-      <div id="createEmployee">
-        <h2 class="text-center">Add new employee</h2>
-
-        <form action="" id="formEmployee">
-          <label for="firstName">First Name</label>
-          <input type="text" name="firstName" id="firstName">
-
-          <label for="lastName">Last Name</label>
-          <input type="text" name="lastName" id="lastName">
-
-          <label for="jobTitle">Job</label>
-          <input type="text" name="jobTitle" id="jobTitle">
-
-          <label for="email">Email Address</label>
-          <input type="text" name="email" id="email">
-
-          <!-- Dropdown of departments? -->
-          <label for="departmentID">Department</label>
-          <input type="text" name="departmentID" id="departmentID">
-          
-          <input type="submit" value="Submit">
-        </form>
-      </div>
-      
-      <div id="createDepartment">
-        <h2 class="text-center">Add new department</h2>
-
-        <form action="" id="formDepartment">
-          <label for="departmentName">Department name</label>
-          <input type="text" name="departmentName" id="departmentName">
-
-          <label for="location">Location</label>
-          <input type="text" name="location" id="location">
-
-          <input type="submit" value="Submit">
-        </form>
-      </div>
-
-      <!-- All page -->
-      <div id="employeePage">
-        <h2 class="text-center">All employees</h2>
+  <!-- Nav bar -->
+  <nav class="navbar navbar-expand-sm bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Directory</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a id="navAll" class="nav-link" href="#listOfAll">All</a>
+          </li>
+          <li class="nav-item">
+            <a id="navDepartments" class="nav-link" href="#departments">Departments</a>
+          </li>
+          <li class="nav-item">
+            <a id="navLocations" class="nav-link" href="#locations">Locations</a>
+          </li>
+        </ul>
         <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+      </div>
+    </div>
+  </nav>
 
-        <div id="employeeList"></div>
-        <div class="template">
-          <div id="employeeEntry">
-            <a href="#employeeProfile">
-            <ul class="list-group list-group-horizontal">
-                <li class="list-group-item listProfilePic"><img id="profilePicture" src="libs/images/smiley.png" alt="Profile picture"></li>
-                <li class="list-group-item listName"></li>
-                <li class="list-group-item listDepartment"></li>
-                <li class="list-group-item listLocation"></li>
-            </ul>
-            </a>
-          </div>
-        </div>
+  <!-- Button to add new employee -->
+  <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary">Add employee</button>
+
+  <!-- Button to add new department -->
+  <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary">Add department</button>
+
+  <!-- Button to add new location -->
+  <button id="createLocationButton" type="button" class="btn btn-outline-secondary">Add location</button>
+  
+
+  <!-- Create employee form -->
+  <div class="mb-3" id="createEmployee">
+    <h2 class="text-center">Add new employee</h2>
+
+    <form action="" id="formEmployee">
+      <div class="form-floating">
+        <input type="text" name="formFirstName" id="formFirstName" class="form-control-plaintext">
+        <label for="formFirstName">First Name</label>
       </div>
 
-      <!-- Individual person page for editing -->
-      <div id="employeeProfile">
-        <img id="profilePicture2" src="libs/images/smiley.png" alt="">
-        <h2 id="employeeName" class="text-center"></h2>
+      <div class="form-floating">
+        <input type="text" name="formLastName" id="formLastName" class="form-control">
+        <label for="formLastName" class="form-label">Last Name</label>
+      </div>
 
-        <div class="row">
-            <div class="col text-center">Department</div>
-            <div id=employeeDepartment class="col text-center"></div>
-        </div>
+      <div class="form-floating">
+        <input type="text" name="formJobTitle" id="formJobTitle" class="form-control">
+        <label for="formJobTitle" class="form-label">Job</label>
+      </div>
 
-        <div class="row">
-            <div class="col text-center">Location</div>
-            <div id="employeeLocation" class="col text-center"></div>
-        </div>
+      <div class="form-floating">
+        <input type="email" name="formEmail" id="formEmail" class="form-control-plaintext">
+        <label for="formEmail">Email Address</label>
+      </div>
 
-        <div class="row">
-            <div class="col text-center">Email</div>
-            <div id="employeeEmail" class="col text-center"></div>
-        </div>
+      <!-- Dropdown of departments? -->
+      <div class="form-floating">
+        <select class="form-select" name="formDepartmentDropdown" id="formDepartmentDropdown">
+          <option value="">Select department</option>
+        </select>
+        <label for="formDepartmentDropdown">Department</label>
+      </div>
+
+      <input type="submit" value="Submit">
+
+    </form>
+  </div>
+
+  <!-- Create department form -->
+  <div id="createDepartment">
+    <h2 class="text-center">Add new department</h2>
+
+    <form action="" id="formDepartment">
+      <div class="form-floating">
+        <input type="text" name="formDepartmentName" id="formDepartmentName" class="form-control">
+        <label for="formDepartmentName" class="form-label">Department name</label>
+      </div>
+
+      <div class="form-floating">
+        <select class="form-select" name="formLocationDropdown" id="formLocationDropdown">
+          <option value="">Select location</option>
+        </select>
+        <label for="formLocationDropdown">Select Location</label>
+      </div>
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <!-- Create location form -->
+  <div id="createLocation">
+    <h2 class="text-center">Add new location</h2>
+
+    <form action="" id="formLocation">
+      <div class="form-floating">
+        <input type="text" name="formLocationName" id="formLocationName" class="form-control">
+        <label for="formLocationName" class="form-label">Location name</label>
+      </div>
+
+      <input type="submit" value="Submit">
+    </form>
+    </div>
+    
+  </div>
+
+  <!-- All page -->
+  <div id="employeePage">
+    <h2 class="text-center">All employees</h2>
+    <form class="d-flex" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <div id="employeeList"></div>
+    <div class="template">
+      <div id="employeeEntry">
+        <a href="#employeeProfile">
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item listProfilePic"><img id="profilePicture" src="libs/images/smiley.png"
+                alt="Profile picture"></li>
+            <li class="list-group-item listName"></li>
+            <li class="list-group-item listDepartment"></li>
+            <li class="list-group-item listLocation"></li>
+          </ul>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Individual person page for editing -->
+  <div id="employeeProfile">
+    <img id="profilePicture2" src="libs/images/smiley.png" alt="">
+    <h2 id="employeeName" class="text-center"></h2>
+
+    <div class="row">
+      <div class="col text-center">Department</div>
+      <div id=employeeDepartment class="col text-center"></div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Location</div>
+      <div id="employeeLocation" class="col text-center"></div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Email</div>
+      <div id="employeeEmail" class="col text-center"></div>
+    </div>
+    <button type="button" class="btn btn-outline-primary">Edit</button>
+    <button id="deleteEmployee" type="button" class="btn btn-outline-danger">Delete</button>
+  </div>
+
+  <!-- Departments page -->
+  <div id="departmentsPage">
+    <h2 class="text-center">Departments</h2>
+
+    <div id="departmentsList"></div>
+    <div class="template">
+      <div id="departmentsEntry">
+        <ul class="list-group">
+          <li class="list-group-item departmentsName"></li>
+          <li class="list-group-item locationName"></li>
+        </ul>
         <button type="button" class="btn btn-outline-primary">Edit</button>
-        <button id="deleteEmployee" type="button" class="btn btn-outline-danger">Delete</button>
-    </div>
-
-    <!-- Departments page -->
-    <div id="departmentsPage">
-        <h2 class="text-center">Departments</h2>
-
-        <div id="departmentsList"></div>
-          <div class="template">
-            <div id="departmentsEntry">
-              <ul class="list-group">
-                  <li class="list-group-item departmentsName"></li>
-              </ul>
-              <button type="button" class="btn btn-outline-primary">Edit</button>
-              <button type="button" class="btn btn-outline-danger">Delete</button>
-            </div> 
-          </div>
-
-
-    </div>
-
-    <!-- Locations page -->
-    <div id="locationsPage">
-        <h2 class="text-center">Locations</h2>
-
-        <div id="locationsList"></div>
-        <div class="template">
-          <div id="locationsEntry">
-            <ul class="list-group">
-                <li class="list-group-item locationsName">/li>
-            </ul>
-            <button type="button" class="btn btn-outline-primary">Edit</button>
-            <button type="button" class="btn btn-outline-danger">Delete</button>
-          </div>
-        </div>
-        
+        <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment">Delete</button>
+      </div>
     </div>
 
 
+  </div>
 
-    <!-- Bootstrap JS v5.2 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Locations page -->
+  <div id="locationsPage">
+    <h2 class="text-center">Locations</h2>
 
-    <!-- My own JS -->
-    <script src="libs/js/jquery-3.6.0.min.js"></script>
-    <script src="libs/js/script.js"></script>
+    <div id="locationsList"></div>
+    <div class="template">
+      <div id="locationsEntry">
+        <ul class="list-group">
+          <li class="list-group-item locationsName">/li>
+        </ul>
+        <button type="button" class="btn btn-outline-primary">Edit</button>
+        <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation">Delete</button>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- Bootstrap JS v5.2 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- My own JS -->
+  <script src="libs/js/jquery-3.6.0.min.js"></script>
+  <script src="libs/js/script.js"></script>
 
 
 </body>
