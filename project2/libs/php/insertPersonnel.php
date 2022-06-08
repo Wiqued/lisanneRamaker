@@ -1,7 +1,7 @@
 <?php
 
 	// example use from browser
-	// http://localhost/companydirectory/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
+	// http://localhost/project2/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
 
 	// remove next two lines for production
 	
@@ -42,7 +42,7 @@
 	$query->bind_param("ssssi", $_REQUEST['firstName'], $_REQUEST['lastName'], $_REQUEST['jobTitle'], $_REQUEST['email'], $_REQUEST['departmentID']);
 
 	$query->execute();
-	
+
 	if (false === $query) {
 
 		$output['status']['code'] = "400";
@@ -58,11 +58,18 @@
 
 	}
 
+	$query = 'SELECT LAST_INSERT_ID()';
+
+	$result = $conn->query($query);
+
+	$row = mysqli_fetch_assoc($result);
+
+
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = [];
+	$output['data'] = $row["LAST_INSERT_ID()"];
 	
 	mysqli_close($conn);
 
