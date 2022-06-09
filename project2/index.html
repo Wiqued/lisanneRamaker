@@ -80,9 +80,9 @@
           <label for="formEmail">Email Address</label>
         </div>
 
-        <!-- Dropdown of departments? -->
+        <!-- Dropdown of departments -->
         <div class="form-floating">
-          <select class="form-select" name="formDepartmentDropdown" id="formDepartmentDropdown">
+          <select class="form-select formDepartmentDropdown" name="formDepartmentDropdown" id="formDepartmentDropdown">
             <option value="">Select department</option>
           </select>
           <label for="formDepartmentDropdown">Department</label>
@@ -109,7 +109,7 @@
     </div>
   </div>
 
-  <!-- Individual person page for editing -->
+  <!-- Individual employee profile -->
   <div id="employeeProfile">
     <img id="profilePicture2" src="libs/images/smiley.png" alt="">
     <h2 id="employeeName" class="text-center"></h2>
@@ -128,8 +128,51 @@
       <div class="col text-center">Email</div>
       <div id="employeeEmail" class="col text-center"></div>
     </div>
-    <button type="button" class="btn btn-outline-primary">Edit</button>
-    <button id="deleteEmployee" type="button" class="btn btn-outline-danger">Delete</button>
+
+    <div class="row">
+      <div class="col text-center">Job</div>
+      <div id="employeeJobTitle" class="col text-center"></div>
+    </div>
+
+    <button id="employeeEditButton" type="button" class="btn btn-outline-primary">Edit</button>
+    <button id="deleteEmployee" type="button" class="btn btn-outline-danger deleteEmployee">Delete</button>
+  </div>
+
+  <!-- Editing page -->
+  <div id="employeeProfileEdit">
+    <img id="profilePicture2" src="libs/images/smiley.png" alt="">
+
+    <div class="row">
+      <div class="col text-center">First name</div>
+      <div class="col text-center"><input type="text" name="" id="employeeFirstNameEdit"></div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Last name</div>
+      <div class="col text-center"><input type="text" name="" id="employeeLastNameEdit"></div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Department</div>
+      <div class="col text-center">
+        <select class="form-select formDepartmentDropdownEdit" name="formDepartmentDropdownEdit" id="formDepartmentDropdownEdit">
+          <option value="">Select department</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Email</div>
+      <div class="col text-center"><input type="email" name="" id="employeeEmailEdit"></div>
+    </div>
+
+    <div class="row">
+      <div class="col text-center">Job</div>
+      <div class="col text-center"><input type="text" name="" id="employeeJobTitleEdit"></div>
+    </div>
+
+    <button id="employeeSaveButton" type="button" class="btn btn-outline-primary">Save</button>
+    <button id="employeeCancelButton" type="button" class="btn btn-outline-danger employeeCancelButton">Cancel</button>
   </div>
 
   <!-- Departments page -->
@@ -166,6 +209,7 @@
         <ul class="list-group">
           <li class="list-group-item departmentsName"></li>
           <li class="list-group-item locationName"></li>
+          <li class="list-group-item employeeCount"></li>
         </ul>
         <button type="button" class="btn btn-outline-primary">Edit</button>
         <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment">Delete</button>
@@ -201,7 +245,8 @@
     <div class="template">
       <div id="locationsEntry">
         <ul class="list-group">
-          <li class="list-group-item locationsName">/li>
+          <li class="list-group-item locationsName"></li>
+          <li class="list-group-item departmentCount"></li>
         </ul>
         <button type="button" class="btn btn-outline-primary">Edit</button>
         <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation">Delete</button>

@@ -34,7 +34,8 @@
 
 	// SQL does not accept parameters and so is not prepared
 
-	$query = 'SELECT d.id, d.name, d.locationID, l.name as location FROM department d LEFT JOIN location l ON (l.id = d.locationID)';
+	$query = 'SELECT d.id, COUNT(p.id) as num_of_employees, d.name as name, l.name as location FROM personnel p RIGHT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) GROUP BY departmentID ORDER BY name;';
+
 
 	$result = $conn->query($query);
 	
