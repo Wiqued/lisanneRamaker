@@ -19,9 +19,8 @@
 <body>
 
   <!-- Nav bar -->
-  <nav class="navbar navbar-expand-sm bg-light">
+  <nav class="navbar navbar-expand bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Directory</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -38,106 +37,61 @@
             <a id="navLocations" class="nav-link" href="#locations">Locations</a>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
 
-  <!-- Button to add new employee -->
-  <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary">Add employee</button>
-
-  <!-- Button to add new department -->
-  <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary">Add department</button>
-
-  <!-- Button to add new location -->
-  <button id="createLocationButton" type="button" class="btn btn-outline-secondary">Add location</button>
-  
-
-  <!-- Create employee form -->
-  <div class="mb-3" id="createEmployee">
-    <h2 class="text-center">Add new employee</h2>
-
-    <form action="" id="formEmployee">
-      <div class="form-floating">
-        <input type="text" name="formFirstName" id="formFirstName" class="form-control-plaintext">
-        <label for="formFirstName">First Name</label>
-      </div>
-
-      <div class="form-floating">
-        <input type="text" name="formLastName" id="formLastName" class="form-control">
-        <label for="formLastName" class="form-label">Last Name</label>
-      </div>
-
-      <div class="form-floating">
-        <input type="text" name="formJobTitle" id="formJobTitle" class="form-control">
-        <label for="formJobTitle" class="form-label">Job</label>
-      </div>
-
-      <div class="form-floating">
-        <input type="email" name="formEmail" id="formEmail" class="form-control-plaintext">
-        <label for="formEmail">Email Address</label>
-      </div>
-
-      <!-- Dropdown of departments? -->
-      <div class="form-floating">
-        <select class="form-select" name="formDepartmentDropdown" id="formDepartmentDropdown">
-          <option value="">Select department</option>
-        </select>
-        <label for="formDepartmentDropdown">Department</label>
-      </div>
-
-      <input type="submit" value="Submit">
-
-    </form>
-  </div>
-
-  <!-- Create department form -->
-  <div id="createDepartment">
-    <h2 class="text-center">Add new department</h2>
-
-    <form action="" id="formDepartment">
-      <div class="form-floating">
-        <input type="text" name="formDepartmentName" id="formDepartmentName" class="form-control">
-        <label for="formDepartmentName" class="form-label">Department name</label>
-      </div>
-
-      <div class="form-floating">
-        <select class="form-select" name="formLocationDropdown" id="formLocationDropdown">
-          <option value="">Select location</option>
-        </select>
-        <label for="formLocationDropdown">Select Location</label>
-      </div>
-
-      <input type="submit" value="Submit">
-    </form>
-  </div>
-
-  <!-- Create location form -->
-  <div id="createLocation">
-    <h2 class="text-center">Add new location</h2>
-
-    <form action="" id="formLocation">
-      <div class="form-floating">
-        <input type="text" name="formLocationName" id="formLocationName" class="form-control">
-        <label for="formLocationName" class="form-label">Location name</label>
-      </div>
-
-      <input type="submit" value="Submit">
-    </form>
-    </div>
-    
   </div>
 
   <!-- All page -->
+  <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+
   <div id="employeePage">
     <h2 class="text-center">All employees</h2>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+
+    <!-- Button to add new employee -->
+    <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary">Add employee</button>
+
+    <!-- Create employee form -->
+    <div class="mb-3" id="createEmployee">
+      <h3 class="text-center">Add new employee</h3>
+
+      <form action="" id="formEmployee">
+        <div class="form-floating">
+          <input type="text" name="formFirstName" id="formFirstName" class="form-control-plaintext">
+          <label for="formFirstName">First Name</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="text" name="formLastName" id="formLastName" class="form-control">
+          <label for="formLastName" class="form-label">Last Name</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="text" name="formJobTitle" id="formJobTitle" class="form-control">
+          <label for="formJobTitle" class="form-label">Job</label>
+        </div>
+
+        <div class="form-floating">
+          <input type="email" name="formEmail" id="formEmail" class="form-control-plaintext">
+          <label for="formEmail">Email Address</label>
+        </div>
+
+        <!-- Dropdown of departments? -->
+        <div class="form-floating">
+          <select class="form-select" name="formDepartmentDropdown" id="formDepartmentDropdown">
+            <option value="">Select department</option>
+          </select>
+          <label for="formDepartmentDropdown">Department</label>
+        </div>
+
+        <input type="submit" value="Submit">
+
+      </form>
+    </div>
 
     <div id="employeeList"></div>
     <div class="template">
@@ -182,6 +136,30 @@
   <div id="departmentsPage">
     <h2 class="text-center">Departments</h2>
 
+    <!-- Button to add new department -->
+    <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary">Add department</button>
+
+    <!-- Create department form -->
+    <div id="createDepartment">
+      <h3 class="text-center">Add new department</h3>
+
+      <form action="" id="formDepartment">
+        <div class="form-floating">
+          <input type="text" name="formDepartmentName" id="formDepartmentName" class="form-control">
+          <label for="formDepartmentName" class="form-label">Department name</label>
+        </div>
+
+        <div class="form-floating">
+          <select class="form-select" name="formLocationDropdown" id="formLocationDropdown">
+            <option value="">Select location</option>
+          </select>
+          <label for="formLocationDropdown">Select Location</label>
+        </div>
+
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
     <div id="departmentsList"></div>
     <div class="template">
       <div id="departmentsEntry">
@@ -200,6 +178,24 @@
   <!-- Locations page -->
   <div id="locationsPage">
     <h2 class="text-center">Locations</h2>
+
+    <!-- Button to add new location -->
+    <button id="createLocationButton" type="button" class="btn btn-outline-secondary">Add location</button>
+
+
+    <!-- Create location form -->
+    <div id="createLocation">
+      <h3 class="text-center">Add new location</h3>
+
+      <form action="" id="formLocation">
+        <div class="form-floating">
+          <input type="text" name="formLocationName" id="formLocationName" class="form-control">
+          <label for="formLocationName" class="form-label">Location name</label>
+        </div>
+
+        <input type="submit" value="Submit">
+      </form>
+    </div>
 
     <div id="locationsList"></div>
     <div class="template">

@@ -13,7 +13,6 @@ function showAll() {
     document.getElementById("createEmployee").style.display = "none";
     document.getElementById("createDepartment").style.display = "none";
     document.getElementById("createLocation").style.display = "none";
-
 }
 
 
@@ -206,6 +205,7 @@ function showDepartments() {
             document.getElementById("departmentsPage").style.display = "block";
             document.getElementById("locationsPage").style.display = "none";
             document.getElementById("createEmployee").style.display = "none";
+            document.getElementById("createDepartment").style.display = "none";
             document.getElementById("createLocation").style.display = "none";
         }
     })
@@ -332,7 +332,11 @@ function deleteDepartment(departmentID) {
         },
         success: function (result) {
 
-            showDepartments();
+            if (result.status.name == "ok") {
+                showDepartments();
+            } else {
+                alert("There are still employees in that department; you can not delete it.");
+            }
 
         }
     })
