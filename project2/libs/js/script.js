@@ -14,6 +14,8 @@ function showAll() {
     document.getElementById("createDepartment").style.display = "none";
     document.getElementById("createLocation").style.display = "none";
     document.getElementById("employeeProfileEdit").style.display = "none";
+    document.getElementById("departmentEdit").style.display = "none";
+    document.getElementById("locationsEdit").style.display = "none";
 }
 
 
@@ -105,7 +107,6 @@ $("#formDepartment").submit(function (e) {
 });
 
 $("#createDepartmentButton").click(function() {
-
     let form = document.getElementById("createDepartment")
     let button = document.getElementById("createDepartmentButton");
     getLocationsList();
@@ -117,7 +118,17 @@ $("#createDepartmentButton").click(function() {
         button.innerHTML = "Hide";
         form.style.display = "block";
     }
-})
+});
+
+$("#departmentSaveButton").click(function() {
+    updateDepartment();
+    document.getElementById("departmentsPage").style.display = "block";
+    document.getElementById("departmentEdit").style.display = "none";
+});
+
+$("#departmentCancelButton").click(function() {
+    showDepartments();
+});
 
 
 // Delete and create new locations
@@ -146,7 +157,17 @@ $("#createLocationButton").click(function() {
         button.innerHTML = "Hide";
         form.style.display = "block";
     }
-})
+});
+
+$("#locationSaveButton").click(function() {
+    updateLocation();
+    document.getElementById("locationsPage").style.display = "block";
+    document.getElementById("locationsEdit").style.display = "none";
+});
+
+$("#locationCancelButton").click(function() {
+    showLocations();
+});
 
 
 // Show all employees on load in
@@ -185,6 +206,8 @@ function getAllEmployees() {
     })
 }
 
+let currentDepartmentID;
+
 // Shows the list of departments
 function showDepartments() {
     $.ajax({
@@ -214,7 +237,18 @@ function showDepartments() {
                         // Add dependencies 
                         deleteDepartment(department.id);
                     }
-                })
+                });
+
+                $(clonedDiv.getElementsByClassName('departmentEditButton')[0]).click(function() {
+                    currentDepartmentID = department.id;
+                    document.getElementById("departmentsPage").style.display = "none";
+                    document.getElementById("departmentEdit").style.display = "block";
+                    
+                    // Pre-fill the page
+                    document.getElementById("departmentNameEdit").value = department.name;
+
+                    getLocationsListEdit(department.locationID);
+                });
 
             }
             
@@ -226,9 +260,13 @@ function showDepartments() {
             document.getElementById("createDepartment").style.display = "none";
             document.getElementById("createLocation").style.display = "none";
             document.getElementById("employeeProfileEdit").style.display = "none";
+            document.getElementById("departmentEdit").style.display = "none";
+            document.getElementById("locationsEdit").style.display = "none";
         }
     })
 }
+
+let currentLocationID;
 
 // Shows the list of locations
 function showLocations() {
@@ -254,10 +292,21 @@ function showLocations() {
 
                 $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function() {
                     if (confirm('Are you sure you want to delete this location?')) {
-                        // Add dependencies 
+                        // Checks to see if possible in php
                         deleteLocation(location.id);
                     }
-                })
+                });
+
+                $(clonedDiv.getElementsByClassName('locationEditButton')[0]).click(function() {
+                    currentLocationID = location.id;
+                    document.getElementById("locationsPage").style.display = "none";
+                    document.getElementById("locationsEdit").style.display = "block";
+
+                    
+                    // Pre fill the page
+                    document.getElementById("locationNameEdit").value = location.name;
+                });
+
 
             }
             
@@ -269,6 +318,8 @@ function showLocations() {
             document.getElementById("createDepartment").style.display = "none";
             document.getElementById("createLocation").style.display = "none";
             document.getElementById("employeeProfileEdit").style.display = "none";
+            document.getElementById("departmentEdit").style.display = "none";
+            document.getElementById("locationsEdit").style.display = "none";
         }
     })
 }
@@ -311,6 +362,8 @@ function showEmployeeProfile(employeeId) {
             document.getElementById("createDepartment").style.display = "none";
             document.getElementById("createLocation").style.display = "none";
             document.getElementById("employeeProfileEdit").style.display = "none";
+            document.getElementById("departmentEdit").style.display = "none";
+            document.getElementById("locationsEdit").style.display = "none";
         }
     })
 }
@@ -536,9 +589,70 @@ function updateEmployee() {
         },
         success: function (results) {
 
-            
-
             showEmployeeProfile(currentEmployeeID);
+
+        }
+    })
+}
+
+function getLocationsListEdit(selectedLocationId) {
+    $.ajax({
+        url: 'libs/php/getAllLocations.php',
+        type: 'POST',
+        datatype: 'json',
+        data: {},
+        success: function (result) {
+
+            document.getElementById("formLocationDropdownEdit").innerHTML = "";
+
+            const locations = result.data;
+
+            const listEdit = document.getElementById('formLocationDropdownEdit');
+            locations.sort();
+
+            locations.forEach(function (item) {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.innerText = item.name;
+                listEdit.appendChild(option);
+            });
+
+            document.getElementById("formLocationDropdownEdit").value = selectedLocationId;
+
+        }
+    })
+}
+
+function updateDepartment() {
+    $.ajax({
+        url: 'libs/php/updateDepartmentByID.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            name: document.getElementById("departmentNameEdit").value,
+            locationID: document.getElementById("formLocationDropdownEdit").value,
+            id: currentDepartmentID,
+        },
+        success: function (results) {
+
+            showDepartments();
+
+        }
+    })
+}
+
+function updateLocation() {
+    $.ajax({
+        url: 'libs/php/updateLocationByID.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            name: document.getElementById("locationNameEdit").value,
+            id: currentLocationID,
+        },
+        success: function (results) {
+
+            showLocations();
 
         }
     })

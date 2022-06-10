@@ -29,6 +29,8 @@ div.template,
 div#createEmployee,
 div#createDepartment,
 div#createLocation,
-div#employeeProfileEdit {
+div#employeeProfileEdit,
+div#departmentEdit,
+div#locationsEdit {
     display: none;
 }

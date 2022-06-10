@@ -1,15 +1,17 @@
 <?php
 
 	// example use from browser
-	// http://localhost/project2/libs/php/getAllDepartments.php
+	// http://localhost/project2/libs/php/insertDepartment.php?name=New%20Department&locationID=<id>
 
-	// remove next two lines for production	
+	// remove next two lines for production
 	
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
 
 	$executionStartTime = microtime(true);
-
+	
+	// this includes the login details
+	
 	include("config.php");
 
 	header('Content-Type: application/json; charset=UTF-8');
@@ -32,14 +34,16 @@
 
 	}	
 
-	// SQL does not accept parameters and so is not prepared
+	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
+	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = 'SELECT d.id, COUNT(p.id) as num_of_employees, d.name as name, l.name as location, d.locationID FROM personnel p RIGHT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) GROUP BY departmentID ORDER BY name;';
+	$query = $conn->prepare('UPDATE location SET name = ? WHERE id = ?; ');
 
+	$query->bind_param("si", $_REQUEST['name'], $_REQUEST['id']);
 
-	$result = $conn->query($query);
-	
-	if (!$result) {
+	$query->execute();
+
+	if (false === $query) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
@@ -53,20 +57,13 @@
 		exit;
 
 	}
-   
-   	$data = [];
 
-	while ($row = mysqli_fetch_assoc($result)) {
-
-		array_push($data, $row);
-
-	}
 
 	$output['status']['code'] = "200";
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $data;
+	$output['data'] = [];
 	
 	mysqli_close($conn);
 

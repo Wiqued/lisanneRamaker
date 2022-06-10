@@ -138,7 +138,7 @@
     <button id="deleteEmployee" type="button" class="btn btn-outline-danger deleteEmployee">Delete</button>
   </div>
 
-  <!-- Editing page -->
+  <!-- Employee editing page -->
   <div id="employeeProfileEdit">
     <img id="profilePicture2" src="libs/images/smiley.png" alt="">
 
@@ -211,12 +211,30 @@
           <li class="list-group-item locationName"></li>
           <li class="list-group-item employeeCount"></li>
         </ul>
-        <button type="button" class="btn btn-outline-primary">Edit</button>
+        <button id="departmentEditButton" type="button" class="btn btn-outline-primary departmentEditButton">Edit</button>
         <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment">Delete</button>
       </div>
     </div>
+  </div>  
 
+  <!-- Department edit page -->
+  <div id="departmentEdit">
+    <div class="row">
+      <div class="col text-center">Department name</div>
+      <div class="col text-center"><input type="text" name="" id="departmentNameEdit"></div>
+    </div>
 
+    <div class="row">
+      <div class="col text-center">Location</div>
+      <div class="col text-center">
+        <select class="form-select formLocationDropdownEdit" name="formLocationDropdownEdit" id="formLocationDropdownEdit">
+          <option value="">Select location</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="departmentSaveButton" type="button" class="btn btn-outline-primary">Save</button>
+    <button id="departmentCancelButton" type="button" class="btn btn-outline-danger departmentCancelButton">Cancel</button>
   </div>
 
   <!-- Locations page -->
@@ -248,13 +266,23 @@
           <li class="list-group-item locationsName"></li>
           <li class="list-group-item departmentCount"></li>
         </ul>
-        <button type="button" class="btn btn-outline-primary">Edit</button>
+        <button id="locationEditButton" type="button" class="btn btn-outline-primary locationEditButton">Edit</button>
         <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation">Delete</button>
       </div>
     </div>
 
   </div>
 
+  <!-- Location edit page -->
+  <div id="locationsEdit">
+    <div class="row">
+      <div class="col text-center">Location name</div>
+      <div class="col text-center"><input type="text" name="" id="locationNameEdit"></div>
+    </div>
+
+    <button id="locationSaveButton" type="button" class="btn btn-outline-primary">Save</button>
+    <button id="locationCancelButton" type="button" class="btn btn-outline-danger locationCancelButton">Cancel</button>
+  </div>
 
 
   <!-- Bootstrap JS v5.2 -->
