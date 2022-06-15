@@ -44,12 +44,13 @@
   </div>
 
   <!-- All page -->
-  <form class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
 
   <div id="employeePage">
+    <form id="allSearchBar" class="d-flex" role="search">
+      <input id="allEmployeeSearch" class="form-control me-2" type="search" placeholder="Search for employee"
+        aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <h2 class="text-center">All employees</h2>
 
     <!-- Button to add new employee -->
@@ -93,21 +94,33 @@
       </form>
     </div>
 
-    <div id="employeeList"></div>
-    <div class="template">
-      <div id="employeeEntry">
-        <a href="#employeeProfile">
-          <ul class="list-group list-group-horizontal">
-            <li class="list-group-item listProfilePic"><img id="profilePicture" src="libs/images/smiley.png"
-                alt="Profile picture"></li>
-            <li class="list-group-item listName"></li>
-            <li class="list-group-item listDepartment"></li>
-            <li class="list-group-item listLocation"></li>
-          </ul>
-        </a>
-      </div>
-    </div>
+
+    <!-- Table of employees -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Job</th>
+          <th scope="col">Department</th>
+          <th scope="col">Location</th>
+        </tr>
+      </thead>
+
+      <tbody id="employeeList" class="table-group-divider"></tbody>
+
+      <tbody class="template">
+
+        <tr id="employeeEntry">
+          <td class="listName"></td>
+          <td class="listJob"></td>
+          <td class="listDepartment"></td>
+          <td class="listLocation"></td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
+
 
   <!-- Individual employee profile -->
   <div id="employeeProfile">
@@ -155,7 +168,8 @@
     <div class="row">
       <div class="col text-center">Department</div>
       <div class="col text-center">
-        <select class="form-select formDepartmentDropdownEdit" name="formDepartmentDropdownEdit" id="formDepartmentDropdownEdit">
+        <select class="form-select formDepartmentDropdownEdit" name="formDepartmentDropdownEdit"
+          id="formDepartmentDropdownEdit">
           <option value="">Select department</option>
         </select>
       </div>
@@ -177,6 +191,11 @@
 
   <!-- Departments page -->
   <div id="departmentsPage">
+    <form id="departmentSearchBar" class="d-flex" role="search">
+      <input id="allDepartmentSearch" class="form-control me-2" type="search" placeholder="Search for department"
+        aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <h2 class="text-center">Departments</h2>
 
     <!-- Button to add new department -->
@@ -203,19 +222,39 @@
       </form>
     </div>
 
-    <div id="departmentsList"></div>
-    <div class="template">
-      <div id="departmentsEntry">
-        <ul class="list-group">
-          <li class="list-group-item departmentsName"></li>
-          <li class="list-group-item locationName"></li>
-          <li class="list-group-item employeeCount"></li>
-        </ul>
-        <button id="departmentEditButton" type="button" class="btn btn-outline-primary departmentEditButton">Edit</button>
-        <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment">Delete</button>
-      </div>
-    </div>
-  </div>  
+
+    <!-- Table of departments -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Department</th>
+          <th scope="col">Location</th>
+          <th scope="col">Amount of employees</th>
+        </tr>
+      </thead>
+
+      <tbody id="departmentsList" class="table-group-divider"></tbody>
+
+      <tbody class="template">
+
+        <tr id="departmentsEntry">
+          <td class="departmentsName"></td>
+          <td class="locationName"></td>
+          <td class="employeeCount"></td>
+
+          <td><button id="departmentEditButton" type="button"
+              class="btn btn-outline-primary departmentEditButton">Edit</button></td>
+          <td><button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment">X</button>
+          </td>
+
+        </tr>
+
+
+
+      </tbody>
+    </table>
+  </div>
+
 
   <!-- Department edit page -->
   <div id="departmentEdit">
@@ -227,18 +266,25 @@
     <div class="row">
       <div class="col text-center">Location</div>
       <div class="col text-center">
-        <select class="form-select formLocationDropdownEdit" name="formLocationDropdownEdit" id="formLocationDropdownEdit">
+        <select class="form-select formLocationDropdownEdit" name="formLocationDropdownEdit"
+          id="formLocationDropdownEdit">
           <option value="">Select location</option>
         </select>
       </div>
     </div>
 
     <button id="departmentSaveButton" type="button" class="btn btn-outline-primary">Save</button>
-    <button id="departmentCancelButton" type="button" class="btn btn-outline-danger departmentCancelButton">Cancel</button>
+    <button id="departmentCancelButton" type="button"
+      class="btn btn-outline-danger departmentCancelButton">Cancel</button>
   </div>
 
   <!-- Locations page -->
   <div id="locationsPage">
+    <form id="locationSearchBar" class="d-flex" role="search">
+      <input id="allLocationSearch" class="form-control me-2" type="search" placeholder="Search for location"
+        aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
     <h2 class="text-center">Locations</h2>
 
     <!-- Button to add new location -->
@@ -259,17 +305,33 @@
       </form>
     </div>
 
-    <div id="locationsList"></div>
-    <div class="template">
-      <div id="locationsEntry">
-        <ul class="list-group">
-          <li class="list-group-item locationsName"></li>
-          <li class="list-group-item departmentCount"></li>
-        </ul>
-        <button id="locationEditButton" type="button" class="btn btn-outline-primary locationEditButton">Edit</button>
-        <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation">Delete</button>
-      </div>
-    </div>
+    <!-- Table of locations -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Location</th>
+          <th scope="col">Amount of departments</th>
+        </tr>
+      </thead>
+
+      <tbody id="locationsList" class="table-group-divider"></tbody>
+
+      <tbody class="template">
+
+        <tr id="locationsEntry">
+          <td class="locationsName"></td>
+          <td class="departmentCount"></td>
+
+          <td><button id="locationEditButton" type="button"
+              class="btn btn-outline-primary locationEditButton">Edit</button></td>
+          <td><button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation">X</button></td>
+
+        </tr>
+
+
+
+      </tbody>
+    </table>
 
   </div>
 
@@ -287,6 +349,9 @@
 
   <!-- Bootstrap JS v5.2 -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Sweet Alert JS -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <!-- My own JS -->
   <script src="libs/js/jquery-3.6.0.min.js"></script>
