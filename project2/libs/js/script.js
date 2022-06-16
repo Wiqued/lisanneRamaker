@@ -454,9 +454,9 @@ function showLocations() {
         $(clonedDiv.getElementsByClassName('departmentCount')[0]).click(function () {
             currentLocationFilter = location.id;
             console.log(currentLocationFilter);
-            showAllDepartments();
+            showDepartments();
             document.getElementById("locationsPage").style.display = "none";
-
+            document.getElementById("departmentsPage").style.display = "block";
         });
 
         $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
