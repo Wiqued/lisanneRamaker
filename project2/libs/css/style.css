@@ -34,3 +34,40 @@ div#departmentEdit,
 div#locationsEdit {
     display: none;
 }
+
+div.card-footer.text-muted {
+    margin-top: 20px;
+}
+
+#departmentSaveButton,
+#departmentCancelButton,
+#deleteEmployee,
+#employeeEditButton,
+#locationSaveButton,
+#locationCancelButton{
+    margin-top: 20px;
+}
+
+div#bodybody {
+    max-width: 800px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.employeeEntry,
+.employeeCount,
+.departmentCount {
+    cursor: pointer;
+}
+
+.employeeCount,
+.departmentCount {
+    text-decoration: underline;
+}
+
+.employeeEntry:hover,
+.locationsEntry:hover,
+.departmentsEntry:hover {
+    background-color: rgb(173, 173, 173);
+}

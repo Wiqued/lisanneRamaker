@@ -18,6 +18,20 @@ function showAll() {
     document.getElementById("locationsEdit").style.display = "none";
 }
 
+function showAllDepartments() {
+    getDepartments();
+    document.getElementById("employeePage").style.display = "none";
+    document.getElementById("employeeProfile").style.display = "none";
+    document.getElementById("departmentsPage").style.display = "block";
+    document.getElementById("locationsPage").style.display = "none";
+    document.getElementById("createEmployee").style.display = "none";
+    document.getElementById("createDepartment").style.display = "none";
+    document.getElementById("createLocation").style.display = "none";
+    document.getElementById("employeeProfileEdit").style.display = "none";
+    document.getElementById("departmentEdit").style.display = "none";
+    document.getElementById("locationsEdit").style.display = "none";
+}
+
 
 // Show all sorts of pages
 $("#employeeEntry").click(function () {
@@ -33,7 +47,7 @@ $("#navAll").click(function () {
 });
 
 $("#navDepartments").click(function () {
-    getDepartments();
+    showAllDepartments();
     document.getElementById("createEmployeeButton").innerHTML = "Add employee";
     document.getElementById("createDepartmentButton").innerHTML = "Add department";
     document.getElementById("createLocationButton").innerHTML = "Add location";
@@ -50,6 +64,7 @@ $("#navLocations").click(function () {
 // Delete, create and edit employees
 $(".deleteEmployee").click(function () {
     swal("Are you sure you want to delete this employee?", {
+        icon: "warning",
         buttons: {
             cancel: "Cancel",
             confirm: {
@@ -62,7 +77,9 @@ $(".deleteEmployee").click(function () {
             switch (value) {
 
                 case "confirm":
-                    swal("You have successfully removed the employee.");
+                    swal("You have successfully removed the employee.", {
+                        icon: "success",
+                    });
                     deleteEmployee(currentEmployeeID);
                     break;
             }
@@ -135,7 +152,7 @@ $("#departmentSaveButton").click(function () {
 });
 
 $("#departmentCancelButton").click(function () {
-    showDepartments();
+    showAllDepartments();
 });
 
 
@@ -193,6 +210,18 @@ $("#locationSearchBar").submit(function (e) {
     showLocations();
 });
 
+$(".backToAllButton").click(function () {
+    showAll();
+});
+
+$(".backToDepartmentsButton").click(function () {
+    showAllDepartments();
+});
+
+$(".backToLocationsButton").click(function () {
+    showLocations();
+});
+
 let currentEmployeeID;
 let allEmployees;
 let allDepartments;
@@ -207,8 +236,8 @@ let currentLocationFilter = null;
 
 
 // Show all employees on load in
-getEmployees();
 getDepartments();
+getEmployees();
 
 
 // 
@@ -244,6 +273,7 @@ function showAllEmployees() {
         if (shouldShowEmployee(employee)) {
 
             const div = document.getElementById('employeeEntry');
+
             const clonedDiv = div.cloneNode(true);
             document.getElementById('employeeList').appendChild(clonedDiv);
 
@@ -251,6 +281,7 @@ function showAllEmployees() {
             clonedDiv.getElementsByClassName('listJob')[0].innerText = employee.jobTitle;
             clonedDiv.getElementsByClassName('listDepartment')[0].innerText = employee.department;
             clonedDiv.getElementsByClassName('listLocation')[0].innerText = employee.location;
+
 
             document.getElementById("employeePage").style.display = "block";
             document.getElementById("employeeProfile").style.display = "none";
@@ -318,18 +349,19 @@ function showDepartments() {
 
             clonedDiv.getElementsByClassName('departmentsName')[0].innerText = department.name;
             clonedDiv.getElementsByClassName('locationName')[0].innerText = department.location;
-            clonedDiv.getElementsByClassName('employeeCount')[0].innerText = `${department.num_of_employees} employee(s)`;
+            clonedDiv.getElementsByClassName('employeeCount')[0].innerText = `Show ${department.num_of_employees} employee(s)`;
+
 
             $(clonedDiv.getElementsByClassName('employeeCount')[0]).click(function () {
                 currentDepartmentFilter = department.id;
                 showAllEmployees();
                 document.getElementById("departmentsPage").style.display = "none";
-
             });
 
 
             $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function () {
                 swal("Are you sure you want to delete this department?", {
+                    icon: "warning",
                     buttons: {
                         cancel: "Cancel",
                         confirm: {
@@ -360,17 +392,6 @@ function showDepartments() {
             });
         }
     }
-
-    document.getElementById("employeePage").style.display = "none";
-    document.getElementById("employeeProfile").style.display = "none";
-    document.getElementById("departmentsPage").style.display = "block";
-    document.getElementById("locationsPage").style.display = "none";
-    document.getElementById("createEmployee").style.display = "none";
-    document.getElementById("createDepartment").style.display = "none";
-    document.getElementById("createLocation").style.display = "none";
-    document.getElementById("employeeProfileEdit").style.display = "none";
-    document.getElementById("departmentEdit").style.display = "none";
-    document.getElementById("locationsEdit").style.display = "none";
 }
 
 function shouldShowDepartment(department) {
@@ -428,18 +449,19 @@ function showLocations() {
         document.getElementById('locationsList').appendChild(clonedDiv);
 
         clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
-        clonedDiv.getElementsByClassName('departmentCount')[0].innerText = `${location.num_of_depts} department(s)`;
+        clonedDiv.getElementsByClassName('departmentCount')[0].innerText = `Show ${location.num_of_depts} department(s)`;
 
         $(clonedDiv.getElementsByClassName('departmentCount')[0]).click(function () {
             currentLocationFilter = location.id;
             console.log(currentLocationFilter);
-            showDepartments();
+            showAllDepartments();
             document.getElementById("locationsPage").style.display = "none";
 
         });
 
         $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
             swal("Are you sure you want to delete this location?", {
+                icon: "warning",
                 buttons: {
                     cancel: "Cancel",
                     confirm: {
@@ -589,10 +611,14 @@ function deleteDepartment(departmentID) {
         success: function (result) {
 
             if (result.status.name == "ok") {
-                showDepartments();
-                swal("You have successfully deleted the department.");
+                getDepartments();
+                swal("You have successfully deleted the department.",{
+                    icon: "success",
+                });
             } else {
-                swal("There are still employees in that department; you can not delete it.");
+                swal("There are still employees in that department; you can not delete it.",{
+                    icon: "error",
+                });
             }
 
         }
@@ -629,10 +655,14 @@ function deleteLocation(locationID) {
         success: function (result) {
 
             if (result.status.name == "ok") {
-                showLocations();
-                swal("You have successfully deleted the location.");
+                getLocations();
+                swal("You have successfully deleted the location.", {
+                    icon: "success",
+                });
             } else {
-                swal("There are still departments in that location; you can not delete it.");
+                swal("There are still departments in that location; you can not delete it.", {
+                    icon: "error",
+                });
             }
 
         }
