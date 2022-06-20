@@ -358,14 +358,6 @@ function showDepartments() {
 
             clonedDiv.getElementsByClassName('departmentsName')[0].innerText = department.name;
             clonedDiv.getElementsByClassName('locationName')[0].innerText = department.location;
-            clonedDiv.getElementsByClassName('employeeCount')[0].innerText = `Show ${department.num_of_employees} employee(s)`;
-
-
-            $(clonedDiv.getElementsByClassName('employeeCount')[0]).click(function () {
-                currentDepartmentFilter = department.id;
-                showAllEmployees();
-                document.getElementById("departmentsPage").style.display = "none";
-            });
 
 
             $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function () {
@@ -458,15 +450,6 @@ function showLocations() {
         document.getElementById('locationsList').appendChild(clonedDiv);
 
         clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
-        clonedDiv.getElementsByClassName('departmentCount')[0].innerText = `Show ${location.num_of_depts} department(s)`;
-
-        $(clonedDiv.getElementsByClassName('departmentCount')[0]).click(function () {
-            currentLocationFilter = location.id;
-            console.log(currentLocationFilter);
-            showDepartments();
-            document.getElementById("locationsPage").style.display = "none";
-            document.getElementById("departmentsPage").style.display = "block";
-        });
 
         $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
             swal("Are you sure you want to delete this location?", {
