@@ -16,29 +16,15 @@ $("#searchForm").submit(function (e) {
 function showAll() {
     getEmployees();
     document.getElementById("employeePage").style.display = "block";
-    document.getElementById("employeeProfile").style.display = "none";
     document.getElementById("departmentsPage").style.display = "none";
     document.getElementById("locationsPage").style.display = "none";
-    document.getElementById("createEmployee").style.display = "none";
-    document.getElementById("createDepartment").style.display = "none";
-    document.getElementById("createLocation").style.display = "none";
-    document.getElementById("employeeProfileEdit").style.display = "none";
-    document.getElementById("departmentEdit").style.display = "none";
-    document.getElementById("locationsEdit").style.display = "none";
 }
 
 function showAllDepartments() {
     getDepartments();
     document.getElementById("employeePage").style.display = "none";
-    document.getElementById("employeeProfile").style.display = "none";
     document.getElementById("departmentsPage").style.display = "block";
     document.getElementById("locationsPage").style.display = "none";
-    document.getElementById("createEmployee").style.display = "none";
-    document.getElementById("createDepartment").style.display = "none";
-    document.getElementById("createLocation").style.display = "none";
-    document.getElementById("employeeProfileEdit").style.display = "none";
-    document.getElementById("departmentEdit").style.display = "none";
-    document.getElementById("locationsEdit").style.display = "none";
 }
 
 
@@ -99,38 +85,24 @@ $("#formEmployee").submit(function (e) {
     e.preventDefault();
     createEmployee();
     document.getElementById("formEmployee").reset();
+    $("#createEmployeeModal").modal("hide");
 });
 
 $("#createEmployeeButton").click(function () {
 
-    let form = document.getElementById("createEmployee")
-    let button = document.getElementById("createEmployeeButton");
     getDepartmentList();
 
-    if (form.style.display == "block") {
-        button.innerHTML = "Add employee";
-        form.style.display = "none";
-    } else {
-        button.innerHTML = "Hide";
-        form.style.display = "block";
-    }
 
 });
 
-$("#employeeEditButton").click(function () {
-    document.getElementById("employeeProfile").style.display = "none";
-    document.getElementById("employeeProfileEdit").style.display = "block";
-});
-
-$("#employeeSaveButton").click(function () {
-    updateEmployee()
-    document.getElementById("employeeProfile").style.display = "block";
-    document.getElementById("employeeProfileEdit").style.display = "none";
+$("#employeeEditForm").submit(function (e) {
+    e.preventDefault();
+    updateEmployee();
+    $("#employeeProfileEditModal").modal("hide");
 });
 
 $("#employeeCancelButton").click(function () {
     showEmployeeProfile(currentEmployeeID);
-    document.getElementById("employeeProfileEdit").style.display = "none";
 });
 
 // Create new departments
@@ -138,26 +110,18 @@ $("#formDepartment").submit(function (e) {
     e.preventDefault();
     createDepartment();
     document.getElementById("formDepartment").reset();
+    $("#createDepartmentModal").modal("hide");
 });
 
 $("#createDepartmentButton").click(function () {
-    let form = document.getElementById("createDepartment")
-    let button = document.getElementById("createDepartmentButton");
+
     getLocationsList();
 
-    if (form.style.display == "block") {
-        button.innerHTML = "Add department";
-        form.style.display = "none";
-    } else {
-        button.innerHTML = "Hide";
-        form.style.display = "block";
-    }
 });
 
 $("#departmentSaveButton").click(function () {
     updateDepartment();
-    document.getElementById("departmentsPage").style.display = "block";
-    document.getElementById("departmentEdit").style.display = "none";
+    $("#departmentEditModal").modal("hide");
 });
 
 $("#departmentCancelButton").click(function () {
@@ -177,26 +141,12 @@ $("#formLocation").submit(function (e) {
     e.preventDefault();
     createLocation();
     document.getElementById("formLocation").reset();
-});
-
-$("#createLocationButton").click(function () {
-
-    let form = document.getElementById("createLocation")
-    let button = document.getElementById("createLocationButton");
-
-    if (form.style.display == "block") {
-        button.innerHTML = "Add location";
-        form.style.display = "none";
-    } else {
-        button.innerHTML = "Hide";
-        form.style.display = "block";
-    }
+    $("#createLocationModal").modal("hide")
 });
 
 $("#locationSaveButton").click(function () {
     updateLocation();
-    document.getElementById("locationsPage").style.display = "block";
-    document.getElementById("locationsEdit").style.display = "none";
+    $("#locationEditModal").modal("hide")
 });
 
 $("#locationCancelButton").click(function () {
@@ -289,11 +239,8 @@ function showAllEmployees() {
             clonedDiv.getElementsByClassName('listName')[0].innerText = `${employee.firstName} ${employee.lastName}`;
             clonedDiv.getElementsByClassName('listJob')[0].innerText = employee.jobTitle;
             clonedDiv.getElementsByClassName('listDepartment')[0].innerText = employee.department;
-            clonedDiv.getElementsByClassName('listLocation')[0].innerText = employee.location;
-
 
             document.getElementById("employeePage").style.display = "block";
-            document.getElementById("employeeProfile").style.display = "none";
 
             $(clonedDiv).click(function () {
                 showEmployeeProfile(employee.id)
@@ -383,8 +330,6 @@ function showDepartments() {
 
             $(clonedDiv.getElementsByClassName('departmentEditButton')[0]).click(function () {
                 currentDepartmentID = department.id;
-                document.getElementById("departmentsPage").style.display = "none";
-                document.getElementById("departmentEdit").style.display = "block";
 
                 // Pre-fill the page
                 document.getElementById("departmentNameEdit").value = department.name;
@@ -474,9 +419,6 @@ function showLocations() {
 
         $(clonedDiv.getElementsByClassName('locationEditButton')[0]).click(function () {
             currentLocationID = location.id;
-            document.getElementById("locationsPage").style.display = "none";
-            document.getElementById("locationsEdit").style.display = "block";
-
 
             // Pre fill the page
             document.getElementById("locationNameEdit").value = location.name;
@@ -486,15 +428,8 @@ function showLocations() {
     }
 
     document.getElementById("employeePage").style.display = "none";
-    document.getElementById("employeeProfile").style.display = "none";
     document.getElementById("departmentsPage").style.display = "none";
     document.getElementById("locationsPage").style.display = "block";
-    document.getElementById("createEmployee").style.display = "none";
-    document.getElementById("createDepartment").style.display = "none";
-    document.getElementById("createLocation").style.display = "none";
-    document.getElementById("employeeProfileEdit").style.display = "none";
-    document.getElementById("departmentEdit").style.display = "none";
-    document.getElementById("locationsEdit").style.display = "none";
 
 };
 
@@ -539,16 +474,7 @@ function showEmployeeProfile(employeeId) {
             getDepartmentListEdit(result.data.personnel[0].departmentID);
 
 
-            document.getElementById("employeePage").style.display = "none";
-            document.getElementById("employeeProfile").style.display = "block";
             document.getElementById("departmentsPage").style.display = "none";
-            document.getElementById("locationsPage").style.display = "none";
-            document.getElementById("createEmployee").style.display = "none";
-            document.getElementById("createDepartment").style.display = "none";
-            document.getElementById("createLocation").style.display = "none";
-            document.getElementById("employeeProfileEdit").style.display = "none";
-            document.getElementById("departmentEdit").style.display = "none";
-            document.getElementById("locationsEdit").style.display = "none";
         }
     })
 }
@@ -830,7 +756,7 @@ function updateDepartment() {
         },
         success: function (results) {
 
-            showDepartments();
+            getDepartments();
 
         }
     })
@@ -847,7 +773,7 @@ function updateLocation() {
         },
         success: function (results) {
 
-            showLocations();
+            getLocations();
 
         }
     })

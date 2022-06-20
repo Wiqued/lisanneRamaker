@@ -46,8 +46,7 @@
 
 
     <form id="allSearchBar" class="d-flex" role="search">
-      <input id="allEmployeeSearch" class="form-control me-2" type="search" placeholder="Search"
-        aria-label="Search">
+      <input id="allEmployeeSearch" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>
@@ -60,45 +59,63 @@
       <h2 class="text-center" id="employeesTitle">All employees</h2>
 
       <!-- Button to add new employee -->
-      <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary">Add employee</button>
+      <button id="createEmployeeButton" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+        data-bs-target="#createEmployeeModal">Add employee</button>
+
 
       <!-- Create employee form -->
-      <div class="mb-3" id="createEmployee">
-        <h3 class="text-center">Add new employee</h3>
+      <div class="modal fade" id="createEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="mb-3" id="createEmployee">
 
-        <form action="" id="formEmployee">
-          <div class="form-floating">
-            <input type="text" name="formFirstName" id="formFirstName" class="form-control" required>
-            <label for="formFirstName">First Name</label>
+              <div class="modal-header">
+                <h3 class="text-center">Add new employee</h3>
+              </div>
+
+              <div class="modal-body">
+                <form action="" id="formEmployee">
+                  <div class="form-floating mb-3">
+                    <input type="text" name="formFirstName" id="formFirstName" class="form-control" required>
+                    <label for="formFirstName">First Name</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input type="text" name="formLastName" id="formLastName" class="form-control" required>
+                    <label for="formLastName" class="form-label">Last Name</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input type="text" name="formJobTitle" id="formJobTitle" class="form-control" required>
+                    <label for="formJobTitle" class="form-label">Job</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input type="email" name="formEmail" id="formEmail" class="form-control" required>
+                    <label for="formEmail">Email Address</label>
+                  </div>
+
+                  <!-- Dropdown of departments -->
+                  <div class="form-floating">
+                    <select class="form-select formDepartmentDropdown" name="formDepartmentDropdown"
+                      id="formDepartmentDropdown">
+                      <option value="">Select department</option>
+                    </select>
+                    <label for="formDepartmentDropdown">Department</label>
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <input class="btn btn-outline-primary" type="submit" value="Submit">
+                <input class="btn btn-outline-danger" data-bs-dismiss="modal" type="button" value="Cancel">
+              </div>
+
+              </form>
+            </div>
           </div>
-
-          <div class="form-floating">
-            <input type="text" name="formLastName" id="formLastName" class="form-control" required>
-            <label for="formLastName" class="form-label">Last Name</label>
-          </div>
-
-          <div class="form-floating">
-            <input type="text" name="formJobTitle" id="formJobTitle" class="form-control" required>
-            <label for="formJobTitle" class="form-label">Job</label>
-          </div>
-
-          <div class="form-floating">
-            <input type="email" name="formEmail" id="formEmail" class="form-control" required>
-            <label for="formEmail">Email Address</label>
-          </div>
-
-          <!-- Dropdown of departments -->
-          <div class="form-floating">
-            <select class="form-select formDepartmentDropdown" name="formDepartmentDropdown"
-              id="formDepartmentDropdown">
-              <option value="">Select department</option>
-            </select>
-            <label for="formDepartmentDropdown">Department</label>
-          </div>
-
-          <input class="btn btn-outline-primary" type="submit" value="Submit">
-
-        </form>
+        </div>
       </div>
 
 
@@ -109,7 +126,7 @@
 
         <tbody class="template">
 
-          <tr id="employeeEntry" class="employeeEntry">
+          <tr id="employeeEntry" class="employeeEntry" data-bs-toggle="modal" data-bs-target="#employeeProfileModal">
             <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right"
                 viewBox="0 0 16 16">
                 <path
@@ -117,7 +134,24 @@
               </svg><span class="listName"></span></td>
             <td class="listJob"></td>
             <td class="listDepartment"></td>
-            <td class="listLocation"></td>
+            <td>
+              <button type="button" class="btn btn-outline-primary departmentEditButton" data-bs-toggle="modal"
+                data-bs-target="#employeeProfileEditModal""><svg
+                  xmlns=" http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                <path fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg>
+              </button>
+              <button type="button" class="btn btn-outline-danger deleteEmployee"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                </svg></button>
+            </td>
           </tr>
 
         </tbody>
@@ -126,87 +160,121 @@
 
 
     <!-- Individual employee profile -->
-    <div id="employeeProfile" class="card text-center">
-      <div class="card-body">
-        <h2 id="employeeName" class="text-center card-title"></h2>
+    <div class="modal fade" id="employeeProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div id="employeeProfile" class="text-center">
 
-        <div class="container">
-          <div class="row g-4">
-            <div class="col-6">
-              <div class="p-2 rounded-top employeeInfo border bg-dark text-center text-light">Department</div>
-              <div id=employeeDepartment class="p-2 rounded-bottom border bg-light text-center"></div>
+            <div class="modal-header">
+              <h2 id="employeeName" class="text-center"></h2>
             </div>
 
-            <div class="col-6">
-              <div class="p-2 rounded-top border bg-dark text-center text-light">Location</div>
-              <div id="employeeLocation" class="p-2 rounded-bottom border bg-light text-center"></div>
+            <div class="modal-body">
+              <div class="container">
+                <div class="row g-4">
+                  <div class="col-6">
+                    <div class="p-2 rounded-top employeeInfo border bg-dark text-center text-light">Department</div>
+                    <div id=employeeDepartment class="p-2 rounded-bottom border bg-light text-center"></div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="p-2 rounded-top border bg-dark text-center text-light">Location</div>
+                    <div id="employeeLocation" class="p-2 rounded-bottom border bg-light text-center"></div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="p-2 rounded-top border bg-dark text-center text-light">Email</div>
+                    <div id="employeeEmail" class="p-2 rounded-bottom border bg-light text-center"></div>
+                  </div>
+
+                  <div class="col-6">
+                    <div class="p-2 rounded-top border bg-dark text-center text-light">Job</div>
+                    <div id="employeeJobTitle" class="p-2 rounded-bottom border bg-light text-center"></div>
+                  </div>
+                </div>
+
+              </div>
             </div>
 
-            <div class="col-6">
-              <div class="p-2 rounded-top border bg-dark text-center text-light">Email</div>
-              <div id="employeeEmail" class="p-2 rounded-bottom border bg-light text-center"></div>
-            </div>
-
-            <div class="col-6">
-              <div class="p-2 rounded-top border bg-dark text-center text-light">Job</div>
-              <div id="employeeJobTitle" class="p-2 rounded-bottom border bg-light text-center"></div>
+            <div modal-footer>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                data-bs-target="#employeeProfileEditModal">Edit</button>
+              <input class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" value="Close">
+              <button type="button" class="btn btn-outline-danger deleteEmployee">Delete</button>
             </div>
           </div>
-
         </div>
-
-        <button id="employeeEditButton" type="button" class="btn btn-outline-primary">Edit</button>
-        <button id="deleteEmployee" type="button" class="btn btn-outline-danger deleteEmployee">Delete</button>
-      </div>
-      <div class="card-footer text-muted">
-        <a href="#" class="btn btn-primary backToAllButton">Back to all</a>
       </div>
     </div>
 
     <!-- Employee editing page -->
-    <div id="employeeProfileEdit" class="card text-center">
-      <div class="card-body">
+    <div class="modal fade" id="employeeProfileEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div id="employeeProfileEdit">
 
-        <div class="row">
-          <div class="col text-center">First name</div>
-          <div class="col text-center input-group mb-3"><input type="text" class="form-control" name=""
-              id="employeeFirstNameEdit"></div>
-        </div>
 
-        <div class="row">
-          <div class="col text-center">Last name</div>
-          <div class="col text-center input-group mb-3"><input type="text" class="form-control" name=""
-              id="employeeLastNameEdit"></div>
-        </div>
+            <div class="modal-body">
+              <form action="" if="employeeEditForm">
 
-        <div class="row">
-          <div class="col text-center">Department</div>
-          <div class="col text-center">
-            <select class="form-select formDepartmentDropdownEdit col text-center mb-3"
-              name="formDepartmentDropdownEdit" id="formDepartmentDropdownEdit">
-              <option value="">Select department</option>
-            </select>
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-6">
+                    <label for="EmployeeFirstNameEdit" class="col-form-label">First Name</label>
+                  </div>
+                  <div class="col-6"><input type="text" class="form-control" name="" id="employeeFirstNameEdit">
+                  </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-6">
+                    <label for="employeeLastNameEdit" class="col-form-label text-center">Last Name</label>
+                  </div>
+                  <div class="col-6"><input type="text" class="form-control" name="" id="employeeLastNameEdit">
+                  </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-6">
+                    <label for="formDepartmentDropdownEdit" class="col-form-label">Department</label>
+                  </div>
+                  <div class="col-6">
+                    <select class="form-select formDepartmentDropdownEdit col text-center mb-3"
+                      name="formDepartmentDropdownEdit" id="formDepartmentDropdownEdit">
+                      <option value="">Select department</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-6">
+                    <label for="employeeEmailEdit" class="col-form-label">Email</label>
+                  </div>
+                  <div class="col-6">
+                    <input type="email" class="form-control" name="" id="employeeEmailEdit">
+                  </div>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                  <div class="col-6">
+                    <label for="employeeJobTitleEdit" class="col-form-label">Job Title</label>
+                  </div>
+                  <div class="col-6">
+                    <input type="text" class="form-control" name="" id="employeeJobTitleEdit">
+                  </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+              <input id="employeeSaveButton" class="btn btn-outline-primary" type="submit" value="Submit">
+              <input class="btn btn-outline-secondary" data-bs-dismiss="modal" type="button" value="Cancel">
+            </div>
+
+          </form>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col text-center">Email</div>
-          <div class="col text-center input-group mb-3"><input type="email" class="form-control" name=""
-              id="employeeEmailEdit"></div>
-        </div>
-
-        <div class="row">
-          <div class="col text-center">Job</div>
-          <div class="col text-center input-group mb-3"><input type="text" class="form-control" name=""
-              id="employeeJobTitleEdit"></div>
-        </div>
-
-        <button id="employeeSaveButton" type="button" class="btn btn-outline-primary">Save</button>
-        <button id="employeeCancelButton" type="button"
-          class="btn btn-outline-danger employeeCancelButton">Cancel</button>
-      </div>
-      <div class="card-footer text-muted">
-        <a id="backToAllButton" href="#" class="btn btn-primary backToAllButton">Back to all</a>
       </div>
     </div>
 
@@ -220,27 +288,43 @@
       <h2 class="text-center">Departments</h2>
 
       <!-- Button to add new department -->
-      <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary">Add department</button>
+      <button id="createDepartmentButton" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+        data-bs-target="#createDepartmentModal">Add department</button>
 
       <!-- Create department form -->
-      <div id="createDepartment">
-        <h3 class="text-center">Add new department</h3>
+      <div class="modal fade" id="createDepartmentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div id="createDepartment">
 
-        <form action="" id="formDepartment">
-          <div class="form-floating">
-            <input type="text" name="formDepartmentName" id="formDepartmentName" class="form-control" required>
-            <label for="formDepartmentName" class="form-label">Department name</label>
+              <div class="modal-header">
+                <h3 class="text-center">Add new department</h3>
+              </div>
+
+              <div class="modal-body">
+                <form action="" id="formDepartment">
+                  <div class="form-floating mb-3">
+                    <input type="text" name="formDepartmentName" id="formDepartmentName" class="form-control" required>
+                    <label for="formDepartmentName" class="form-label">Department name</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <select class="form-select" name="formLocationDropdown" id="formLocationDropdown">
+                      <option value="">Select location</option>
+                    </select>
+                    <label for="formLocationDropdown">Select Location</label>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                <input class="btn btn-outline-primary" type="submit" value="Submit">
+                <input class="btn btn-outline-danger" data-bs-dismiss="modal" type="button" value="Cancel">
+              </div>
+              </form>
+            </div>
           </div>
-
-          <div class="form-floating">
-            <select class="form-select" name="formLocationDropdown" id="formLocationDropdown">
-              <option value="">Select location</option>
-            </select>
-            <label for="formLocationDropdown">Select Location</label>
-          </div>
-
-          <input class="btn btn-outline-primary" type="submit" value="Submit">
-        </form>
+        </div>
       </div>
 
 
@@ -256,9 +340,9 @@
             <td class="locationName"></td>
 
             <td>
-              <button id="departmentEditButton" type="button" class="btn btn-outline-primary departmentEditButton"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <button id="departmentEditButton" type="button" class="btn btn-outline-primary departmentEditButton"
+                data-bs-toggle="modal" data-bs-target="#departmentEditModal"><svg xmlns="http://www.w3.org/2000/svg"
+                  width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                   <path
                     d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                   <path fill-rule="evenodd"
@@ -281,31 +365,41 @@
     </div>
 
 
-    <!-- Department edit page -->
-    <div id="departmentEdit" class="card text-center">
-      <div class="card-body">
-        <div class="row">
-          <div class="col text-center">Department name</div>
-          <div class="col text-center input-group mb-3"><input class="form-control" type="text" name=""
-              id="departmentNameEdit"></div>
-        </div>
 
-        <div class="row">
-          <div class="col text-center">Location</div>
-          <div class="col text-center">
-            <select class="form-select formLocationDropdownEdit" name="formLocationDropdownEdit"
-              id="formLocationDropdownEdit">
-              <option value="">Select location</option>
-            </select>
+
+    <!-- Department edit page -->
+    <div class="modal fade" id="departmentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div id="departmentEdit" class="text-center">
+
+            <div class="modal-body">
+              <div class="row">
+                <div class="col text-center">Department name</div>
+                <div class="col text-center input-group mb-3"><input class="form-control" type="text" name=""
+                    id="departmentNameEdit"></div>
+              </div>
+
+              <div class="row">
+                <div class="col text-center">Location</div>
+                <div class="col text-center">
+                  <select class="form-select formLocationDropdownEdit" name="formLocationDropdownEdit"
+                    id="formLocationDropdownEdit">
+                    <option value="">Select location</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="modal-footer">
+              <button id="departmentSaveButton" type="button" class="btn btn-outline-primary">Save</button>
+              <button id="departmentCancelButton" type="button" <input class="btn btn-outline-danger"
+                data-bs-dismiss="modal" type="button">Cancel</button>
+            </div>
           </div>
         </div>
-
-        <button id="departmentSaveButton" type="button" class="btn btn-outline-primary">Save</button>
-        <button id="departmentCancelButton" type="button"
-          class="btn btn-outline-danger departmentCancelButton">Cancel</button>
-      </div>
-      <div class="card-footer text-muted">
-        <a id="backToDepartmentsButton" href="#" class="btn btn-primary backToDepartmentsButton">Back to departments</a>
       </div>
     </div>
 
@@ -319,21 +413,38 @@
       <h2 class="text-center">Locations</h2>
 
       <!-- Button to add new location -->
-      <button id="createLocationButton" type="button" class="btn btn-outline-secondary">Add location</button>
+      <button id="createLocationButton" type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+        data-bs-target="#createLocationModal">Add location</button>
 
 
       <!-- Create location form -->
-      <div id="createLocation">
-        <h3 class="text-center">Add new location</h3>
+      <div class="modal fade" id="createLocationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="mb-3" id="createLocation">
 
-        <form action="" id="formLocation">
-          <div class="form-floating">
-            <input type="text" name="formLocationName" id="formLocationName" class="form-control" required>
-            <label for="formLocationName" class="form-label">Location name</label>
+              <div class="modal-header">
+                <h3 class="text-center">Add new location</h3>
+              </div>
+
+              <div class="modal-body">
+                <form action="" id="formLocation">
+                  <div class="form-floating mb-3">
+                    <input type="text" name="formLocationName" id="formLocationName" class="form-control" required>
+                    <label for="formLocationName" class="form-label">Location name</label>
+                  </div>
+              </div>
+
+              <div class="modal-footer">
+                <input class="btn btn-outline-primary" type="submit" value="Submit">
+                <input class="btn btn-outline-danger" data-bs-dismiss="modal" type="button" value="Cancel">
+              </div>
+
+              </form>
+            </div>
           </div>
-
-          <input class="btn btn-outline-primary" type="submit" value="Submit">
-        </form>
+        </div>
       </div>
 
       <!-- Table of locations -->
@@ -347,15 +458,15 @@
             <td class="locationsName"></td>
 
             <td>
-              <button id="locationEditButton" type="button" class="btn btn-outline-primary locationEditButton"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <button type="button" class="btn btn-outline-primary locationEditButton" data-bs-toggle="modal"
+                data-bs-target="#locationEditModal"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                   <path
                     d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                   <path fill-rule="evenodd"
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg></button>
-              <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation"><svg
+              <button type="button" class="btn btn-outline-danger deleteLocation"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-trash3-fill" viewBox="0 0 16 16">
                   <path
@@ -365,31 +476,37 @@
 
           </tr>
 
-
-
         </tbody>
       </table>
 
     </div>
 
     <!-- Location edit page -->
-    <div id="locationsEdit" class="card text-center">
-      <div class="card-body">
-        <div class="row">
-          <div class="col text-center">Location name</div>
-          <div class="col text-center input-group mb-3"><input type="text" class="form-control" name=""
-              id="locationNameEdit"></div>
-        </div>
+    <div class="modal fade" id="locationEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div id="locationsEdit" class="text-center">
 
-        <button id="locationSaveButton" type="button" class="btn btn-outline-primary">Save</button>
-        <button id="locationCancelButton" type="button"
-          class="btn btn-outline-danger locationCancelButton">Cancel</button>
-      </div>
-      <div class="card-footer text-muted">
-        <a id="backToLocationsButton" href="#" class="btn btn-primary backToLocationsButton">Back to locations</a>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col text-center">Location name</div>
+                <div class="col text-center input-group mb-3"><input type="text" class="form-control" name=""
+                    id="locationNameEdit"></div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button id="locationSaveButton" type="button" class="btn btn-outline-primary">Save</button>
+              <button id="locationCancelButton" type="button" class="btn btn-outline-danger locationCancelButton"
+                data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+
+
 
   </div>
 

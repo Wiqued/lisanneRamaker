@@ -71,29 +71,13 @@ a:hover {
     color: orange;
 }
 
-div#employeeProfile,
 div#departmentsPage,
 div#locationsPage,
-.template,
-div#createEmployee,
-div#createDepartment,
-div#createLocation,
-div#employeeProfileEdit,
-div#departmentEdit,
-div#locationsEdit {
+.template {
     display: none;
 }
 
 div.card-footer.text-muted {
-    margin-top: 20px;
-}
-
-#departmentSaveButton,
-#departmentCancelButton,
-#deleteEmployee,
-#employeeEditButton,
-#locationSaveButton,
-#locationCancelButton{
     margin-top: 20px;
 }
 
