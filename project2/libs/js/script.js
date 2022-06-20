@@ -30,6 +30,7 @@ function showAllDepartments() {
 
 // Show all sorts of pages
 $("#employeeEntry").click(function () {
+    getEmployees();
     showEmployeeProfile();
 });
 
@@ -58,6 +59,7 @@ $("#navLocations").click(function () {
 
 // Delete, create and edit employees
 $(".deleteEmployee").click(function () {
+
     swal("Are you sure you want to delete this employee?", {
         icon: "warning",
         buttons: {
@@ -79,11 +81,13 @@ $(".deleteEmployee").click(function () {
                     break;
             }
         })
+
 });
 
 $("#formEmployee").submit(function (e) {
     e.preventDefault();
     createEmployee();
+    showAll();
     document.getElementById("formEmployee").reset();
     $("#createEmployeeModal").modal("hide");
 });
@@ -92,17 +96,12 @@ $("#createEmployeeButton").click(function () {
 
     getDepartmentList();
 
-
 });
 
 $("#employeeEditForm").submit(function (e) {
     e.preventDefault();
     updateEmployee();
     $("#employeeProfileEditModal").modal("hide");
-});
-
-$("#employeeCancelButton").click(function () {
-    showEmployeeProfile(currentEmployeeID);
 });
 
 // Create new departments
@@ -144,7 +143,8 @@ $("#formLocation").submit(function (e) {
     $("#createLocationModal").modal("hide")
 });
 
-$("#locationSaveButton").click(function () {
+$("#locationsEditForm").submit(function (e) {
+    e.preventDefault();
     updateLocation();
     $("#locationEditModal").modal("hide")
 });
@@ -308,6 +308,7 @@ function showDepartments() {
 
 
             $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function () {
+                
                 swal("Are you sure you want to delete this department?", {
                     icon: "warning",
                     buttons: {
@@ -326,6 +327,7 @@ function showDepartments() {
                                 break;
                         }
                     });
+
             });
 
             $(clonedDiv.getElementsByClassName('departmentEditButton')[0]).click(function () {
@@ -333,6 +335,7 @@ function showDepartments() {
 
                 // Pre-fill the page
                 document.getElementById("departmentNameEdit").value = department.name;
+                document.getElementById("departmentEditHeader").innerText = `Editing ${department.name}`;
 
                 getLocationsListEdit(department.locationID);
             });
@@ -422,6 +425,7 @@ function showLocations() {
 
             // Pre fill the page
             document.getElementById("locationNameEdit").value = location.name;
+            document.getElementById("locationEditHeader").innerText = `Editing ${location.name}`;
         });
 
     }
@@ -473,6 +477,7 @@ function showEmployeeProfile(employeeId) {
 
             getDepartmentListEdit(result.data.personnel[0].departmentID);
 
+            $("#employeeProfileModal").modal("show");
 
             document.getElementById("departmentsPage").style.display = "none";
         }
@@ -491,6 +496,7 @@ function deleteEmployee(employeeID) {
         success: function (result) {
 
             showAll();
+            $("#employeeProfileModal").modal("hide");
 
         }
     })
@@ -710,7 +716,7 @@ function updateEmployee() {
         },
         success: function (results) {
 
-            showEmployeeProfile(currentEmployeeID);
+            showAll();
 
         }
     })

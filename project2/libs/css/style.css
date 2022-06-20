@@ -115,3 +115,7 @@ div#navbar {
     top: 0;
     width: 100%;
 }
+
+button {
+    z-index: 1;
+}
