@@ -13,44 +13,50 @@
   <link rel="stylesheet" href="libs/css/bootstrap.min.css">
 
   <!-- Style sheet -->
-  <link rel="stylesheet" href="libs/css/style.min.css">
+  <link rel="stylesheet" href="libs/css/style.css">
 </head>
 
 <body>
 
+  <div id="preloader"></div>
+
   <!-- Nav bar -->
-  <nav class="navbar navbar-expand bg-light">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a id="navAll" class="nav-link" href="#listOfAll">All</a>
-          </li>
-          <li class="nav-item">
-            <a id="navDepartments" class="nav-link" href="#departments">Departments</a>
-          </li>
-          <li class="nav-item">
-            <a id="navLocations" class="nav-link" href="#locations">Locations</a>
-          </li>
-        </ul>
+  <div id="navbar">
+    <nav class="navbar navbar-expand bg-light">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a id="navAll" class="nav-link" href="#listOfAll">All</a>
+            </li>
+            <li class="nav-item">
+              <a id="navDepartments" class="nav-link" href="#departments">Departments</a>
+            </li>
+            <li class="nav-item">
+              <a id="navLocations" class="nav-link" href="#locations">Locations</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
+
+
+    <form id="allSearchBar" class="d-flex" role="search">
+      <input id="allEmployeeSearch" class="form-control me-2" type="search" placeholder="Search"
+        aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
 
   <div id="bodybody">
 
     <!-- All page -->
 
     <div id="employeePage">
-      <form id="allSearchBar" class="d-flex" role="search">
-        <input id="allEmployeeSearch" class="form-control me-2" type="search" placeholder="Search for employee"
-          aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
       <h2 class="text-center" id="employeesTitle">All employees</h2>
 
       <!-- Button to add new employee -->
@@ -98,23 +104,17 @@
 
       <!-- Table of employees -->
       <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Job</th>
-            <th scope="col">Department</th>
-            <th scope="col">Location</th>
-          </tr>
-        </thead>
 
         <tbody id="employeeList" class="table-group-divider"></tbody>
 
         <tbody class="template">
 
           <tr id="employeeEntry" class="employeeEntry">
-            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right" viewBox="0 0 16 16">
-              <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-            </svg><span class="listName"></span></td>
+            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right"
+                viewBox="0 0 16 16">
+                <path
+                  d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+              </svg><span class="listName"></span></td>
             <td class="listJob"></td>
             <td class="listDepartment"></td>
             <td class="listLocation"></td>
@@ -246,13 +246,6 @@
 
       <!-- Table of departments -->
       <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Department</th>
-            <th scope="col">Location</th>
-            <th scope="col">Employees</th>
-          </tr>
-        </thead>
 
         <tbody id="departmentsList" class="table-group-divider"></tbody>
 
@@ -261,22 +254,28 @@
           <tr id="departmentsEntry" class="departmentsEntry">
             <td class="departmentsName"></td>
             <td class="locationName"></td>
-            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right" viewBox="0 0 16 16">
-              <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-            </svg><span class="employeeCount"></span></td>
+            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right"
+                viewBox="0 0 16 16">
+                <path
+                  d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+              </svg><span class="employeeCount"></span></td>
 
             <td>
-              <button id="departmentEditButton" type="button"
-                class="btn btn-outline-primary departmentEditButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              <button id="departmentEditButton" type="button" class="btn btn-outline-primary departmentEditButton"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg></button>
-                <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment"><svg
+              <button id="deleteDepartment" type="button" class="btn btn-outline-danger deleteDepartment"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-trash3-fill" viewBox="0 0 16 16">
                   <path
                     d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                </svg></button></td>
+                </svg></button>
+            </td>
 
           </tr>
 
@@ -344,12 +343,6 @@
 
       <!-- Table of locations -->
       <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Location</th>
-            <th scope="col">Departments</th>
-          </tr>
-        </thead>
 
         <tbody id="locationsList" class="table-group-divider"></tbody>
 
@@ -357,15 +350,20 @@
 
           <tr id="locationsEntry" class="locationsEntry">
             <td class="locationsName"></td>
-            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right" viewBox="0 0 16 16">
-              <path d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-            </svg><span class="departmentCount"></span></td>
+            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-caret-right"
+                viewBox="0 0 16 16">
+                <path
+                  d="M6 12.796V3.204L11.481 8 6 12.796zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z" />
+              </svg><span class="departmentCount"></span></td>
 
             <td>
-              <button id="locationEditButton" type="button"
-                class="btn btn-outline-primary locationEditButton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              <button id="locationEditButton" type="button" class="btn btn-outline-primary locationEditButton"><svg
+                  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path
+                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                  <path fill-rule="evenodd"
+                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg></button>
               <button id="deleteLocation" type="button" class="btn btn-outline-danger deleteLocation"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -414,7 +412,7 @@
 
   <!-- My own JS -->
   <script src="libs/js/jquery-3.6.0.min.js"></script>
-  <script src="libs/js/script.min.js"></script>
+  <script src="libs/js/script.js"></script>
 
 
 </body>
