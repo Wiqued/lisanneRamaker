@@ -31,7 +31,7 @@ function showAllDepartments() {
 // Show all sorts of pages
 $("#employeeEntry").click(function () {
     getEmployees();
-    showEmployeeProfile();
+    fillEmployeeProfile();
 });
 
 $("#navAll").click(function () {
@@ -74,11 +74,11 @@ $(".deleteEmployee").click(function () {
             switch (value) {
 
                 case "confirm":
-                    deleteEmployee(currentEmployeeID);
+                    deleteEmployee(currentEmployeeID, currentEmployeeName);
 
                     break;
             }
-        })
+        });
 });
 
 
@@ -235,13 +235,41 @@ function showAllEmployees() {
             document.getElementById("employeePage").style.display = "block";
 
             $(clonedDiv).click(function () {
-                showEmployeeProfile(employee.id)
+
+                fillEmployeeProfile(employee.id);
+                $("#employeeProfileModal").modal("show");
             })
 
             $(clonedDiv.getElementsByClassName('employeeEditButton')[0]).click(function (e) {
+                fillEmployeeProfile(employee.id);
                 $("#employeeProfileEditModal").modal("show");
                 e.stopPropagation();
-            })
+            });
+
+            const employeeName = `${employee.firstName} ${employee.lastName}`;
+
+            $(clonedDiv.getElementsByClassName('employeeDeleteButton')[0]).click(function (e) {
+                swal(`Are you sure you want to remove ${employee.firstName} ${employee.lastName}?`, {
+                    icon: "warning",
+                    buttons: {
+                        cancel: "No",
+                        confirm: {
+                            text: "Yes",
+                            value: "confirm"
+                        },
+                    },
+                })
+                    .then((value) => {
+                        switch (value) {
+            
+                            case "confirm":
+                                deleteEmployee(employee.id, employeeName);
+            
+                                break;
+                        }
+                    });
+                e.stopPropagation();
+            });
         }
     }
 };
@@ -465,8 +493,8 @@ function shouldShowLocation(location) {
     }
 }
 
-// Shows the individual employee profile
-function showEmployeeProfile(employeeId) {
+// Fill and shows the individual employee profile
+function fillEmployeeProfile(employeeId) {
     $.ajax({
         url: 'libs/php/getPersonnelByID.php',
         type: 'GET',
@@ -494,15 +522,12 @@ function showEmployeeProfile(employeeId) {
 
             getDepartmentListEdit(result.data.personnel[0].departmentID);
 
-            $("#employeeProfileModal").modal("show");
-
-            document.getElementById("departmentsPage").style.display = "none";
         }
     })
 }
 
 // Deletes employee from database
-function deleteEmployee(employeeID) {
+function deleteEmployee(employeeID, employeeName) {
     $.ajax({
         url: 'libs/php/deletePersonnelByID.php',
         type: 'POST',
@@ -513,7 +538,7 @@ function deleteEmployee(employeeID) {
         success: function (result) {
 
             if (result.status.name == "ok") {
-                swal(`You have successfully removed ${currentEmployeeName}.`, {
+                swal(`You have successfully removed ${employeeName}.`, {
                     icon: "success",
                 });
                 showAll();
@@ -543,7 +568,8 @@ function createEmployee() {
         },
         success: function (result) {
 
-            showEmployeeProfile(result.data);
+            fillEmployeeProfile(result.data);
+            $("#employeeProfileModal").modal("show");
 
         }
     })
