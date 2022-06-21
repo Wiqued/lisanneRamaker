@@ -1,11 +1,11 @@
 // Preloader
-// $(window).on('load', function () {
-//    if ($('#preloader').length) {
-//        $('#preloader').delay(1000).fadeOut('slow', function () {
-//           $(this).remove();
-//        });
-//   }
-//});
+$(window).on('load', function () {
+    if ($('#preloader').length) {
+        $('#preloader').fadeOut('slow', function () {
+            $(this).remove();
+        });
+    }
+});
 
 // Hides and shows the right pages
 function showAll() {

@@ -1,4 +1,4 @@
-/* #preloader {
+#preloader {
     position: fixed;
     top: 0;
     left: 0;
@@ -45,7 +45,7 @@
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
     }
-} */
+}
 
 img#profilePicture,
 img#editButton {
