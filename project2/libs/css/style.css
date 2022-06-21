@@ -115,3 +115,7 @@ div#navbar {
     top: 0;
     width: 100%;
 }
+
+#allSearchBar {
+    background-color: #F8F9FA;
+}

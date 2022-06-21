@@ -7,17 +7,13 @@
 //   }
 //});
 
-// On submit does not refresh page
-$("#searchForm").submit(function (e) {
-    e.preventDefault();
-});
-
 // Hides and shows the right pages
 function showAll() {
     getEmployees();
     document.getElementById("employeePage").style.display = "block";
     document.getElementById("departmentsPage").style.display = "none";
     document.getElementById("locationsPage").style.display = "none";
+    document.getElementById('allSearch').value = "";
 }
 
 function showAllDepartments() {
@@ -25,6 +21,15 @@ function showAllDepartments() {
     document.getElementById("employeePage").style.display = "none";
     document.getElementById("departmentsPage").style.display = "block";
     document.getElementById("locationsPage").style.display = "none";
+    document.getElementById('allSearch').value = "";
+}
+
+function showAllLocations() {
+    getLocations();
+    document.getElementById("employeePage").style.display = "none";
+    document.getElementById("departmentsPage").style.display = "none";
+    document.getElementById("locationsPage").style.display = "block";
+    document.getElementById('allSearch').value = "";
 }
 
 
@@ -50,7 +55,7 @@ $("#navDepartments").click(function () {
 });
 
 $("#navLocations").click(function () {
-    getLocations();
+    showAllLocations();
     document.getElementById("createEmployeeButton").innerHTML = "Add employee";
     document.getElementById("createDepartmentButton").innerHTML = "Add department";
     document.getElementById("createLocationButton").innerHTML = "Add location";
@@ -145,18 +150,14 @@ $("#locationCancelButton").click(function () {
 // Search bar for all employees
 $("#allSearchBar").submit(function (e) {
     e.preventDefault();
-    showAllEmployees();
+    searchAll();
+
 });
 
-$("#departmentSearchBar").submit(function (e) {
-    e.preventDefault();
-    showDepartments();
-});
+$("#allSearch").keyup(function () {
+    searchAll();
+})
 
-$("#locationSearchBar").submit(function (e) {
-    e.preventDefault();
-    showLocations();
-});
 
 $(".backToAllButton").click(function () {
     showAll();
@@ -188,7 +189,17 @@ let currentEmployeeName;
 // Show all employees on load in
 getDepartments();
 getEmployees();
+getLocations();
 
+function searchAll() {
+    getEmployees();
+    getDepartments();
+    getLocations();
+
+    document.getElementById("employeePage").style.display = "block";
+    document.getElementById("departmentsPage").style.display = "block";
+    document.getElementById("locationsPage").style.display = "block";
+}
 
 // 
 function getEmployees() {
@@ -203,7 +214,6 @@ function getEmployees() {
 
             allEmployees = result.data;
 
-            document.getElementById('allEmployeeSearch').value = "";
             currentDepartmentFilter = null;
 
             showAllEmployees();
@@ -261,10 +271,10 @@ function showAllEmployees() {
                 })
                     .then((value) => {
                         switch (value) {
-            
+
                             case "confirm":
                                 deleteEmployee(employee.id, employeeName);
-            
+
                                 break;
                         }
                     });
@@ -279,17 +289,29 @@ function showAllEmployees() {
 // Show all employees in a department
 function shouldShowEmployee(employee) {
 
-    if (currentDepartmentFilter != null && currentDepartmentFilter != employee.departmentID) {
-        return false;
-    };
+    const search = document.getElementById('allSearch').value.toLowerCase();
 
-    const search = document.getElementById('allEmployeeSearch').value;
-
-    if (employee.firstName.toLowerCase().includes(search.toLowerCase()) || employee.lastName.toLowerCase().includes(search.toLowerCase())) {
+    if (employee.firstName.toLowerCase().includes(search) || employee.lastName.toLowerCase().includes(search)) {
         return true;
-    } else {
-        return false;
-    };
+    }
+
+    if (employee.department.toLowerCase().includes(search)) {
+        return true;
+    }
+
+    if (employee.location.toLowerCase().includes(search)) {
+        return true;
+    }
+
+    if (employee.email.toLowerCase().includes(search)) {
+        return true;
+    }
+
+    if (employee.jobTitle.toLowerCase().includes(search)) {
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -306,7 +328,6 @@ function getDepartments() {
 
             allDepartments = result.data
 
-            document.getElementById('allDepartmentSearch').value = "";
             currentLocationFilter = null;
 
             showDepartments();
@@ -380,17 +401,19 @@ function showDepartments() {
 
 function shouldShowDepartment(department) {
 
-    if (currentLocationFilter != null && currentLocationFilter != department.locationID) {
-        return false;
-    }
+    const search = document.getElementById('allSearch').value.toLowerCase();
 
-    const search = document.getElementById('allDepartmentSearch').value;
-
-    if (department.name.toLowerCase().includes(search.toLowerCase())) {
+    if (department.name.toLowerCase().includes(search)) {
         return true;
-    } else {
-        return false;
     }
+
+    if (department.location.toLowerCase().includes(search)) {
+
+        return true;
+    }
+
+    return false;
+
 }
 
 
@@ -409,7 +432,6 @@ function getLocations() {
 
             allLocations = result.data;
 
-            document.getElementById('allLocationSearch').value = "";
             currentLocationFilter = null;
 
             showLocations();
@@ -476,15 +498,12 @@ function showLocations() {
         }
     }
 
-    document.getElementById("employeePage").style.display = "none";
-    document.getElementById("departmentsPage").style.display = "none";
-    document.getElementById("locationsPage").style.display = "block";
 
 };
 
 function shouldShowLocation(location) {
 
-    const search = document.getElementById('allLocationSearch').value;
+    const search = document.getElementById('allSearch').value;
 
     if (location.name.toLowerCase().includes(search.toLowerCase())) {
         return true;
@@ -516,6 +535,9 @@ function fillEmployeeProfile(employeeId) {
             document.getElementById("employeeLastNameEdit").value = result.data.personnel[0].lastName;
             document.getElementById("employeeEmailEdit").value = result.data.personnel[0].email;
             document.getElementById("employeeJobTitleEdit").value = result.data.personnel[0].jobTitle;
+
+            document.getElementById("employeeNameEdit").innerText = `Editing ${result.data.personnel[0].firstName} ${result.data.personnel[0].lastName}`;
+
 
             currentEmployeeName = `${result.data.personnel[0].firstName} ${result.data.personnel[0].lastName}`;
             currentEmployeeID = result.data.personnel[0].id;
@@ -618,7 +640,7 @@ function createDepartment() {
         },
         success: function (result) {
 
-            getDepartments();
+            showAllDepartments();
 
         }
     })
@@ -637,7 +659,7 @@ function deleteLocation(locationID, locationName) {
 
 
             if (result.status.name == "ok") {
-                getLocations();
+                showAllLocations();
                 swal(`You have successfully deleted ${locationName}.`, {
                     icon: "success",
                 });
@@ -662,7 +684,7 @@ function createLocation() {
         },
         success: function (result) {
 
-            getLocations();
+            showAllLocations();
 
         }
     })
@@ -837,7 +859,7 @@ function updateLocation() {
         },
         success: function (results) {
 
-            getLocations();
+            showAllLocations();
 
         }
     })
