@@ -32,7 +32,7 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-    $query = $conn->prepare('SELECT name FROM department WHERE locationID = ?');
+    $query = $conn->prepare('SELECT count(id) as depCount FROM department WHERE locationID = ?');
 	
 	$query->bind_param("i", $_REQUEST['id']);
 
@@ -40,7 +40,7 @@
 
     $result = $query->get_result();
 
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_fetch_assoc($result)["depCount"] > 0) {
 
         $output['status']['code'] = "400";
 		$output['status']['name'] = "executed";

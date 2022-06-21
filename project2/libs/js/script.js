@@ -2,9 +2,9 @@
 // $(window).on('load', function () {
 //    if ($('#preloader').length) {
 //        $('#preloader').delay(1000).fadeOut('slow', function () {
- //           $(this).remove();
+//           $(this).remove();
 //        });
- //   }
+//   }
 //});
 
 // On submit does not refresh page
@@ -60,12 +60,12 @@ $("#navLocations").click(function () {
 // Delete, create and edit employees
 $(".deleteEmployee").click(function () {
 
-    swal("Are you sure you want to delete this employee?", {
+    swal(`Are you sure you want to remove ${currentEmployeeName}?`, {
         icon: "warning",
         buttons: {
-            cancel: "Cancel",
+            cancel: "No",
             confirm: {
-                text: "Confirm",
+                text: "Yes",
                 value: "confirm"
             },
         },
@@ -74,15 +74,13 @@ $(".deleteEmployee").click(function () {
             switch (value) {
 
                 case "confirm":
-                    swal("You have successfully removed the employee.", {
-                        icon: "success",
-                    });
                     deleteEmployee(currentEmployeeID);
+
                     break;
             }
         })
-
 });
+
 
 $("#formEmployee").submit(function (e) {
     e.preventDefault();
@@ -93,9 +91,7 @@ $("#formEmployee").submit(function (e) {
 });
 
 $("#createEmployeeButton").click(function () {
-
     getDepartmentList();
-
 });
 
 $("#employeeEditForm").submit(function (e) {
@@ -128,14 +124,7 @@ $("#departmentCancelButton").click(function () {
 });
 
 
-// Delete and create new locations
-$("#deleteLocation").click(function () {
-    if (confirm('Are you sure you want to delete this location?')) {
-        // Add dependencies 
-        deleteLocation();
-    }
-});
-
+// create new locations
 $("#formLocation").submit(function (e) {
     e.preventDefault();
     createLocation();
@@ -192,6 +181,8 @@ let currentDepartmentFilter = null;
 let currentLocationID;
 let currentLocationFilter = null;
 
+let currentEmployeeName;
+
 
 
 // Show all employees on load in
@@ -240,14 +231,22 @@ function showAllEmployees() {
             clonedDiv.getElementsByClassName('listJob')[0].innerText = employee.jobTitle;
             clonedDiv.getElementsByClassName('listDepartment')[0].innerText = employee.department;
 
+
             document.getElementById("employeePage").style.display = "block";
 
             $(clonedDiv).click(function () {
                 showEmployeeProfile(employee.id)
             })
+
+            $(clonedDiv.getElementsByClassName('employeeEditButton')[0]).click(function (e) {
+                $("#employeeProfileEditModal").modal("show");
+                e.stopPropagation();
+            })
         }
     }
 };
+
+
 
 // Show all employees in a department
 function shouldShowEmployee(employee) {
@@ -308,27 +307,35 @@ function showDepartments() {
 
 
             $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function () {
-                
-                swal("Are you sure you want to delete this department?", {
-                    icon: "warning",
-                    buttons: {
-                        cancel: "Cancel",
-                        confirm: {
-                            text: "Confirm",
-                            value: "confirm"
-                        },
-                    },
-                })
-                    .then((value) => {
-                        switch (value) {
 
-                            case "confirm":
-                                deleteDepartment(department.id);
-                                break;
-                        }
+                if (department.num_of_employees > 0) {
+                    swal(`There are still employees in ${department.name}; you can not delete it.`, {
+                        icon: "error",
                     });
+                } else {
+                    swal(`Are you sure you want to delete ${department.name}?`, {
+                        icon: "warning",
+                        buttons: {
+                            cancel: "No",
+                            confirm: {
+                                text: "Yes",
+                                value: "confirm"
+                            },
+                        },
+                    })
+                        .then((value) => {
+                            switch (value) {
+
+                                case "confirm":
+
+                                    deleteDepartment(department.id, department.name);
+                                    break;
+                            }
+                        });
+                }
 
             });
+
 
             $(clonedDiv.getElementsByClassName('departmentEditButton')[0]).click(function () {
                 currentDepartmentID = department.id;
@@ -393,42 +400,52 @@ function showLocations() {
 
         if (shouldShowLocation(location)) {
 
-        const div = document.getElementById('locationsEntry');
-        const clonedDiv = div.cloneNode(true);
-        document.getElementById('locationsList').appendChild(clonedDiv);
+            const div = document.getElementById('locationsEntry');
+            const clonedDiv = div.cloneNode(true);
+            document.getElementById('locationsList').appendChild(clonedDiv);
 
-        clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
+            clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
 
-        $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
-            swal("Are you sure you want to delete this location?", {
-                icon: "warning",
-                buttons: {
-                    cancel: "Cancel",
-                    confirm: {
-                        text: "Confirm",
-                        value: "confirm"
-                    },
-                },
-            })
-                .then((value) => {
-                    switch (value) {
+            $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
 
-                        case "confirm":
-                            deleteLocation(location.id);
-                            break;
-                    }
-                });
-        });
+                if (location.num_of_depts > 0) {
+                    swal(`There are still departments in ${location.name}; you can not delete it.`, {
+                        icon: "error",
+                    });
+                } else {
+                    swal(`Are you sure you want to delete ${location.name}?`, {
+                        icon: "warning",
+                        buttons: {
+                            cancel: "No",
+                            confirm: {
+                                text: "Yes",
+                                value: "confirm"
+                            },
+                        },
+                    })
+                        .then((value) => {
+                            switch (value) {
 
-        $(clonedDiv.getElementsByClassName('locationEditButton')[0]).click(function () {
-            currentLocationID = location.id;
+                                case "confirm":
 
-            // Pre fill the page
-            document.getElementById("locationNameEdit").value = location.name;
-            document.getElementById("locationEditHeader").innerText = `Editing ${location.name}`;
-        });
+                                    deleteLocation(location.id, location.name);
+                                    break;
+                            }
+                        });
+                }
+            });
 
-    }
+
+
+            $(clonedDiv.getElementsByClassName('locationEditButton')[0]).click(function () {
+                currentLocationID = location.id;
+
+                // Pre fill the page
+                document.getElementById("locationNameEdit").value = location.name;
+                document.getElementById("locationEditHeader").innerText = `Editing ${location.name}`;
+            });
+
+        }
     }
 
     document.getElementById("employeePage").style.display = "none";
@@ -472,7 +489,7 @@ function showEmployeeProfile(employeeId) {
             document.getElementById("employeeEmailEdit").value = result.data.personnel[0].email;
             document.getElementById("employeeJobTitleEdit").value = result.data.personnel[0].jobTitle;
 
-
+            currentEmployeeName = `${result.data.personnel[0].firstName} ${result.data.personnel[0].lastName}`;
             currentEmployeeID = result.data.personnel[0].id;
 
             getDepartmentListEdit(result.data.personnel[0].departmentID);
@@ -495,9 +512,18 @@ function deleteEmployee(employeeID) {
         },
         success: function (result) {
 
-            showAll();
-            $("#employeeProfileModal").modal("hide");
-
+            if (result.status.name == "ok") {
+                swal(`You have successfully removed ${currentEmployeeName}.`, {
+                    icon: "success",
+                });
+                showAll();
+                $("#employeeProfileModal").modal("hide");
+            } else {
+                swal("Something has gone wrong. Please try again.", {
+                    icon: "error",
+                });
+                showAll();
+            }
         }
     })
 }
@@ -524,7 +550,7 @@ function createEmployee() {
 }
 
 // Deletes department, but only possible when there are no employees in the department
-function deleteDepartment(departmentID) {
+function deleteDepartment(departmentID, departmentName) {
     $.ajax({
         url: 'libs/php/deleteDepartmentByID.php',
         type: 'POST',
@@ -534,20 +560,25 @@ function deleteDepartment(departmentID) {
         },
         success: function (result) {
 
+
             if (result.status.name == "ok") {
+
                 getDepartments();
-                swal("You have successfully deleted the department.",{
+                swal(`You have successfully deleted ${departmentName}.`, {
                     icon: "success",
                 });
-            } else {
-                swal("There are still employees in that department; you can not delete it.",{
-                    icon: "error",
-                });
-            }
 
+            } else {
+                swal(`There are still employees in ${departmentName}; you can not delete it.`, {
+                    icon: "error",
+                })
+            };
         }
-    })
-}
+    }
+    )
+};
+
+
 
 // Creates new department, asks for department name and location
 function createDepartment() {
@@ -568,7 +599,7 @@ function createDepartment() {
 }
 
 // Deletes location, but only possible when there are no departments in a location
-function deleteLocation(locationID) {
+function deleteLocation(locationID, locationName) {
     $.ajax({
         url: 'libs/php/deleteLocationByID.php',
         type: 'POST',
@@ -578,13 +609,14 @@ function deleteLocation(locationID) {
         },
         success: function (result) {
 
+
             if (result.status.name == "ok") {
                 getLocations();
-                swal("You have successfully deleted the location.", {
+                swal(`You have successfully deleted ${locationName}.`, {
                     icon: "success",
                 });
             } else {
-                swal("There are still departments in that location; you can not delete it.", {
+                swal(`There are still departments in ${locationName}; you can not delete it.`, {
                     icon: "error",
                 });
             }
