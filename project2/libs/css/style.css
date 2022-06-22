@@ -73,7 +73,8 @@ a:hover {
 
 div#departmentsPage,
 div#locationsPage,
-.template {
+.template,
+td.hiddenDataCell {
     display: none;
 }
 

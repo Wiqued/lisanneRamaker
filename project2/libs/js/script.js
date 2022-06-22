@@ -244,43 +244,63 @@ function showAllEmployees() {
 
             document.getElementById("employeePage").style.display = "block";
 
-            $(clonedDiv).click(function () {
+            // // Puts a unique id on each row of the table
+            clonedDiv.setAttribute('id', `emp${employee.id}`);
 
-                fillEmployeeProfile(employee.id);
-                $("#employeeProfileModal").modal("show");
-            })
 
-            $(clonedDiv.getElementsByClassName('employeeEditButton')[0]).click(function (e) {
-                fillEmployeeProfile(employee.id);
-                $("#employeeProfileEditModal").modal("show");
-                e.stopPropagation();
-            });
-
-            const employeeName = `${employee.firstName} ${employee.lastName}`;
-
-            $(clonedDiv.getElementsByClassName('employeeDeleteButton')[0]).click(function (e) {
-                swal(`Are you sure you want to remove ${employee.firstName} ${employee.lastName}?`, {
-                    icon: "warning",
-                    buttons: {
-                        cancel: "No",
-                        confirm: {
-                            text: "Yes",
-                            value: "confirm"
-                        },
-                    },
-                })
-                    .then((value) => {
-                        switch (value) {
-
-                            case "confirm":
-                                deleteEmployee(employee.id, employeeName);
-
-                                break;
-                        }
-                    });
-                e.stopPropagation();
-            });
         }
+
+        // Reads the current id from the row and fills the pop-up
+        $('.employeeEntry').click(function () {
+
+            const id = $(this).closest('[id]').attr('id').replace("emp", "");
+
+            fillEmployeeProfile(id);
+            $("#employeeProfileModal").modal("show");
+        })
+
+
+        // Reads the current ID from the row id and fills in the form
+        $('.employeeEditButton').click(function (e) {
+
+            const id = $(this).closest('[id]').attr('id').replace("emp", "");
+
+            fillEmployeeProfile(id);
+            $("#employeeProfileEditModal").modal("show");
+            e.stopPropagation();
+        })
+
+        // Reads the current ID from the row id and checks to see if you can delete it
+        $('.employeeDeleteButton').click(function (e) {
+
+            const id = $(this).closest('[id]').attr('id').replace("emp", "");
+            const employeeName = $(this).parents('tr').find('.listName').text();
+
+            swal(`Are you sure you want to remove ${employeeName}?`, {
+                icon: "warning",
+                buttons: {
+                    cancel: "No",
+                    confirm: {
+                        text: "Yes",
+                        value: "confirm"
+                    },
+                },
+            })
+                .then((value) => {
+                    switch (value) {
+
+                        case "confirm":
+                            deleteEmployee(id, employeeName);
+
+                            break;
+                    }
+                });
+            e.stopPropagation();
+
+        })
+
+
+
     }
 };
 
@@ -353,51 +373,68 @@ function showDepartments() {
 
             clonedDiv.getElementsByClassName('departmentsName')[0].innerText = department.name;
             clonedDiv.getElementsByClassName('locationName')[0].innerText = department.location;
+            clonedDiv.getElementsByClassName('numOfEmployees')[0].innerText = department.num_of_employees;
+            clonedDiv.getElementsByClassName('locationID')[0].innerText = department.locationID;
 
+            // Puts a unique id on each row of the table
+            clonedDiv.setAttribute('id', `dep${department.id}`);
 
-            $(clonedDiv.getElementsByClassName('deleteDepartment')[0]).click(function () {
-
-                if (department.num_of_employees > 0) {
-                    swal(`There are still employees in ${department.name}; you can not delete it.`, {
-                        icon: "error",
-                    });
-                } else {
-                    swal(`Are you sure you want to delete ${department.name}?`, {
-                        icon: "warning",
-                        buttons: {
-                            cancel: "No",
-                            confirm: {
-                                text: "Yes",
-                                value: "confirm"
-                            },
-                        },
-                    })
-                        .then((value) => {
-                            switch (value) {
-
-                                case "confirm":
-
-                                    deleteDepartment(department.id, department.name);
-                                    break;
-                            }
-                        });
-                }
-
-            });
-
-
-            $(clonedDiv.getElementsByClassName('departmentEditButton')[0]).click(function () {
-                currentDepartmentID = department.id;
-
-                // Pre-fill the page
-                document.getElementById("departmentNameEdit").value = department.name;
-                document.getElementById("departmentEditHeader").innerText = `Editing ${department.name}`;
-
-                getLocationsListEdit(department.locationID);
-            });
         }
     }
-}
+
+    // Reads the current ID from the row id and fills in the form
+    $('.departmentEditButton').click(function () {
+
+        const id = $(this).closest('[id]').attr('id').replace('dep', '');
+        const departmentName = $(this).parents('tr').children('.departmentsName').text();
+        const locationID = $(this).parents('tr').children('.locationID').text();
+
+        // sets global variable
+        currentDepartmentID = id;
+
+        // Pre-fill the form
+        document.getElementById("departmentNameEdit").value = departmentName;
+        document.getElementById("departmentEditHeader").innerText = `Editing ${departmentName}`;
+
+        getLocationsListEdit(locationID);
+    })
+
+
+    // Reads the current ID from the row id and checks to see if you can delete it
+    $('.departmentDeleteButton').click(function () {
+
+        const id = $(this).closest('[id]').attr('id').replace('dep', '');
+        const departmentName = $(this).parents('tr').children('.departmentsName').text();
+        const numOfEmployees = $(this).parents('tr').children('.numOfEmployees').text();
+
+        if (numOfEmployees > 0) {
+            swal(`There are still employees in ${departmentName}; you can not delete it.`, {
+                icon: "error",
+            });
+        } else {
+            swal(`Are you sure you want to delete ${departmentName}?`, {
+                icon: "warning",
+                buttons: {
+                    cancel: "No",
+                    confirm: {
+                        text: "Yes",
+                        value: "confirm"
+                    },
+                },
+            })
+                .then((value) => {
+                    switch (value) {
+
+                        case "confirm":
+
+                            deleteDepartment(id, departmentName);
+                            break;
+                    }
+                });
+        }
+    })
+
+};
 
 function shouldShowDepartment(department) {
 
@@ -440,6 +477,8 @@ function getLocations() {
     })
 };
 
+
+
 function showLocations() {
 
     document.getElementById("locationsList").innerHTML = "";
@@ -455,49 +494,62 @@ function showLocations() {
             document.getElementById('locationsList').appendChild(clonedDiv);
 
             clonedDiv.getElementsByClassName('locationsName')[0].innerText = location.name;
+            clonedDiv.getElementsByClassName('numOfDepts')[0].innerText = location.num_of_depts;
 
-            $(clonedDiv.getElementsByClassName('deleteLocation')[0]).click(function () {
-
-                if (location.num_of_depts > 0) {
-                    swal(`There are still departments in ${location.name}; you can not delete it.`, {
-                        icon: "error",
-                    });
-                } else {
-                    swal(`Are you sure you want to delete ${location.name}?`, {
-                        icon: "warning",
-                        buttons: {
-                            cancel: "No",
-                            confirm: {
-                                text: "Yes",
-                                value: "confirm"
-                            },
-                        },
-                    })
-                        .then((value) => {
-                            switch (value) {
-
-                                case "confirm":
-
-                                    deleteLocation(location.id, location.name);
-                                    break;
-                            }
-                        });
-                }
-            });
-
-
-
-            $(clonedDiv.getElementsByClassName('locationEditButton')[0]).click(function () {
-                currentLocationID = location.id;
-
-                // Pre fill the page
-                document.getElementById("locationNameEdit").value = location.name;
-                document.getElementById("locationEditHeader").innerText = `Editing ${location.name}`;
-            });
+            // Puts a unique id on each row of the table
+            clonedDiv.setAttribute('id', `loc${location.id}`);
 
         }
     }
 
+    // Reads the current ID from the row id and fills in the form
+    $('.locationEditButton').click(function () {
+
+        const id = $(this).closest('[id]').attr('id').replace("loc", "");
+        const locationName = $(this).parents('tr').children('.locationsName').text();
+
+        // Set global variable
+        currentLocationID = id;
+
+        // Pre-fill the form
+        document.getElementById("locationNameEdit").value = locationName;
+        document.getElementById("locationEditHeader").innerText = `Editing ${locationName}`;
+    })
+
+
+    // Reads the current ID from the row id and checks to see if you can delete it
+    $('.locationDeleteButton').click(function () {
+
+        const id = $(this).closest('[id]').attr('id').replace("loc", "");
+        const locationName = $(this).parents('tr').children('.locationsName').text();
+        const numOfDepts = $(this).parents('tr').children('.numOfDepts').text();
+
+        if (numOfDepts > 0) {
+            swal(`There are still departments in ${locationName}; you can not delete it.`, {
+                icon: "error",
+            });
+        } else {
+            swal(`Are you sure you want to delete ${locationName}?`, {
+                icon: "warning",
+                buttons: {
+                    cancel: "No",
+                    confirm: {
+                        text: "Yes",
+                        value: "confirm"
+                    },
+                },
+            })
+                .then((value) => {
+                    switch (value) {
+
+                        case "confirm":
+
+                            deleteLocation(id, locationName);
+                            break;
+                    }
+                });
+        }
+    })
 
 };
 

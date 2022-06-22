@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="libs/css/bootstrap.min.css">
 
   <!-- Style sheet -->
-  <link rel="stylesheet" href="libs/css/style.min.css">
+  <link rel="stylesheet" href="libs/css/style.css">
 </head>
 
 <body>
@@ -362,6 +362,8 @@
           <tr id="departmentsEntry" class="departmentsEntry">
             <td class="departmentsName"></td>
             <td class="locationName"></td>
+            <td class="numOfEmployees hiddenDataCell"></td>
+            <td class="locationID hiddenDataCell"></td>
 
             <td>
               <button type="button" class="btn btn-outline-primary departmentEditButton" data-bs-toggle="modal"
@@ -372,7 +374,7 @@
                   <path fill-rule="evenodd"
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg></button>
-              <button type="button" class="btn btn-outline-danger deleteDepartment"><svg
+              <button type="button" class="btn btn-outline-danger departmentDeleteButton"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-trash3-fill" viewBox="0 0 16 16">
                   <path
@@ -478,6 +480,7 @@
 
           <tr id="locationsEntry" class="locationsEntry">
             <td class="locationsName"></td>
+            <td class="numOfDepts hiddenDataCell"></td>
 
             <td>
               <button type="button" class="btn btn-outline-primary locationEditButton" data-bs-toggle="modal"
@@ -488,7 +491,7 @@
                   <path fill-rule="evenodd"
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                 </svg></button>
-              <button type="button" class="btn btn-outline-danger deleteLocation"><svg
+              <button type="button" class="btn btn-outline-danger locationDeleteButton"><svg
                   xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-trash3-fill" viewBox="0 0 16 16">
                   <path
@@ -551,7 +554,7 @@
 
   <!-- My own JS -->
   <script src="libs/js/jquery-3.6.0.min.js"></script>
-  <script src="libs/js/script.min.js"></script>
+  <script src="libs/js/script.js"></script>
 
 
 </body>
