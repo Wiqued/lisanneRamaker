@@ -5,7 +5,7 @@
 
 	$executionStartTime = microtime(true);
 
-	$url='https://api.windy.com/api/webcams/v2/list/limit=50/country=' . $_REQUEST['currentCountryCode'] . '?show=webcams:location,player;countries&key=atMTQ84wbF4YGo0mDm3UkzBxqDDppOul';
+	$url='https://api.windy.com/api/webcams/v2/list/limit=50/country=' . $_REQUEST['currentCountryCode'] . '?show=webcams:location,player;countries&key=API_KEY';
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

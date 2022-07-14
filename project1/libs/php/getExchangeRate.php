@@ -7,7 +7,7 @@
 
 	$executionStartTime = microtime(true);
 
-	// $app_id = '05cf1b96022c433da812b8fd38b24dce';
+	$app_id = 'API_KEY';
     $oxr_url = "https://openexchangerates.org/api/latest.json?app_id=" . $app_id;
 
 	$ch = curl_init($oxr_url);
